@@ -307,10 +307,12 @@ public class Car extends BaseEntity {
         }
 
         sb.append("\t deposit = '" + deposit + "' ");
-        sb.append(String.format("price per day = '%.2f' ", pricePerDay));
+        sb.append(String.format("price per day = '%.2f' ", pricePerDay))
+                .append(System.lineSeparator());
 
         if (order != null) {
-            sb.append("currentOrderId = '" + order.getId() + "' \n");
+            sb.append("\t currentOrderId = '" + order.getId() + "' ")
+                    .append(System.lineSeparator());
         }
 
         if (pickUpDate.size() != 0) {

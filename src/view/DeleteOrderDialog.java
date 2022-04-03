@@ -3,6 +3,7 @@ package view;
 import dao.UserRepository;
 import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
+import model.Car;
 import model.Order;
 import model.user.User;
 import service.CarService;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DeleteOrderDialog {
-
+    private static final int DAYS_BEFORE_CHANGE_ORDER = 2;
     Scanner scanner = new Scanner(System.in);
     private final UserService userService;
     private final CarService carService;
@@ -36,13 +37,11 @@ public class DeleteOrderDialog {
         Collection<Order> userOrders = LOGGED_IN_USER.getOrders();
         List<Order> orders = new ArrayList<>();
         for (Order order : userOrders) {
-            int dayOfMonth = order.getPickUpDate().getDayOfMonth();
-            int dayOfMonth1 = LocalDateTime.now().getDayOfMonth();
-            if (dayOfMonth + 2 > dayOfMonth1) {
+            int dayOfMonth = order.getPickUpDate().getDayOfMonth() - DAYS_BEFORE_CHANGE_ORDER;
+            int now = LocalDateTime.now().getDayOfMonth();
+            if (dayOfMonth > now) {
                 orders.add(order);
-
             }
-
         }
 
         if (orders.size() > 0) {
@@ -61,6 +60,10 @@ public class DeleteOrderDialog {
 
             Order order = orders.get(choice - 1);
             LOGGED_IN_USER.getOrders().remove(order);
+            Car car = order.getCar();
+            car.getPickUpDates().remove(order.getPickUpDate());
+            car.getDropOffDates().remove(order.getDropOffDate());
+            carService.editCar(car);
             userService.editUser(LOGGED_IN_USER, LOGGED_IN_USER.getRole());
             orderService.deleteOrder(order.getId());
 

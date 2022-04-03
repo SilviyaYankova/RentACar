@@ -23,6 +23,7 @@ import java.util.Scanner;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class EditOrderDialog {
+    private static final int DAYS_BEFORE_CHANGE_ORDER = 2;
     Scanner scanner = new Scanner(System.in);
     private final UserService userService;
     private final CarService carService;
@@ -42,14 +43,12 @@ public class EditOrderDialog {
         Collection<Order> userOrders = LOGGED_IN_USER.getOrders();
         List<Order> orders = new ArrayList<>();
         for (Order order : userOrders) {
-            int dayOfMonth = order.getPickUpDate().getDayOfMonth();
-            int dayOfMonth1 = LocalDateTime.now().getDayOfMonth();
-            if (dayOfMonth + 2 > dayOfMonth1) {
-                orders.add(order);
-
-            }
+            int dayOfMonth = order.getPickUpDate().getDayOfMonth() - DAYS_BEFORE_CHANGE_ORDER;
+            int now = LocalDateTime.now().getDayOfMonth();
+//            if (dayOfMonth > now) {
+            orders.add(order);
+//            }
         }
-
 
         if (orders.size() > 0) {
             System.out.println("You can edit orders only two days before the pick up date.");
@@ -66,6 +65,12 @@ public class EditOrderDialog {
             choice = checkValidInput(orders, choice, input);
 
             Order order = orders.get(choice - 1);
+            Car oldCar = carService.getCarById(order.getCar().getId());
+            LocalDateTime oldPickUpDate = order.getPickUpDate();
+            LocalDateTime oldDropOffDate = order.getDropOffDate();
+
+            List<LocalDateTime> oldCarPickUpDates = oldCar.getPickUpDates();
+            List<LocalDateTime> oldCarDropOffDates = oldCar.getDropOffDates();
             userOrders.remove(order);
 
             System.out.println("Order you choose to edit:");
@@ -83,7 +88,7 @@ public class EditOrderDialog {
             boolean incorrectInput = true;
             BookingDialog bookingDialog = new BookingDialog(userService, carService, orderService, userRepository);
 
-
+            Car car = null;
             while (choice == 1 || choice == 2 || choice == 3 || choice == 4) {
                 if (choice == 1) {
                     order.setPickUpLocation(null);
@@ -97,8 +102,7 @@ public class EditOrderDialog {
                         Location[] locations = bookingDialog.getLocations();
                         bookingDialog.chooseDropOffLocation(order, choice, locations);
                     }
-
-                    choice = continueOrNot(order, choice);
+                    choice = confirm(order, choice);
                 }
 
 
@@ -113,7 +117,22 @@ public class EditOrderDialog {
                         bookingDialog.chooseDropOffDate(order);
                     }
 
-                    choice = continueOrNot(order, choice);
+                    // wheter this car is available for this dates
+
+                    List<LocalDateTime> pickUpDates = oldCar.getPickUpDates();
+                    if (pickUpDates.contains(order.getPickUpDate())) {
+                        System.out.println("Sorry your current car is not available for this dates. Change dates or pick another car.");
+                        order.setPickUpDate(null);
+                        order.setDropOffDate(null);
+                        choice = continueOrNot(order, choice);
+                    } else {
+                        oldCar.getPickUpDates().remove(oldPickUpDate);
+                        oldCar.getDropOffDates().remove(oldDropOffDate);
+                        oldCar.getPickUpDates().add(order.getPickUpDate());
+                        oldCar.getDropOffDates().add(order.getDropOffDate());
+                        choice = confirm(order, choice);
+                    }
+
                 }
 
 
@@ -122,15 +141,16 @@ public class EditOrderDialog {
                     if (order.isHireDriver() == false) {
                         order.setDriver(null);
                     }
-                    choice = continueOrNot(order, choice);
+                    choice = confirm(order, choice);
                 }
 
-                Car car = null;
                 if (choice == 4) {
+                    oldCar.getPickUpDates().remove(oldPickUpDate);
+                    oldCar.getDropOffDates().remove(oldDropOffDate);
+                    oldCar.setOrder(null);
 
                     List<Car> availableCarsForDates = carService.getAvailableCars(order);
 
-                    //  if (availableCarsForDates.size() == 0) or  (input.equals("NO"))?
                     if (availableCarsForDates.size() == 0) {
 
                         System.out.println("Sorry there is no available cars for this dates.");
@@ -173,11 +193,13 @@ public class EditOrderDialog {
                         choice = bookingDialog.validInputNumber(choice, input, availableCarsForDates);
 
                         car = availableCarsForDates.get(choice - 1);
+                        car.getPickUpDates().add(order.getPickUpDate());
+                        car.getDropOffDates().add(order.getDropOffDate());
                         order.setCar(car);
                     }
 
 
-                    choice = continueOrNot(order, choice);
+                    choice = confirm(order, choice);
                 }
             }
 
@@ -186,13 +208,19 @@ public class EditOrderDialog {
             if (!input.equals("E")) {
                 double driverPricePerDays = calculatePrice(order, order.getCar());
 
+
+                if (order.getCar().equals(oldCar)) {
+                    carService.editCar(oldCar);
+                } else {
+                    carService.editCar(oldCar);
+                    carService.editCar(car);
+                }
+                LOGGED_IN_USER.getOrders().add(order);
+                userService.editUser(LOGGED_IN_USER, LOGGED_IN_USER.getRole());
+
                 printOrder(order, order.getCar(), driverPricePerDays);
 
                 order.setModifiedOn(LocalDateTime.now());
-
-
-                LOGGED_IN_USER.getOrders().add(order);
-                userService.editUser(LOGGED_IN_USER, LOGGED_IN_USER.getRole());
                 confirmOrCancelOrder(order);
             }
 
@@ -202,8 +230,42 @@ public class EditOrderDialog {
 
     }
 
-
     private int continueOrNot(Order order, int choice) throws NoneExistingEntityException {
+        System.out.println();
+        System.out.println("Continue editing order or cancel?");
+        System.out.println("For continue editing press 'C'?");
+        System.out.println("For cancel press 'E'.");
+
+        String input = scanner.nextLine();
+        boolean incorrectInput = true;
+        while (incorrectInput) {
+            if (input.equals("C")) {
+                System.out.println("You choose to continue editing your order.");
+                System.out.println("Choose fields to edit: ");
+                System.out.println("1. Locations");
+                System.out.println("2. Dates");
+                System.out.println("3. Driver");
+                System.out.println("4. Car");
+                input = scanner.nextLine();
+                choice = 0;
+                choice = checkValidInput(choice, input);
+                break;
+            } else if (input.equals("E")) {
+                System.out.println("You canceled editing your order.");
+                break;
+            } else {
+                System.out.println("Error: Please make a choice between 'S' or 'C' or 'E'");
+                input = scanner.nextLine();
+            }
+        }
+        if (input.equals("YES")) {
+            choice = 0;
+        }
+        return choice;
+    }
+
+
+    private int confirm(Order order, int choice) throws NoneExistingEntityException {
         System.out.println();
         System.out.println("Save order or continue editing?");
         System.out.println("For save order press 'YES' for continue editing press 'C'?");
