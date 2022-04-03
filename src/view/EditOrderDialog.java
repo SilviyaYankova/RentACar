@@ -44,9 +44,9 @@ public class EditOrderDialog {
         for (Order order : userOrders) {
             int dayOfMonth = order.getPickUpDate().getDayOfMonth();
             int dayOfMonth1 = LocalDateTime.now().getDayOfMonth();
-            int diff = Math.abs(dayOfMonth1 - dayOfMonth);
-            if (diff >= 2) {
+            if (dayOfMonth + 2 > dayOfMonth1) {
                 orders.add(order);
+
             }
         }
 
@@ -190,13 +190,14 @@ public class EditOrderDialog {
 
                 order.setModifiedOn(LocalDateTime.now());
 
-                userOrders.add(order);
 
+                LOGGED_IN_USER.getOrders().add(order);
+                userService.editUser(LOGGED_IN_USER, LOGGED_IN_USER.getRole());
                 confirmOrCancelOrder(order);
             }
 
         } else {
-            System.out.println("Sorry, you are not able to edit your orders because of the pick up date.");
+            System.out.println("Sorry there is no orders you can edit.");
         }
 
     }

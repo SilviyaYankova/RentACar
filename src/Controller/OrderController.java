@@ -10,6 +10,7 @@ import model.user.User;
 import service.CarService;
 import service.OrderService;
 import service.UserService;
+import view.DeleteOrderDialog;
 import view.EditOrderDialog;
 import view.Menu;
 import view.Option;
@@ -53,13 +54,11 @@ public class OrderController {
                     return "";
                 }),
                 new Option("Delete order", () -> {
-                    // to do dont forget to delete everything cascading
-//                    Order orderById = orderService.getOrderById(0L);
-//                    List<Order> orders = LOGGED_IN_USER.getOrders();
-//                    for (Order order : orders) {
-//                        System.out.println();
-//                    }
-//                    System.out.println("todo delete order");
+
+                    DeleteOrderDialog deleteOrderDialog  = new DeleteOrderDialog(userService, carService, orderService, userRepository);
+                    deleteOrderDialog.input(LOGGED_IN_USER);
+
+                    System.out.println();
                     return "";
                 })
         ));
