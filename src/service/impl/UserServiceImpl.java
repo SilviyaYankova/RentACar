@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static model.enums.CarStatus.FINISH_CLEANING;
 
@@ -54,9 +55,11 @@ public class UserServiceImpl implements UserService {
                     ex
             );
         }
-        User created = userRepository.create(user);
+
+        User newUser = userRepository.create(user);
         userRepository.save();
-        return created;
+        return newUser;
+
     }
 
     @Override
@@ -72,6 +75,11 @@ public class UserServiceImpl implements UserService {
         }
 
         return userRepository.findById(id);
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
     }
 
     @Override

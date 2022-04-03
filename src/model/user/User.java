@@ -22,6 +22,9 @@ public class User extends BaseEntity {
     private List<Comment> comments;
 
     public User() {
+        this.role = Role.USER;
+        this.orders = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     public User(String firstName, String lastName, String email, String phoneNumber, String username,

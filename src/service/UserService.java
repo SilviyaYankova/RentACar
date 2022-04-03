@@ -22,6 +22,8 @@ public interface UserService {
 
     User getUserById(Long id) throws NoneExistingEntityException;
 
+    User getUserByUsername(String username);
+
     void editUser(User user, Role oldRole) throws NoneExistingEntityException, NoPermissionException;
 
     void deleteUser(Long id) throws NoneExistingEntityException;

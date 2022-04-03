@@ -7,10 +7,7 @@ import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Order;
-import model.enums.CarStatus;
-import model.enums.DriverStatus;
 import model.enums.Role;
-import model.user.Driver;
 import model.user.User;
 import service.CarService;
 import service.OrderService;
@@ -35,7 +32,7 @@ public class HomeController {
         this.userRepository = userRepository;
     }
 
-    public void init() throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException, NoPermissionException {
+    public void init() throws NoneAvailableEntityException, NoneExistingEntityException, NoPermissionException, InvalidEntityDataException {
         userService.loadData();
         carService.loadData();
 //        orderService.loadData();
@@ -48,21 +45,22 @@ public class HomeController {
                     return "All Cars shown successfully.\n";
                 }),
                 new Option("Login", () -> {
-//                    User user = new LoginDialog(userService).input();
+                    User user = new LoginDialog(userService).input();
 
-//                    while (user.getUsername() == null && user.getPassword() == null) {
-//                        System.out.println("Bad credentials. Try again.");
-//                        System.out.println();
-//                        user = new LoginDialog(userService).input();
-//                    }
-//                        LOGGED_IN_USER = user;
-                    LOGGED_IN_USER = userService.getUserById(6L);
+                    while (user.getUsername() == null && user.getPassword() == null) {
+                        System.out.println("Bad credentials. Try again.");
+                        System.out.println();
+                        user = new LoginDialog(userService).input();
+                    }
+                    LOGGED_IN_USER = user;
                     System.out.printf("'%s' logged in successfully%n%n", LOGGED_IN_USER.getUsername());
                     if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
                         UserController userController = new UserController(userService, carService, orderService, userRepository);
                         userController.init(LOGGED_IN_USER);
                     } else if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
-
+//                    LOGGED_IN_USER = userService.getUserById(6L);
+                        UserController userController = new UserController(userService, carService, orderService, userRepository);
+                        userController.init(LOGGED_IN_USER);
                     } else if (LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
 
                     } else if (LOGGED_IN_USER.getRole().equals(Role.DRIVER)) {
@@ -74,9 +72,12 @@ public class HomeController {
                 }),
                 new Option("Register", () -> {
                     // todo if is register and is logged in to send me to another view; after register to be logged in
-                    User user = new RegisterDialog().input();
-                    user.setRole(Role.USER);
+                    User user = new RegisterDialog(userService).input();
+//                    user.setRole(Role.USER);
                     User created = userService.registerUser(user);
+                    if (created == null) {
+                        return "Username already exist.";
+                    }
                     return String.format("User ID:%s: '%s' added successfully.%n",
                             created.getId(), created.getUsername());
                 }),

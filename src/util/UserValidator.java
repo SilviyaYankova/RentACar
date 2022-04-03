@@ -27,7 +27,7 @@ public class UserValidator implements Validator<User> {
                     "User last Name should be between 2 and 50 characters long."));
         }
 
-        Pattern pattern = Pattern.compile("^(.+)@(\\S+)$");
+        Pattern pattern = Pattern.compile("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$");
         Matcher matcher = pattern.matcher(user.getEmail());
         if (!matcher.find()) {
             violations.add(new ConstraintViolation(user.getClass().getName(), "email", user.getEmail(),
@@ -53,6 +53,11 @@ public class UserValidator implements Validator<User> {
             violations.add(new ConstraintViolation(user.getClass().getName(), "username", user.getPassword(),
                     "Password length must be more than 2 and less then 15 characters long, " +
                             "contain at least one digit, one capital letter, and one sign different than letter or digit."));
+        }
+
+        if (!user.getPassword().equals(user.getRepeatPassword())) {
+            violations.add(new ConstraintViolation(user.getClass().getName(), "repeatPassword", user.getRepeatPassword(),
+                    "Passwords should match."));
         }
 
         if (violations.size() > 0) {

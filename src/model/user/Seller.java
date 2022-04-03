@@ -12,6 +12,7 @@ public class Seller extends User {
     private List<User> clientsHistory;
 
     public Seller() {
+        this.clientsHistory = new ArrayList<>();
     }
 
     public Seller(String firstName, String lastName, String email, String phoneNumber, String username,

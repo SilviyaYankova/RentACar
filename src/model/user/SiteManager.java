@@ -16,6 +16,9 @@ public class SiteManager extends User {
     private List<Car> carsHistory;
 
     public SiteManager() {
+        this.workers = new ArrayList<>();
+        this.sellersHistory = new ArrayList<>();
+        this.carsHistory = new ArrayList<>();
     }
 
     public SiteManager(String firstName, String lastName, String email, String phoneNumber, String username,

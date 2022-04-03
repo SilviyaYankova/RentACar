@@ -19,6 +19,10 @@ public class Driver extends User {
     private List<LocalDateTime> dropOffDate;
 
     public Driver() {
+        this.users = new ArrayList<>();
+        this.sellers = new ArrayList<>();
+        this.pickUpDate = new ArrayList<>();
+        this.dropOffDate = new ArrayList<>();
     }
 
     public Driver(String firstName, String lastName, String email, String phoneNumber, String username,

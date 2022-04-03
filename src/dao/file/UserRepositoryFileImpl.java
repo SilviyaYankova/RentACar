@@ -54,4 +54,16 @@ public class UserRepositoryFileImpl extends PersistableRepositoryFileImpl<Long, 
         return availableDriver;
     }
 
+    @Override
+    public User findUserByUsername(String username) {
+        Collection<User> allUsers = findAll();
+        User user = null;
+        for (User u : allUsers) {
+            if (u.getUsername().equals(username)) {
+                user = u;
+                break;
+            }
+        }
+        return user;
+    }
 }

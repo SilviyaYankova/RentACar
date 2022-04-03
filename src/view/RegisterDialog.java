@@ -1,6 +1,7 @@
 package view;
 
 import model.user.User;
+import service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -10,6 +11,11 @@ import java.util.regex.Pattern;
 public class RegisterDialog implements EntityDialog<User> {
 
     public static Scanner scanner = new Scanner(System.in);
+    private final UserService userService;
+
+    public RegisterDialog(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public User input() {
@@ -40,7 +46,7 @@ public class RegisterDialog implements EntityDialog<User> {
         while (user.getEmail() == null) {
             System.out.println("Email:");
             String email = scanner.nextLine();
-            Pattern pattern = Pattern.compile("^(.+)@(\\S+)$");
+            Pattern pattern = Pattern.compile("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$");
             Matcher matcher = pattern.matcher(email);
             if (!matcher.find()) {
                 System.out.println("Error: Email must be valid.");
@@ -63,9 +69,12 @@ public class RegisterDialog implements EntityDialog<User> {
         while (user.getUsername() == null) {
             System.out.println("Username:");
             String username = scanner.nextLine();
+            User userByUsername = userService.getUserByUsername(username);
 
             if (username.length() < 2 || username.length() > 15) {
                 System.out.println("Error: Username should be between 2 and 15 characters long.");
+            } else if (userByUsername != null) {
+                System.out.println("Username already exists. Please choose another username.");
             } else {
                 user.setUsername(username);
             }
@@ -96,7 +105,6 @@ public class RegisterDialog implements EntityDialog<User> {
             } else {
                 user.setRepeatPassword(repeatPassword);
             }
-
         }
 
         user.setRegisteredOn(LocalDateTime.now());

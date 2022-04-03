@@ -12,6 +12,7 @@ public class Administrator extends User {
     private List<User> clientHistory;
 
     public Administrator() {
+        this.clientHistory = new ArrayList<>();
     }
 
     public Administrator(String firstName, String lastName, String email, String phoneNumber, String username,
