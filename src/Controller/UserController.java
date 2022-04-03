@@ -53,12 +53,8 @@ public class UserController {
                     return "";
                 }),
                 new Option("Orders", () -> {
-                    // todo see all orders
                     OrderController orderController = new OrderController(userService, carService, orderService, userRepository);
                     orderController.init(LOGGED_IN_USER);
-                    // todo edit order
-                    // todo delete order
-
                     return "orders\n";
                 }),
                 new Option("Comments", () -> {
@@ -67,11 +63,6 @@ public class UserController {
                     // todo delete comments
 
                     return "Comments\n";
-                }),
-                new Option("Statistic", () -> {
-                    // todo made another dialog with numbers of cars
-
-                    return "Statistic\n";
                 })
         ));
         menu.show();

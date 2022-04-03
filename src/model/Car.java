@@ -276,28 +276,37 @@ public class Car extends BaseEntity {
                 .append("brand = '" + brand + "' ")
                 .append("model = '" + model + "' ")
                 .append("year = '" + year + "' ")
-                .append("pictureURL = '" + pictureURL + "' \n")
+                .append(System.lineSeparator())
                 .append("\t color = '" + color + "' ")
-                .append("carType = '" + carType + "' ")
+                .append("pictureURL = '" + pictureURL + "' ")
+                .append(System.lineSeparator())
+                .append("\t carType = '" + carType + "' ")
                 .append("doors = '" + doors + "' ")
-                .append("seats = '" + seats + "' \n")
-                .append("\t convenience = '" + convenience + "' \n")
-                .append("\t entertainment = '" + entertainment + "' \n")
+                .append("seats = '" + seats + "' ")
+                .append(System.lineSeparator())
                 .append("\t drivetrain = '" + drivetrain + "' ")
                 .append("transmission = '" + transmission + "' ")
                 .append("horsePowers = '" + horsePowers + "' ")
-                .append("type = '" + fuelType + "' ")
+                .append(System.lineSeparator())
+                .append("\t type = '" + fuelType + "' ")
                 .append("tankVolume = '" + tankVolume + "' ")
-                .append("fuelConsumption = '" + fuelConsumption + "' \n")
+                .append("fuelConsumption = '" + fuelConsumption + "' ")
+                .append(System.lineSeparator())
+                .append("\t convenience = '" + convenience + "' ")
+                .append(System.lineSeparator())
+                .append("\t entertainment = '" + entertainment + "' ")
+                .append(System.lineSeparator())
                 .append(String.format("\t rating = '%.2f' ", rating))
-                .append("comments = '" + comments.size() + "' \n")
-                .append("\t CarStatus = '" + carStatus + "' ");
+                .append("comments = '" + comments.size() + "' ")
+                .append(System.lineSeparator())
+                .append("\t CarStatus = '" + carStatus + "' ")
+                .append(System.lineSeparator());
 
         if (carStatus.equals(CarStatus.CLEANING) && worker != null) {
             sb.append("worker = '" + worker.getCode() + "' ");
         }
 
-        sb.append("deposit = '" + deposit + "' ");
+        sb.append("\t deposit = '" + deposit + "' ");
         sb.append(String.format("price per day = '%.2f' ", pricePerDay));
 
         if (order != null) {
