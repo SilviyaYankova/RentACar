@@ -5,6 +5,7 @@ import model.enums.Location;
 import model.user.BaseEntity;
 import model.user.Driver;
 import model.user.User;
+import org.w3c.dom.ls.LSOutput;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -212,18 +213,27 @@ public class Order extends BaseEntity {
             sb.append("driver = 'NO' ");
         }
         if (seller != null) {
-            sb.append("seller = '" + seller.getUsername() + "' \n");
+            sb.append("seller = '" + seller.getUsername() + "' ");
         }
-        sb.append("orderStatus = '" + orderStatus + "' \n");
+        sb
+                .append(System.lineSeparator())
+                .append("\t\torderStatus = '" + orderStatus + "' ")
+                .append(System.lineSeparator());
+
         sb.append("\t\tcreatedOn = '" + createdOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + "' ");
         if (modifiedOn != null) {
-            sb.append("modifiedOn = '" + createdOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + "' \n");
+            sb.append("modifiedOn = '" + modifiedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + "'");
         }
-        sb.append("\t\tpick Up Location = '" + pickUpLocation.name() + "' ")
-                .append("drop Off Location = '" + dropOfLocation.name() + "' \n")
+        sb
+                .append(System.lineSeparator())
+                .append("\t\tpick Up Location = '" + pickUpLocation.name() + "' ")
+                .append("drop Off Location = '" + dropOfLocation.name() + "' ")
+                .append(System.lineSeparator())
                 .append("\t\tpickUpDate = '" + pickUpDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + "' ")
-                .append("dropOffDate = '" + dropOffDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + "' \n")
-                .append("\t\tcarId = '" + car.getId() + "' \n")
+                .append("dropOffDate = '" + dropOffDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + "' ")
+                .append(System.lineSeparator())
+                .append("\t\tcarId = '" + car.getId() + "' ")
+                .append(System.lineSeparator())
                 .append("\t\tdays = '" + days + "' ")
                 .append(String.format("pricePerDays = '%.2f' ", carPricePerDays))
                 .append("deposit = '" + deposit + "' ");

@@ -46,7 +46,7 @@ public class Main {
         HomeController homeController = new HomeController(userService, carService, orderService, userRepository);
         homeController.init();
 
-        System.out.println();
+
     }
 
     private static void createInitialWorkers(WorkerService workerService) throws NoneExistingEntityException {

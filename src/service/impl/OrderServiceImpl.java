@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setUser(user);
 
-        if (pendingOrder.driverIsHired()) {
+        if (pendingOrder.isHireDriver()) {
             Driver availableDriver = pendingOrder.getDriver();
             if (availableDriver != null) {
                 List<Order> orders = availableDriver.getOrders();
@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setCreatedOn(LocalDateTime.now());
         order.setPickUpLocation(pendingOrder.getPickUpLocation());
-        order.setDropOfLocation(pendingOrder.getDropOffLocation());
+        order.setDropOfLocation(pendingOrder.getDropOfLocation());
         order.setPickUpDate(pendingOrder.getPickUpDate());
         order.setDropOffDate(pendingOrder.getDropOffDate());
 

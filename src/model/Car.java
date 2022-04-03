@@ -301,7 +301,7 @@ public class Car extends BaseEntity {
         sb.append(String.format("price per day = '%.2f' ", pricePerDay));
 
         if (order != null) {
-            sb.append("orderId = '" + order.getId() + "' \n");
+            sb.append("currentOrderId = '" + order.getId() + "' \n");
         }
 
         if (pickUpDate.size() != 0) {
