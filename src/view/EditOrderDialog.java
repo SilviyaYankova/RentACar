@@ -45,9 +45,9 @@ public class EditOrderDialog {
         for (Order order : userOrders) {
             int dayOfMonth = order.getPickUpDate().getDayOfMonth() - DAYS_BEFORE_CHANGE_ORDER;
             int now = LocalDateTime.now().getDayOfMonth();
-//            if (dayOfMonth > now) {
+            if (dayOfMonth > now) {
             orders.add(order);
-//            }
+            }
         }
 
         if (orders.size() > 0) {
@@ -145,8 +145,8 @@ public class EditOrderDialog {
                 }
 
                 if (choice == 4) {
-                    oldCar.getPickUpDates().remove(oldPickUpDate);
-                    oldCar.getDropOffDates().remove(oldDropOffDate);
+                    oldCar.getPickUpDates().remove(order.getPickUpDate());
+                    oldCar.getDropOffDates().remove(order.getDropOffDate());
                     oldCar.setOrder(null);
 
                     List<Car> availableCarsForDates = carService.getAvailableCars(order);
@@ -216,7 +216,7 @@ public class EditOrderDialog {
                     carService.editCar(car);
                 }
                 LOGGED_IN_USER.getOrders().add(order);
-                userService.editUser(LOGGED_IN_USER, LOGGED_IN_USER.getRole());
+                userService.editUser(LOGGED_IN_USER);
 
                 printOrder(order, order.getCar(), driverPricePerDays);
 
@@ -254,7 +254,7 @@ public class EditOrderDialog {
                 System.out.println("You canceled editing your order.");
                 break;
             } else {
-                System.out.println("Error: Please make a choice between 'S' or 'C' or 'E'");
+                System.out.println("Error: Please make a choice between 'YES' or 'C' or 'E'");
                 input = scanner.nextLine();
             }
         }
@@ -268,7 +268,7 @@ public class EditOrderDialog {
     private int confirm(Order order, int choice) throws NoneExistingEntityException {
         System.out.println();
         System.out.println("Save order or continue editing?");
-        System.out.println("For save order press 'YES' for continue editing press 'C'?");
+        System.out.println("For saving order press 'YES' for continue editing press 'C'?");
         System.out.println("For cancel press 'E'.");
 
         String input = scanner.nextLine();

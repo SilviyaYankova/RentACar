@@ -11,6 +11,7 @@ import service.CarService;
 import service.OrderService;
 import service.UserService;
 import view.BookingDialog;
+import view.EditProfileDialog;
 import view.Menu;
 import view.Option;
 
@@ -63,6 +64,16 @@ public class UserController {
                     // todo delete comments
 
                     return "Comments\n";
+                }),
+                new Option("See profile", () -> {
+                    System.out.println(LOGGED_IN_USER);
+                    System.out.println();
+                    return "";
+                }),
+                new Option("Edit profile", () -> {
+                    EditProfileDialog editProfileDialog = new EditProfileDialog(userService);
+                    editProfileDialog.init(LOGGED_IN_USER);
+                    return "";
                 })
         ));
         menu.show();

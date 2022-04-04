@@ -30,7 +30,6 @@ public class LoginDialog implements EntityDialog<User> {
         }
         String username = user.getUsername();
         String password = user.getPassword();
-        User userByUsernameAndPassword = userService.getUserByUsernameAndPassword(username, password);
-        return userByUsernameAndPassword;
+        return userService.getUserByUsernameAndPassword(username, password);
     }
 }

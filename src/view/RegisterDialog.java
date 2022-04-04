@@ -48,11 +48,18 @@ public class RegisterDialog implements EntityDialog<User> {
             String email = scanner.nextLine();
             Pattern pattern = Pattern.compile("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$");
             Matcher matcher = pattern.matcher(email);
+            User userByEmail = userService.getUserByEmail(email);
+
             if (!matcher.find()) {
                 System.out.println("Error: Email must be valid.");
+            } else if (userByEmail != null) {
+                System.out.println("Email already exists. Please change email.");
             } else {
                 user.setEmail(email);
             }
+
+
+
         }
 
         while (user.getPhoneNumber() == null) {
@@ -74,7 +81,7 @@ public class RegisterDialog implements EntityDialog<User> {
             if (username.length() < 2 || username.length() > 15) {
                 System.out.println("Error: Username should be between 2 and 15 characters long.");
             } else if (userByUsername != null) {
-                System.out.println("Username already exists. Please choose another username.");
+                System.out.println("Username already exists. Please change username.");
             } else {
                 user.setUsername(username);
             }
@@ -83,6 +90,8 @@ public class RegisterDialog implements EntityDialog<User> {
 
         while (user.getPassword() == null) {
             System.out.println("Password:");
+            System.out.println("Password length must be more than 2 and less then 15 characters long,");
+            System.out.println("contain at least one digit, one capital letter, and one sign different than letter or digit.");
             String password = scanner.nextLine();
 
             Pattern passwordPattern = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$");

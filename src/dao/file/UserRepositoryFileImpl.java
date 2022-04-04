@@ -37,14 +37,12 @@ public class UserRepositoryFileImpl extends PersistableRepositoryFileImpl<Long, 
 
 
         for (Driver driver : drivers) {
-        List<LocalDateTime> pickUpDates = driver.getPickUpDates();
+            List<LocalDateTime> pickUpDates = driver.getPickUpDates();
             if (!pickUpDates.contains(pickUpDate)) {
                 availableDriver = driver;
                 break;
             }
         }
-
-
 
 
         if (availableDriver == null) {
@@ -60,6 +58,19 @@ public class UserRepositoryFileImpl extends PersistableRepositoryFileImpl<Long, 
         User user = null;
         for (User u : allUsers) {
             if (u.getUsername().equals(username)) {
+                user = u;
+                break;
+            }
+        }
+        return user;
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        Collection<User> allUsers = findAll();
+        User user = null;
+        for (User u : allUsers) {
+            if (u.getEmail().equals(email)) {
                 user = u;
                 break;
             }

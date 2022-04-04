@@ -91,13 +91,13 @@ public class HomeController {
                 new Option("get all cars", () -> {
                     // todo if is register and is logged in to send me to another view; after register to be logged in
                     carService.loadData();
-                    carService.getAllCars().forEach(System.out::println);
+
+//                    carService.getAllCars().forEach(System.out::println);
                     return "cars printed";
                 }),
                 new Option("get all orders", () -> {
                     orderService.loadData();
                     Collection<Order> allOrders = orderService.getAllOrders();
-
                     if (allOrders.size() == 0) {
                         System.out.println("no orders");
                     } else {

@@ -61,4 +61,17 @@ public class UserRepositoryMemoryImpl extends AbstractPersistableRepository<Long
     @Override
     public void save() {
     }
+
+    @Override
+    public User findUserByEmail(String email) {
+        Collection<User> allUsers = findAll();
+        User user = null;
+        for (User u : allUsers) {
+            if (u.getEmail().equals(email)) {
+                user = u;
+                break;
+            }
+        }
+        return user;
+    }
 }

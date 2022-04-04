@@ -9,6 +9,7 @@ public abstract class BaseEntity implements Identifiable<Long>, Serializable {
     private static final long serialVersionUID = 1L;
 
     private static long nextId = 0;
+
     private Long id;
 
     public BaseEntity() {

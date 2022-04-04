@@ -83,14 +83,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(User user, Role oldRole) throws NoneExistingEntityException, NoPermissionException {
-        if (!user.getRole().equals(oldRole)) {
-            if (oldRole.equals(Role.ADMINISTRATOR)) {
-                user.setRole(user.getRole());
-            } else {
-                throw new NoPermissionException("You have no Administrator rights to change Roles.");
-            }
-        }
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    @Override
+    public void editUser(User user) throws NoneExistingEntityException, NoPermissionException {
         userRepository.update(user);
         userRepository.save();
     }
@@ -277,4 +275,5 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
 }

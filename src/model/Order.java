@@ -203,22 +203,27 @@ public class Order extends BaseEntity {
     public String toString() {
         StringBuilder sb = new StringBuilder()
                 .append(Order.class.getSimpleName() + ": ")
-                .append(" id = '" + super.getId() + "' ");
-        if (user != null) {
-            sb.append("userId = '" + user.getId() + "' ");
-        }
-        if (driver != null) {
-            sb.append("driver = '" + driver.getUsername() + "' ");
-        } else {
-            sb.append("driver = 'NO' ");
-        }
-        if (seller != null) {
-            sb.append("seller = '" + seller.getUsername() + "' ");
-        }
-        sb
+                .append(" id = '" + super.getId() + "' ")
                 .append(System.lineSeparator())
                 .append("\t\torderStatus = '" + orderStatus + "' ")
                 .append(System.lineSeparator());
+        if (user != null) {
+            sb.append("\t\tuserId = '" + user.getId() + "' ")
+                    .append(System.lineSeparator());
+        }
+
+        if (driver != null) {
+            sb.append("\t\tdriver = '" + driver.getUsername() + "' ")
+                    .append(System.lineSeparator());
+        } else {
+            sb.append("\t\tdriver = 'NO' ")
+                    .append(System.lineSeparator());
+        }
+
+        if (seller != null) {
+            sb.append("seller = '" + seller.getUsername() + "' ");
+        }
+
 
         sb.append("\t\tcreatedOn = '" + createdOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + "' ");
         if (modifiedOn != null) {

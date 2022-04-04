@@ -24,7 +24,9 @@ public interface UserService {
 
     User getUserByUsername(String username);
 
-    void editUser(User user, Role oldRole) throws NoneExistingEntityException, NoPermissionException;
+    User getUserByEmail(String email);
+
+    void editUser(User user) throws NoneExistingEntityException, NoPermissionException;
 
     void deleteUser(Long id) throws NoneExistingEntityException;
 
@@ -47,4 +49,5 @@ public interface UserService {
     void loadData();
 
     User getUserByUsernameAndPassword(String username, String password);
+
 }

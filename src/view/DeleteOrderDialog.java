@@ -64,7 +64,7 @@ public class DeleteOrderDialog {
             car.getPickUpDates().remove(order.getPickUpDate());
             car.getDropOffDates().remove(order.getDropOffDate());
             carService.editCar(car);
-            userService.editUser(LOGGED_IN_USER, LOGGED_IN_USER.getRole());
+            userService.editUser(LOGGED_IN_USER);
             orderService.deleteOrder(order.getId());
 
         } else {

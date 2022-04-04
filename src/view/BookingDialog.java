@@ -17,6 +17,7 @@ import service.UserService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,6 +38,7 @@ public class BookingDialog {
     }
 
     public void input(User LOGGED_IN_USER) throws InvalidEntityDataException, NoneExistingEntityException, NoPermissionException, NoneAvailableEntityException {
+        orderService.loadData();
         Order order = new Order();
         order.setUser(LOGGED_IN_USER);
 
@@ -68,7 +70,7 @@ public class BookingDialog {
         count = 0;
         List<Car> availableCarsForDates = carService.getAvailableCars(order);
 
-
+        Collection<Order> allOrders = orderService.getAllOrders();
         if (availableCarsForDates.size() == 0) {
 
             System.out.println("Sorry there is no available cars for this dates.");

@@ -13,4 +13,6 @@ public interface UserRepository extends PersistableRepository<Long, User> {
     Driver getAvailableDriver(LocalDateTime pickUpDate, LocalDateTime dropOffDate) throws NoneAvailableEntityException;
 
     User findUserByUsername(String username);
+
+    User findUserByEmail(String email);
 }
