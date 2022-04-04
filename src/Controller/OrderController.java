@@ -12,6 +12,7 @@ import model.user.User;
 import service.CarService;
 import service.OrderService;
 import service.UserService;
+import service.WorkerService;
 import view.*;
 
 import java.util.Collection;
@@ -22,12 +23,14 @@ public class OrderController {
     private final CarService carService;
     private final OrderService orderService;
     private final UserRepository userRepository;
+    private final WorkerService workerService;
 
-    public OrderController(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository) {
+    public OrderController(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService) {
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
         this.userRepository = userRepository;
+        this.workerService = workerService;
     }
 
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
@@ -50,7 +53,7 @@ public class OrderController {
                         return "";
                     }),
                     new Option("Edit order", () -> {
-                        EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository);
+                        EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository, workerService);
                         editOrderDialog.input(LOGGED_IN_USER);
 
                         System.out.println();
@@ -58,7 +61,7 @@ public class OrderController {
                     }),
                     new Option("Delete order", () -> {
 
-                        DeleteOrderDialog deleteOrderDialog = new DeleteOrderDialog(userService, carService, orderService, userRepository);
+                        DeleteOrderDialog deleteOrderDialog = new DeleteOrderDialog(userService, carService, orderService, userRepository, workerService);
                         deleteOrderDialog.input(LOGGED_IN_USER);
 
                         System.out.println();
@@ -103,7 +106,7 @@ public class OrderController {
                         return "";
                     }),
                     new Option("Edit order", () -> {
-                        EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository);
+                        EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository, workerService);
                         editOrderDialog.input(LOGGED_IN_USER);
 
                         System.out.println();
@@ -111,7 +114,7 @@ public class OrderController {
                     }),
                     new Option("Delete order", () -> {
 
-                        DeleteOrderDialog deleteOrderDialog = new DeleteOrderDialog(userService, carService, orderService, userRepository);
+                        DeleteOrderDialog deleteOrderDialog = new DeleteOrderDialog(userService, carService, orderService, userRepository, workerService);
                         deleteOrderDialog.input(LOGGED_IN_USER);
 
                         System.out.println();

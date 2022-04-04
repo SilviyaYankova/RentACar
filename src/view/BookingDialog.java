@@ -14,6 +14,7 @@ import model.user.User;
 import service.CarService;
 import service.OrderService;
 import service.UserService;
+import service.WorkerService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,12 +30,14 @@ public class BookingDialog {
     private final CarService carService;
     private final OrderService orderService;
     private final UserRepository userRepository;
+    private final WorkerService workerService;
 
-    public BookingDialog(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository) {
+    public BookingDialog(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService) {
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
         this.userRepository = userRepository;
+        this.workerService = workerService;
     }
 
     public void input(User LOGGED_IN_USER) throws InvalidEntityDataException, NoneExistingEntityException, NoPermissionException, NoneAvailableEntityException {
@@ -263,7 +266,7 @@ public class BookingDialog {
                         input = "NO";
                         break;
                     } else if (input.equals("NO")) {
-                        UserController userController = new UserController(userService, carService, orderService, userRepository);
+                        UserController userController = new UserController(userService, carService, orderService, userRepository, workerService);
                         userController.init(LOGGED_IN_USER);
                     } else {
                         System.out.println("Please make a valid choice.");

@@ -6,13 +6,11 @@ import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
-import model.Order;
-import model.enums.Role;
-import model.user.Driver;
 import model.user.User;
 import service.CarService;
 import service.OrderService;
 import service.UserService;
+import service.WorkerService;
 import view.*;
 
 import java.util.Collection;
@@ -25,12 +23,14 @@ public class HomeController {
     private final CarService carService;
     private final OrderService orderService;
     private final UserRepository userRepository;
+    private final WorkerService workerService;
 
-    public HomeController(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository) {
+    public HomeController(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService) {
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
         this.userRepository = userRepository;
+        this.workerService = workerService;
     }
 
     public void init() throws NoneAvailableEntityException, NoneExistingEntityException, NoPermissionException, InvalidEntityDataException {
@@ -55,7 +55,7 @@ public class HomeController {
 //                        user = new LoginDialog(userService).input();
 //                    }
 //                    LOGGED_IN_USER = user;
-                    User userById = userService.getUserById(7L);
+                    User userById = userService.getUserById(3L);
 //                    Order orderById = orderService.getOrderById(1L);
 //                    Driver driver = (Driver) userService.getUserById(4L);
 //                    driver.getPickUpDates().add(orderById.getPickUpDate());
@@ -69,7 +69,7 @@ public class HomeController {
                     System.out.println(LOGGED_IN_USER.getUsername() + " logged in successfully.");
                     System.out.println();
 
-                    UserController userController = new UserController(userService, carService, orderService, userRepository);
+                    UserController userController = new UserController(userService, carService, orderService, userRepository, workerService);
                     userController.init(LOGGED_IN_USER);
 
                     return "";

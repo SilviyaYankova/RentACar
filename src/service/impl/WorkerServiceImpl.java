@@ -126,4 +126,9 @@ public class WorkerServiceImpl implements WorkerService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void loadData() {
+        workerRepository.load();
+    }
 }

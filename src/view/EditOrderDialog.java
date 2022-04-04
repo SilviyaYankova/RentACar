@@ -12,6 +12,7 @@ import model.user.User;
 import service.CarService;
 import service.OrderService;
 import service.UserService;
+import service.WorkerService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,12 +30,14 @@ public class EditOrderDialog {
     private final CarService carService;
     private final OrderService orderService;
     private final UserRepository userRepository;
+    private final WorkerService workerService;
 
-    public EditOrderDialog(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository) {
+    public EditOrderDialog(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService) {
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
         this.userRepository = userRepository;
+        this.workerService = workerService;
     }
 
 
@@ -86,7 +89,7 @@ public class EditOrderDialog {
             choice = 0;
             choice = checkValidInput(choice, input);
             boolean incorrectInput = true;
-            BookingDialog bookingDialog = new BookingDialog(userService, carService, orderService, userRepository);
+            BookingDialog bookingDialog = new BookingDialog(userService, carService, orderService, userRepository, workerService);
 
             Car car = null;
             while (choice == 1 || choice == 2 || choice == 3 || choice == 4) {
@@ -387,7 +390,7 @@ public class EditOrderDialog {
         while (choice == 0) {
             try {
                 choice = Integer.parseInt(input);
-                if (choice < 1 || choice > 6) {
+                if (choice < 1 || choice > 4) {
                     System.out.println("Error: Please choose a valid number.");
                     choice = 0;
                     input = scanner.nextLine();

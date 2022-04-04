@@ -94,7 +94,7 @@ public class EditProfileDialog {
         while (choice == 0) {
             try {
                 choice = Integer.parseInt(input);
-                if (choice < 1 || choice > 6) {
+                if (choice < 1 || choice > 4) {
                     System.out.println("Error: Please choose a valid number.");
                     choice = 0;
                     input = scanner.nextLine();

@@ -46,7 +46,7 @@ public class Main {
 //        createInitialOrders(orderService);
 //        createInitialWorkers(workerService);
 
-        HomeController homeController = new HomeController(userService, carService, orderService, userRepository);
+        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService);
         homeController.init();
 
 
