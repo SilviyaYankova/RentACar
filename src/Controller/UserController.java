@@ -96,7 +96,6 @@ public class UserController {
             ));
         }
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
-            System.out.println("Admin Panel");
             menu = new Menu("Admin Menu", List.of(
                     new Option("Users", () -> {
                         userService.loadData();
@@ -111,13 +110,10 @@ public class UserController {
                     }),
                     new Option("Cars", () -> {
                         // todo ask about cars status or do a car dialog
-                        Collection<Car> allCars = carService.getAllCars();
-                        int cont = 0;
-                        for (Car car : allCars) {
-                            cont++;
-                            System.out.println(cont + ". " + car);
-                        }
-                        return "All available car are successfully shown.\n";
+                        CarController carController = new CarController(userService, carService);
+                        carController.init(LOGGED_IN_USER);
+
+                        return "";
                     }),
                     new Option("Comments", () -> {
                         // todo see all comments

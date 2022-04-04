@@ -6,6 +6,7 @@ import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
+import model.enums.CarStatus;
 import model.user.User;
 import service.CarService;
 import service.OrderService;
@@ -41,10 +42,16 @@ public class HomeController {
 
         Menu menu = new Menu("Home Menu", List.of(
                 new Option("See all cars", () -> {
-                    Collection<Car> allCars = carService.getAllCars();
-                    allCars.forEach(System.out::println);
-                    System.out.println();
-                    return "All Cars shown successfully.\n";
+                    Collection<Car> allCars = carService.getAllCarsWithStatus(CarStatus.AVAILABLE);
+                    if (allCars.size() > 0) {
+                        allCars.forEach(System.out::println);
+                        System.out.println();
+                        System.out.println("All Cars shown successfully.\n");
+                    } else {
+                        System.out.println("Sorry, there is no available cars.");
+                        System.out.println();
+                    }
+                    return "";
                 }),
                 new Option("Login", () -> {
 //                    User user = new LoginDialog(userService).input();
@@ -55,15 +62,7 @@ public class HomeController {
 //                        user = new LoginDialog(userService).input();
 //                    }
 //                    LOGGED_IN_USER = user;
-                    User userById = userService.getUserById(3L);
-//                    Order orderById = orderService.getOrderById(1L);
-//                    Driver driver = (Driver) userService.getUserById(4L);
-//                    driver.getPickUpDates().add(orderById.getPickUpDate());
-//                    driver.getDropOffDate().add(orderById.getDropOffDate());
-//                    userService.editUser(driver);
-//                    orderById.setDriver(driver);
-//
-//                    orderService.editOrder(orderById);
+                    User userById = userService.getUserById(1L);
 
                     LOGGED_IN_USER = userById;
                     System.out.println(LOGGED_IN_USER.getUsername() + " logged in successfully.");
