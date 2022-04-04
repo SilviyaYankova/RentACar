@@ -30,8 +30,6 @@ public interface UserService {
 
     void deleteUser(Long id) throws NoneExistingEntityException;
 
-    void approveOrder(List<Order> pendingOrders, User user);
-
     void returnCar(Car car);
 
     void sendCarsForCleaning(User admin);

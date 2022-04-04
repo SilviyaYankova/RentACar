@@ -8,7 +8,9 @@ import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Order;
 import model.enums.*;
+import model.user.Administrator;
 import model.user.Driver;
+import model.user.Seller;
 import model.user.User;
 import service.CarService;
 import service.OrderService;
@@ -169,5 +171,87 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void approveOrder(List<Order> pendingOrders, User user) throws NoneExistingEntityException {
+        for (Order pendingOrder : pendingOrders) {
+            if (user.getRole().equals(Role.SELLER) || user.getRole().equals(Role.ADMINISTRATOR)) {
+                pendingOrder.setOrderStatus(OrderStatus.START);
 
+                if (user.getRole().equals(Role.SELLER)) {
+                    Seller seller = (Seller) user;
+
+                    seller.getClientsHistory().add(pendingOrder.getUser());
+                    seller.getOrders().add(pendingOrder);
+
+                    pendingOrder.setSeller(seller);
+
+                    if (pendingOrder.getDriver() != null) {
+                        pendingOrder.getDriver().getSellers().add(seller);
+                        userRepository.update(pendingOrder.getDriver());
+
+                    }
+                    userRepository.update(seller);
+                    userRepository.save();
+                } else if (user.getRole().equals(Role.ADMINISTRATOR)) {
+                    Administrator administrator = (Administrator) user;
+
+                    administrator.getClientHistory().add(pendingOrder.getUser());
+                    administrator.getOrders().add(pendingOrder);
+
+                    pendingOrder.setSeller(administrator);
+                    if (pendingOrder.getDriver() != null) {
+                        pendingOrder.getDriver().getSellers().add(administrator);
+                        userRepository.update(pendingOrder.getDriver());
+
+                    }
+                    userRepository.update(administrator);
+                    userRepository.save();
+
+                }
+            }
+            orderRepository.update(pendingOrder);
+            orderRepository.save();
+        }
+    }
+
+    @Override
+    public void approveOrder(Order pendingOrder, User user) throws NoneExistingEntityException {
+        if (user.getRole().equals(Role.SELLER) || user.getRole().equals(Role.ADMINISTRATOR)) {
+            pendingOrder.setOrderStatus(OrderStatus.START);
+
+            if (user.getRole().equals(Role.SELLER)) {
+                Seller seller = (Seller) user;
+
+                seller.getClientsHistory().add(pendingOrder.getUser());
+                seller.getOrders().add(pendingOrder);
+
+                pendingOrder.setSeller(seller);
+
+                if (pendingOrder.getDriver() != null) {
+                    pendingOrder.getDriver().getSellers().add(seller);
+                    userRepository.update(pendingOrder.getDriver());
+
+                }
+                userRepository.update(seller);
+                userRepository.save();
+            } else if (user.getRole().equals(Role.ADMINISTRATOR)) {
+                Administrator administrator = (Administrator) user;
+
+                administrator.getClientHistory().add(pendingOrder.getUser());
+                administrator.getOrders().add(pendingOrder);
+
+                pendingOrder.setSeller(administrator);
+                if (pendingOrder.getDriver() != null) {
+                    pendingOrder.getDriver().getSellers().add(administrator);
+                    userRepository.update(pendingOrder.getDriver());
+
+                }
+                userRepository.update(administrator);
+                userRepository.save();
+
+            }
+        }
+        orderRepository.update(pendingOrder);
+        orderRepository.save();
+    }
 }

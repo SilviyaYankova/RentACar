@@ -45,67 +45,32 @@ public class HomeController {
                     return "All Cars shown successfully.\n";
                 }),
                 new Option("Login", () -> {
-                    User user = new LoginDialog(userService).input();
+//                    User user = new LoginDialog(userService).input();
+//
+//                    while (user.getUsername() == null && user.getPassword() == null) {
+//                        System.out.println("Bad credentials. Try again.");
+//                        System.out.println();
+//                        user = new LoginDialog(userService).input();
+//                    }
+//                    LOGGED_IN_USER = user;
+                    User userById = userService.getUserById(1L);
+                    LOGGED_IN_USER = userById;
+                    System.out.println(LOGGED_IN_USER.getUsername() + " logged in successfully.");
+                    System.out.println();
 
-                    while (user.getUsername() == null && user.getPassword() == null) {
-                        System.out.println("Bad credentials. Try again.");
-                        System.out.println();
-                        user = new LoginDialog(userService).input();
-                    }
-                    LOGGED_IN_USER = user;
-                    System.out.printf("'%s' logged in successfully%n%n", LOGGED_IN_USER.getUsername());
-                    if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
-                        UserController userController = new UserController(userService, carService, orderService, userRepository);
-                        userController.init(LOGGED_IN_USER);
-                    } else if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
-//                    LOGGED_IN_USER = userService.getUserById(6L);
-                        UserController userController = new UserController(userService, carService, orderService, userRepository);
-                        userController.init(LOGGED_IN_USER);
-                    } else if (LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
+                    UserController userController = new UserController(userService, carService, orderService, userRepository);
+                    userController.init(LOGGED_IN_USER);
 
-                    } else if (LOGGED_IN_USER.getRole().equals(Role.DRIVER)) {
-
-                    } else if (LOGGED_IN_USER.getRole().equals(Role.SITE_MANAGER)) {
-
-                    }
                     return "";
                 }),
                 new Option("Register", () -> {
-                    // todo if is register and is logged in to send me to another view; after register to be logged in
                     User user = new RegisterDialog(userService).input();
-//                    user.setRole(Role.USER);
                     User created = userService.registerUser(user);
                     if (created == null) {
                         return "Username already exist.";
                     }
                     return String.format("User ID:%s: '%s' added successfully.%n",
                             created.getId(), created.getUsername());
-                }),
-                new Option("get all users", () -> {
-                    // todo if is register and is logged in to send me to another view; after register to be logged in
-                    userService.loadData();
-                    userService.getAllUsers().forEach(System.out::println);
-                    System.out.println();
-                    return "users printed";
-                }),
-                new Option("get all cars", () -> {
-                    // todo if is register and is logged in to send me to another view; after register to be logged in
-                    carService.loadData();
-
-//                    carService.getAllCars().forEach(System.out::println);
-                    return "cars printed";
-                }),
-                new Option("get all orders", () -> {
-                    orderService.loadData();
-                    Collection<Order> allOrders = orderService.getAllOrders();
-                    if (allOrders.size() == 0) {
-                        System.out.println("no orders");
-                    } else {
-                        orderService.loadData();
-                        orderService.getAllOrders().forEach(System.out::println);
-
-                    }
-                    return "orders printed";
                 })
         ));
         menu.show();

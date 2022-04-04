@@ -28,6 +28,7 @@ public class WorkerServiceImpl implements WorkerService {
     @Override
     public void addWorker(Worker worker) {
             workerRepository.create(worker);
+            workerRepository.save();
     }
 
     @Override
@@ -49,9 +50,9 @@ public class WorkerServiceImpl implements WorkerService {
     public void editWorker(Worker worker) {
         try {
             workerRepository.update(worker);
+            workerRepository.save();
         } catch (NoneExistingEntityException e) {
             System.out.println("Worker with ID='" + worker.getId() + "' does not exist.");
-
         }
     }
 
@@ -59,6 +60,7 @@ public class WorkerServiceImpl implements WorkerService {
     public void deleteWorker(Long id) {
         try {
             workerRepository.deleteById(id);
+            workerRepository.save();
         } catch (NoneExistingEntityException e) {
             System.out.println("Worker with ID='" + id + "' does not exist.");
         }
@@ -96,12 +98,14 @@ public class WorkerServiceImpl implements WorkerService {
                 car.setCarStatus(CarStatus.START_CLEANING);
                 try {
                     workerRepository.update(allAvailableWorker);
+                    workerRepository.save();
                 } catch (NoneExistingEntityException e) {
                     e.printStackTrace();
                 }
 
                 try {
                     carRepository.update(car);
+                    carRepository.save();
                 } catch (NoneExistingEntityException e) {
                     e.printStackTrace();
                 }
@@ -117,6 +121,7 @@ public class WorkerServiceImpl implements WorkerService {
         worker.setWorkerStatus(WorkerStatus.AVAILABLE);
         try {
             workerRepository.update(worker);
+            workerRepository.save();
         } catch (NoneExistingEntityException e) {
             e.printStackTrace();
         }

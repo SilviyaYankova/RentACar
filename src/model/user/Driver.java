@@ -106,11 +106,11 @@ public class Driver extends User {
 
 
         if (pickUpDate != null) {
-            sb.append("\tpickUpDate = '" + pickUpDate.size());
+            sb.append("\tpickUpDate = '" + pickUpDate.size() + "' ");
         }
 
         if (pickUpDate != null) {
-            sb.append("dropOffDate = '" + dropOffDate.size());
+            sb.append("dropOffDate = '" + dropOffDate.size() + "' ");
         }
         return sb.toString();
     }

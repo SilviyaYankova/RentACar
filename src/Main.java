@@ -3,7 +3,9 @@ import dao.*;
 import dao.impl.DaoFactoryMemoryImp;
 import exeption.*;
 import model.Car;
+import model.Order;
 import model.Worker;
+import model.mock.MockOrders;
 import model.user.User;
 import service.*;
 import service.impl.*;
@@ -11,6 +13,7 @@ import service.impl.*;
 import java.util.stream.Collectors;
 
 import static model.mock.MockCar.MOCK_CARS;
+import static model.mock.MockOrders.MOCK_ORDERS;
 import static model.mock.MockUser.MOCK_USERS;
 import static model.mock.MockWorker.MOCK_WORKERS;
 
@@ -18,6 +21,7 @@ public class Main {
     public static final String USERS_DB_FILENAME = "users.db";
     public static final String CARS_DB_FILENAME = "cars.db";
     public static final String ORDERS_DB_FILENAME = "orders.db";
+    public static final String WORKERS_DB_FILENAME = "workers.db";
 
     public static void main(String[] args) throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException, NoPermissionException {
         DaoFactory daoFactory = new DaoFactoryMemoryImp();
@@ -25,10 +29,9 @@ public class Main {
         CarRepository carRepository = daoFactory.createCarRepositoryFile(CARS_DB_FILENAME);
         UserRepository userRepository = daoFactory.createUserRepositoryFile(USERS_DB_FILENAME);
         OrderRepository orderRepository = daoFactory.createOrderRepositoryFile(ORDERS_DB_FILENAME);
+        WorkerRepository workerRepository = daoFactory.createWorkerRepository(WORKERS_DB_FILENAME);
 
 
-
-        WorkerRepository workerRepository = daoFactory.createWorkerRepository();
         CommentRepository commentRepository = daoFactory.createCommentRepository();
 
         WorkerService workerService = new WorkerServiceImpl(workerRepository, carRepository);
@@ -41,6 +44,7 @@ public class Main {
 // create initial users
 //        createInitialUsers(userService);
 //        createInitialCars(carService);
+//        createInitialOrders(orderService);
 //        createInitialWorkers(workerService);
 
         HomeController homeController = new HomeController(userService, carService, orderService, userRepository);
@@ -49,10 +53,16 @@ public class Main {
 
     }
 
+    private static void createInitialOrders(OrderService orderService) throws NoneExistingEntityException, NoneAvailableEntityException, InvalidEntityDataException {
+        for (Order mockOrder : MOCK_ORDERS) {
+            orderService.addOrder(mockOrder, mockOrder.getCar());
+        }
+    }
+
     private static void createInitialWorkers(WorkerService workerService) throws NoneExistingEntityException {
 
         for (Worker MOCK_WORKER : MOCK_WORKERS) {
-                workerService.addWorker(MOCK_WORKER);
+            workerService.addWorker(MOCK_WORKER);
         }
     }
 

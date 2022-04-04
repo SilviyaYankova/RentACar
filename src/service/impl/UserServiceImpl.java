@@ -100,59 +100,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void approveOrder(List<Order> pendingOrders, User user) {
-        for (Order pendingOrder : pendingOrders) {
-            if (user.getRole().equals(Role.SELLER) || user.getRole().equals(Role.ADMINISTRATOR)) {
-                pendingOrder.setOrderStatus(OrderStatus.START);
-                try {
-                    Driver driver = pendingOrder.getDriver();
-                    List<User> sellers = null;
-                    if (driver != null) {
-                        sellers = driver.getSellers();
-                    }
-                    if (user.getRole().equals(Role.SELLER)) {
-                        Seller seller = (Seller) user;
-
-                        seller.getClientsHistory().add(pendingOrder.getUser());
-                        List<Order> orders = seller.getOrders();
-
-                        orders.add(pendingOrder);
-                        seller.setOrders(orders);
-                        pendingOrder.setSeller(seller);
-                        userRepository.update(seller);
-
-                        if (driver != null) {
-                            sellers.add(seller);
-                            pendingOrder.getDriver().setSellers(sellers);
-                            userRepository.update(driver);
-                        }
-
-                    } else if (user.getRole().equals(Role.ADMINISTRATOR)) {
-                        Administrator administrator = (Administrator) user;
-                        administrator.getClientHistory().add(pendingOrder.getUser());
-                        List<Order> orders = administrator.getOrders();
-
-                        orders.add(pendingOrder);
-                        administrator.setOrders(orders);
-                        pendingOrder.setSeller(administrator);
-                        userRepository.update(administrator);
-
-                        if (driver != null) {
-                            sellers.add(administrator);
-                            pendingOrder.getDriver().setSellers(sellers);
-                            userRepository.update(driver);
-                        }
-                    }
-                    orderService.editOrder(pendingOrder);
-                } catch (NoneExistingEntityException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        userRepository.save();
-    }
-
-    @Override
     public void returnCar(Car car) {
         Order order = car.getOrder();
         Driver driver = order.getDriver();

@@ -20,5 +20,7 @@ public interface DaoFactory {
 
     WorkerRepository createWorkerRepository();
 
+    WorkerRepository createWorkerRepository(String dbFileName);
+
     CommentRepository createCommentRepository();
 }

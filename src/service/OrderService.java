@@ -5,6 +5,7 @@ import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Order;
+import model.user.User;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,6 +26,9 @@ public interface OrderService {
 
     double calculateCarPrice(long days, double pricePerDay);
 
-    void loadData();
+    void approveOrder(List<Order> pendingOrders, User user) throws NoneExistingEntityException;
 
+    void approveOrder(Order pendingOrders, User user) throws NoneExistingEntityException;
+
+    void loadData();
 }

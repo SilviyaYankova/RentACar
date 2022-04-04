@@ -5,6 +5,7 @@ import dao.*;
 import dao.file.CarsRepositoryFileImpl;
 import dao.file.OrderRepositoryFileImpl;
 import dao.file.UserRepositoryFileImpl;
+import dao.file.WorkerRepositoryFileImpl;
 
 public class DaoFactoryMemoryImp implements DaoFactory {
 
@@ -45,6 +46,11 @@ public class DaoFactoryMemoryImp implements DaoFactory {
     @Override
     public WorkerRepository createWorkerRepository() {
         return new WorkerRepositoryMemoryImpl(new LongIdGenerator());
+    }
+
+    @Override
+    public WorkerRepository createWorkerRepository(String dbFileName) {
+        return new WorkerRepositoryFileImpl(new LongIdGenerator(), dbFileName);
     }
 
 

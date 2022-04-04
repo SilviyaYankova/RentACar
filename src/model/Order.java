@@ -221,7 +221,8 @@ public class Order extends BaseEntity {
         }
 
         if (seller != null) {
-            sb.append("seller = '" + seller.getUsername() + "' ");
+            sb.append("\t\tseller = '" + seller.getUsername() + "' ")
+                    .append(System.lineSeparator());
         }
 
 

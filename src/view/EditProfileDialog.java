@@ -2,12 +2,10 @@ package view;
 
 import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
-import model.enums.Location;
 import model.enums.Role;
 import model.user.User;
 import service.UserService;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class EditProfileDialog {
@@ -21,8 +19,10 @@ public class EditProfileDialog {
 
     public void init(User LOGGED_IN_USER) throws NoPermissionException, NoneExistingEntityException {
         userService.loadData();
+        System.out.println("Your profile:");
+        System.out.println(LOGGED_IN_USER);
+        System.out.println();
 
-        if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
             System.out.println("Choose fields to edit: ");
             System.out.println("1. First name");
             System.out.println("2. Last name");
@@ -87,7 +87,7 @@ public class EditProfileDialog {
                     choice = confirmEditing(LOGGED_IN_USER, choice);
                 }
             }
-        }
+
     }
 
     public int checkValidInput(int choice, String input) {
