@@ -25,6 +25,8 @@ public interface CarService {
 
     List<Car> getAvailableCars(Order order);
 
+    void returnCar(Order order) throws NoneExistingEntityException;
+
     void loadData();
 
 }

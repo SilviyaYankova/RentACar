@@ -6,6 +6,7 @@ import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Order;
+import model.enums.OrderStatus;
 import model.enums.Role;
 import model.user.User;
 import service.CarService;
@@ -80,12 +81,23 @@ public class OrderController {
                         return "";
                     }),
                     new Option("Approve Pending orders", () -> {
-                        Collection<Order> orders = orderService.getAllPendingOrders();
+                        Collection<Order> orders = orderService.getAllOrdersWithStatus(OrderStatus.PENDING);
                         if (orders.size() > 0) {
                             ApproveOrdersDialog approveOrdersDialog = new ApproveOrdersDialog(orderService, userService);
                             approveOrdersDialog.init(LOGGED_IN_USER);
                         } else {
-                            System.out.println("Sorry there is no pending orders");
+                            System.out.println("Sorry there is no pending orders.");
+                        }
+                        System.out.println();
+                        return "";
+                    }),
+                    new Option("Finished orders", () -> {
+                        Collection<Order> orders = orderService.getAllOrdersWithStatus(OrderStatus.FINISH);
+                        if (orders.size() > 0) {
+                            FinishedOrdersDialog finishedOrdersDialog = new FinishedOrdersDialog(orderService, carService, userService);
+                            finishedOrdersDialog.init(LOGGED_IN_USER);
+                        } else {
+                            System.out.println("Sorry there is no finished orders.");
                         }
                         System.out.println();
                         return "";
@@ -102,16 +114,6 @@ public class OrderController {
                         DeleteOrderDialog deleteOrderDialog = new DeleteOrderDialog(userService, carService, orderService, userRepository);
                         deleteOrderDialog.input(LOGGED_IN_USER);
 
-                        System.out.println();
-                        return "";
-                    }),
-                    new Option("Order History", () -> {
-                        Collection<Order> orders = orderService.getAllOrders();
-                        if (orders.size() > 0) {
-                            orders.forEach(System.out::println);
-                        } else {
-                            System.out.println("Sorry there is no orders");
-                        }
                         System.out.println();
                         return "";
                     })

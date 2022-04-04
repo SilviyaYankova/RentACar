@@ -8,6 +8,7 @@ import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Order;
 import model.enums.Role;
+import model.user.Driver;
 import model.user.User;
 import service.CarService;
 import service.OrderService;
@@ -35,7 +36,8 @@ public class HomeController {
     public void init() throws NoneAvailableEntityException, NoneExistingEntityException, NoPermissionException, InvalidEntityDataException {
         userService.loadData();
         carService.loadData();
-//        orderService.loadData();
+        orderService.loadData();
+        orderService.checkFinishedOrders();
 
         Menu menu = new Menu("Home Menu", List.of(
                 new Option("See all cars", () -> {
@@ -53,7 +55,16 @@ public class HomeController {
 //                        user = new LoginDialog(userService).input();
 //                    }
 //                    LOGGED_IN_USER = user;
-                    User userById = userService.getUserById(1L);
+                    User userById = userService.getUserById(7L);
+//                    Order orderById = orderService.getOrderById(1L);
+//                    Driver driver = (Driver) userService.getUserById(4L);
+//                    driver.getPickUpDates().add(orderById.getPickUpDate());
+//                    driver.getDropOffDate().add(orderById.getDropOffDate());
+//                    userService.editUser(driver);
+//                    orderById.setDriver(driver);
+//
+//                    orderService.editOrder(orderById);
+
                     LOGGED_IN_USER = userById;
                     System.out.println(LOGGED_IN_USER.getUsername() + " logged in successfully.");
                     System.out.println();

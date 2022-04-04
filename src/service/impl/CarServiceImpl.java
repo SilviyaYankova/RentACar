@@ -1,16 +1,22 @@
 package service.impl;
 
 import dao.CarRepository;
+import dao.OrderRepository;
+import dao.UserRepository;
 import exeption.ConstraintViolationException;
 import exeption.InvalidEntityDataException;
 import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Order;
 import model.enums.CarStatus;
+import model.enums.DriverStatus;
+import model.enums.OrderStatus;
+import model.user.Driver;
 import service.CarService;
 import service.WorkerService;
 import util.CarValidator;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,11 +26,15 @@ public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
     private final WorkerService workerService;
+    private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
     private final CarValidator carValidator;
 
-    public CarServiceImpl(CarRepository carRepository, WorkerService workerService) {
+    public CarServiceImpl(CarRepository carRepository, WorkerService workerService, UserRepository userRepository, OrderRepository orderRepository) {
         this.carRepository = carRepository;
         this.workerService = workerService;
+        this.userRepository = userRepository;
+        this.orderRepository = orderRepository;
         this.carValidator = new CarValidator();
     }
 
@@ -86,6 +96,26 @@ public class CarServiceImpl implements CarService {
             }
         }
         return availableCarsForDates;
+    }
+
+    @Override
+    public void returnCar(Order order) throws NoneExistingEntityException {
+        Car car = order.getCar();
+        LocalDateTime pickUpDate = order.getPickUpDate();
+        LocalDateTime dropOffDate = order.getDropOffDate();
+
+        if (order.getDriver() != null) {
+            order.getDriver().getPickUpDates().remove(pickUpDate);
+            order.getDriver().getDropOffDate().remove(dropOffDate);
+            userRepository.update(order.getDriver());
+            userRepository.save();
+        }
+        car.setCarStatus(CarStatus.WAITING_FOR_CLEANING);
+        car.setOrder(null);
+        car.getPickUpDates().remove(pickUpDate);
+        car.getDropOffDates().remove(dropOffDate);
+        carRepository.update(car);
+        carRepository.save();
     }
 
     @Override

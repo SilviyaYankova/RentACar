@@ -94,8 +94,8 @@ public class Driver extends User {
                 .append("lastName = '" + super.getLastName() + "' ")
                 .append("email = '" + super.getEmail() + "' ")
                 .append("phoneNumber = '" + super.getPhoneNumber() + "' ")
-                .append("username = '" + super.getUsername())
-                .append("password = '" + super.getPassword() + String.format("%n"))
+                .append("username = '" + super.getUsername() + "' ")
+                .append("password = '" + super.getPassword() + String.format(" %n"))
                 .append("\t\t" + "registeredOn = '" + super.getRegisteredOn().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ")
                 .append("role = " + super.getRole() + "' ")
                 .append("orders = " + super.getOrders().size() + "' ")
@@ -106,7 +106,7 @@ public class Driver extends User {
 
 
         if (pickUpDate != null) {
-            sb.append("\tpickUpDate = '" + pickUpDate.size() + "' ");
+            sb.append("pickUpDate = '" + pickUpDate.size() + "' ");
         }
 
         if (pickUpDate != null) {

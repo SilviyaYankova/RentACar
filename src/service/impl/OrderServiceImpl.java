@@ -143,6 +143,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void checkFinishedOrders() throws NoneExistingEntityException {
+        Collection<Order> allOrders = orderRepository.findAll();
+        for (Order order : allOrders) {
+            if (order.getOrderStatus().equals(OrderStatus.START) && order.getDropOffDate().isBefore(LocalDateTime.now())) {
+                    order.setOrderStatus(OrderStatus.FINISH);
+                    orderRepository.update(order);
+                    orderRepository.save();
+
+            }
+        }
+    }
+
+    @Override
     public Collection<Order> getAllOrders() {
         return orderRepository.findAll();
     }
@@ -165,9 +178,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getAllPendingOrders() {
+    public List<Order> getAllOrdersWithStatus(OrderStatus orderStatus) {
         return orderRepository.findAll().stream()
-                .filter(o -> o.getOrderStatus().equals(OrderStatus.PENDING))
+                .filter(o -> o.getOrderStatus().equals(orderStatus))
                 .collect(Collectors.toList());
     }
 

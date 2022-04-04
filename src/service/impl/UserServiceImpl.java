@@ -100,27 +100,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void returnCar(Car car) {
-        Order order = car.getOrder();
-        Driver driver = order.getDriver();
-        try {
-            order.setOrderStatus(OrderStatus.FINISH);
-            if (driver != null) {
-                driver.setDriverStatus(DriverStatus.AVAILABLE);
-                userRepository.update(driver);
-            }
-            car.setCarStatus(CarStatus.WAITING_FOR_CLEANING);
-            car.setOrder(null);
-            car.setCarStatus(CarStatus.AVAILABLE);
-            carService.editCar(car);
-            order.setOrderStatus(OrderStatus.FINISH);
-            orderService.editOrder(order);
-        } catch (NoneExistingEntityException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void sendCarsForCleaning(User user) {
         SiteManager siteManager = (SiteManager) userRepository.findById(3L);
         siteManager.getSellersHistory().add(user);

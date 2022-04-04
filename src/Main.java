@@ -5,7 +5,6 @@ import exeption.*;
 import model.Car;
 import model.Order;
 import model.Worker;
-import model.mock.MockOrders;
 import model.user.User;
 import service.*;
 import service.impl.*;
@@ -35,9 +34,9 @@ public class Main {
         CommentRepository commentRepository = daoFactory.createCommentRepository();
 
         WorkerService workerService = new WorkerServiceImpl(workerRepository, carRepository);
-        CarService carService = new CarServiceImpl(carRepository, workerService);
-
+        CarService carService = new CarServiceImpl(carRepository, workerService, userRepository, orderRepository);
         OrderService orderService = new OrderServiceImpl(orderRepository, userRepository, carService);
+
         CommentService commentService = new CommentServiceImpl(commentRepository, carService, userRepository);
         UserService userService = new UserServiceImpl(userRepository, workerService, orderService, carService, commentService);
 

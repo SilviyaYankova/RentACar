@@ -3,6 +3,7 @@ package model.user;
 import model.Comment;
 import model.Order;
 import model.enums.Role;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -146,15 +147,10 @@ public class User extends BaseEntity {
             registeredOn = LocalDateTime.now();
         }
         sb.append("\t\t" + "registeredOn = '" + registeredOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ");
-        sb.append("role = '" + role.name() + "' ");
+        sb.append("role = '" + role.name() + "' ")
+                .append("ordersCount = '" + orders.size() + "' ")
+                .append("commentsCount = '" + comments.size() + "' ");
 
-        if (orders != null) {
-            sb.append("ordersCount = '" + orders.size() + "' ");
-        }
-
-        if (comments != null) {
-            sb.append("commentsCount = '" + comments.size() + "' ");
-        }
 
         return sb.toString();
     }

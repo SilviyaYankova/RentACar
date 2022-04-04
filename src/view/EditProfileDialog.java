@@ -110,9 +110,9 @@ public class EditProfileDialog {
 
     private int confirmEditing(User LOGGED_IN_USER, int choice) throws NoneExistingEntityException, NoPermissionException {
         System.out.println();
-        System.out.println("Save profile or continue editing?");
+        System.out.println("Save field change or continue editing?");
         System.out.println("For saving profile press 'YES' for continue editing press 'C'?");
-        System.out.println("For cancel press 'E'.");
+        System.out.println("For exit press 'E'.");
 
         String input = scanner.nextLine();
         boolean incorrectInput = true;
@@ -134,6 +134,7 @@ public class EditProfileDialog {
                 break;
             } else if (input.equals("E")) {
                 System.out.println("You canceled editing your profile.");
+                choice = 0;
                 break;
             } else {
                 System.out.println("Error: Please make a choice between 'YES' or 'C' or 'E'");

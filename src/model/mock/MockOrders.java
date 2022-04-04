@@ -38,8 +38,8 @@ public class MockOrders {
                 83, Fuel.GASOLINE, 45, 4.2,
                 100, 20, CarStatus.AVAILABLE);
         car3.setId(3L);
-        LocalDateTime pickUpDate = LocalDateTime.of(2022, 4, 5, 10, 0);
-        LocalDateTime dropOffDate = LocalDateTime.of(2022, 4, 6, 10, 0);
+        LocalDateTime pickUpDate = LocalDateTime.of(2022, 4, 3, 10, 0);
+        LocalDateTime dropOffDate = LocalDateTime.of(2022, 4, 4, 10, 0);
 
         MOCK_ORDERS = new Order[]{
                 new Order(martin, true, car1, Location.VARNA, Location.BURGAS, pickUpDate, dropOffDate),

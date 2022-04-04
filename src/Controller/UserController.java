@@ -45,16 +45,30 @@ public class UserController {
             menu = new Menu("User Menu", List.of(
                     new Option("See all cars", () -> {
                         Collection<Car> allCars = carService.getAllCarsWithStatus(CarStatus.AVAILABLE);
-                        int cont = 0;
-                        for (Car car : allCars) {
-                            cont++;
-                            System.out.println(cont + ". " + car);
+
+                        if (allCars.size() > 0) {
+                            int cont = 0;
+                            for (Car car : allCars) {
+                                cont++;
+                                System.out.println(cont + ". " + car);
+                            }
+                        } else {
+                            System.out.println("Sorry there is no available cars for booking.");
+                            System.out.println();
                         }
-                        return "All available car are successfully shown.\n";
+
+                        return "";
                     }),
                     new Option("Book Car", () -> {
-                        BookingDialog BookingDialog = new BookingDialog(userService, carService, orderService, userRepository);
-                        BookingDialog.input(LOGGED_IN_USER);
+                        Collection<Car> allCars = carService.getAllCarsWithStatus(CarStatus.AVAILABLE);
+                        if (allCars.size() > 0) {
+                            BookingDialog BookingDialog = new BookingDialog(userService, carService, orderService, userRepository);
+                            BookingDialog.input(LOGGED_IN_USER);
+                        } else {
+                            System.out.println("Sorry there is no available cars for booking.");
+                            System.out.println();
+                        }
+
 
                         return "";
                     }),

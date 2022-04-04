@@ -5,6 +5,7 @@ import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Order;
+import model.enums.OrderStatus;
 import model.user.User;
 
 import java.util.Collection;
@@ -18,11 +19,11 @@ public interface OrderService {
 
     Order getOrderById(Long id) throws NoneExistingEntityException;
 
-    void editOrder(Order car) throws NoneExistingEntityException;
+    void editOrder(Order order) throws NoneExistingEntityException;
 
     void deleteOrder(Long id) throws NoneExistingEntityException;
 
-    List<Order> getAllPendingOrders();
+    List<Order> getAllOrdersWithStatus(OrderStatus orderStatus);
 
     double calculateCarPrice(long days, double pricePerDay);
 
@@ -31,4 +32,6 @@ public interface OrderService {
     void approveOrder(Order pendingOrders, User user) throws NoneExistingEntityException;
 
     void loadData();
+
+    void checkFinishedOrders() throws NoneExistingEntityException;
 }

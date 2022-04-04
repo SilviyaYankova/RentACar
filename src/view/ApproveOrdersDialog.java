@@ -3,6 +3,7 @@ package view;
 import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
 import model.Order;
+import model.enums.OrderStatus;
 import model.user.User;
 import service.OrderService;
 import service.UserService;
@@ -23,7 +24,7 @@ public class ApproveOrdersDialog {
     public void init(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
         orderService.loadData();
 
-        List<Order> pendingOrders = orderService.getAllPendingOrders();
+        List<Order> pendingOrders = orderService.getAllOrdersWithStatus(OrderStatus.PENDING);
         System.out.println("Orders waiting for approving.");
         int count = 0;
         for (Order order : pendingOrders) {
@@ -43,11 +44,10 @@ public class ApproveOrdersDialog {
 
         while (choice == 1 || choice == 2) {
             if (choice == 1) {
-                System.out.println("Approving all orders....");
+                System.out.println("Approving all orders...");
                 orderService.approveOrder(pendingOrders, LOGGED_IN_USER);
                 System.out.println("Orders approved.");
-
-                choice = confirmEditing(LOGGED_IN_USER, choice);
+                choice = 0;
             }
             if (choice == 2) {
                 System.out.println();
@@ -59,15 +59,9 @@ public class ApproveOrdersDialog {
 
                 orderService.approveOrder(order, LOGGED_IN_USER);
 
-
-
                 choice = confirmEditing(LOGGED_IN_USER, choice);
             }
         }
-
-
-
-//        orderService.getAllOrders().forEach(System.out::println);
     }
 
 
@@ -91,39 +85,30 @@ public class ApproveOrdersDialog {
 
     private int confirmEditing(User LOGGED_IN_USER, int choice) throws NoneExistingEntityException, NoPermissionException {
         System.out.println();
-        System.out.println("Save approved order or continue editing?");
-        System.out.println("For saving approved order press 'YES' for continue editing press 'C'?");
+        System.out.println("For continue approving orders press 'C'?");
         System.out.println("For cancel press 'E'.");
 
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
-            if (input.equals("YES")) {
-                incorrectInput = false;
-                System.out.println("You finished editing your profile.");
-                userService.editUser(LOGGED_IN_USER);
-            } else if (input.equals("C")) {
-                System.out.println("You choose to continue editing your profile.");
-                System.out.println("Choose fields to edit: ");
-                System.out.println("1. First name");
-                System.out.println("2. Last name");
-                System.out.println("3. Phone Number");
-                System.out.println("4. Password");
+             if (input.equals("C")) {
+                 System.out.println("Choose action.");
+                 System.out.println("1. Approve all orders");
+                 System.out.println("2. Approve individual order");
                 input = scanner.nextLine();
                 choice = 0;
                 choice = checkValidInput(choice, input);
                 break;
             } else if (input.equals("E")) {
-                System.out.println("You canceled editing your profile.");
+                System.out.println("You canceled approving orders.");
+                 choice = 0;
                 break;
             } else {
-                System.out.println("Error: Please make a choice between 'YES' or 'C' or 'E'");
+                System.out.println("Error: Please make a choice between 'C' or 'E'");
                 input = scanner.nextLine();
             }
         }
-        if (input.equals("YES")) {
-            choice = 0;
-        }
+
         return choice;
     }
 
