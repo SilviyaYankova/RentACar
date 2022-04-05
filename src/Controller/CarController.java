@@ -51,8 +51,8 @@ public class CarController {
                     return "";
                 }),
                 new Option("Delete car", () -> {
-                    DeleteCarDialog deleteCarDialog = new DeleteCarDialog();
-                    deleteCarDialog.input(LOGGED_IN_USER);
+                    System.out.println("Working on it...");
+                    System.out.println();
                     return "";
                 })
         ));

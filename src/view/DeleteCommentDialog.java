@@ -45,14 +45,9 @@ public class DeleteCommentDialog {
                 choice = checkValidInput(allComments, choice, input);
 
                 Comment comment = allComments.get(choice - 1);
-//                LOGGED_IN_USER.getComments().remove(comment);
-
                 choice = confirmEditing(LOGGED_IN_USER, choice, comment);
 
-
                 continueCommenting = confirmContinue(true, allComments);
-
-
 
 
             } else {

@@ -116,9 +116,14 @@ public class UserController {
                         return "";
                     }),
                     new Option("Comments", () -> {
-                        // todo see all comments
-                        // todo edit comments
-                        // todo delete comments
+                        System.out.println("Working on it...");
+                        System.out.println();
+
+                        return "Comments\n";
+                    }),
+                    new Option("Statistics", () -> {
+                        StatisticController statisticController = new StatisticController();
+                        statisticController.init(LOGGED_IN_USER);
 
                         return "Comments\n";
                     }),
