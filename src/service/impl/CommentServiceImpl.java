@@ -33,12 +33,6 @@ public class CommentServiceImpl implements service.CommentService {
     public void addCarComment(Comment comment) throws InvalidEntityDataException, NoneExistingEntityException {
         User user = comment.getUser();
         user.getComments().add(comment);
-        try {
-            userRepository.update(user);
-            userRepository.save();
-        } catch (NoneExistingEntityException e) {
-            e.printStackTrace();
-        }
 
         Car car = comment.getCar();
         car.getComments().add(comment);
@@ -47,14 +41,20 @@ public class CommentServiceImpl implements service.CommentService {
         rating = rating / car.getComments().size();
 
         car.setRating(rating);
-        carService.editCar(car);
-
 
         try {
             commentValidator.validate(comment);
         } catch (ConstraintViolationException ex) {
             throw new InvalidEntityDataException("Error creating comment", ex);
         }
+
+        try {
+            userRepository.update(user);
+            userRepository.save();
+        } catch (NoneExistingEntityException e) {
+            e.printStackTrace();
+        }
+        carService.editCar(car);
         commentRepository.create(comment);
         commentRepository.save();
 
@@ -66,7 +66,8 @@ public class CommentServiceImpl implements service.CommentService {
     }
 
     @Override
-    public void editComment(Comment comment, Car car) throws NoneExistingEntityException {
+    public void editComment(Comment comment ) throws NoneExistingEntityException {
+        Car car = comment.getCar();
         calculateRating(car);
         carService.editCar(comment.getCar());
         comment.setEditedOn(LocalDateTime.now());

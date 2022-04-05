@@ -13,7 +13,7 @@ public interface CommentService {
 
     Collection<Comment> getAllComments();
 
-    void editComment(Comment comment, Car car1) throws NoneExistingEntityException;
+    void editComment(Comment comment) throws NoneExistingEntityException;
 
     void deleteComment(Long id) throws NoneExistingEntityException;
 
