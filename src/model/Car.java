@@ -291,14 +291,20 @@ public class Car extends BaseEntity {
                 .append("\t type = '" + fuelType + "' ")
                 .append("tankVolume = '" + tankVolume + "' ")
                 .append("fuelConsumption = '" + fuelConsumption + "' ")
-                .append(System.lineSeparator())
-                .append("\t convenience = '" + convenience + "' ")
-                .append(System.lineSeparator())
-                .append("\t entertainment = '" + entertainment + "' ")
-                .append(System.lineSeparator())
-                .append(String.format("\t rating = '%.2f' ", rating))
-                .append("comments = '" + comments.size() + "' ")
                 .append(System.lineSeparator());
+
+        if (convenience.size() > 0 && entertainment.size() > 0) {
+            sb.append("\t convenience = '" + convenience + "' ")
+                    .append(System.lineSeparator())
+                    .append("\t entertainment = '" + entertainment + "' ")
+                    .append(System.lineSeparator());
+        }
+        sb.append(String.format("\t rating = '%.2f' ", rating));
+        if (comments != null) {
+            sb.append("comments = '" + comments.size() + "' ");
+
+        }
+        sb.append(System.lineSeparator());
         sb.append("\t deposit = '" + deposit + "' ");
         sb.append(String.format("price per day = '%.2f' ", pricePerDay))
                 .append(System.lineSeparator());
@@ -308,11 +314,11 @@ public class Car extends BaseEntity {
                     .append(System.lineSeparator());
         }
 
-        if (pickUpDate.size() != 0) {
+        if (pickUpDate  != null) {
             sb.append("\t pickUpDate = '" + pickUpDate.size() + "' ");
         }
 
-        if (pickUpDate.size() != 0) {
+        if (pickUpDate != null) {
             sb.append("dropOffDate = '" + dropOffDate.size() + "' ")
                     .append(System.lineSeparator());
         }

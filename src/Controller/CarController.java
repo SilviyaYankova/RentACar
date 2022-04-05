@@ -5,10 +5,11 @@ import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
-import model.enums.CarStatus;
 import model.user.User;
 import service.CarService;
 import service.UserService;
+import view.AddCarDialog;
+import view.DeleteCarDialog;
 import view.Menu;
 import view.Option;
 
@@ -34,21 +35,24 @@ public class CarController {
                     int cont = 0;
                     for (Car car : allCars) {
                         cont++;
-                        System.out.println(cont + ". " + car);
+                        System.out.println(cont + ". \t" + car);
                     }
 
-                    return "All available car are successfully shown.\n";
+                    return "";
                 }),
                 new Option("Add car", () -> {
-
+                    AddCarDialog addCarDialog = new AddCarDialog(carService);
+                    addCarDialog.input(LOGGED_IN_USER);
                     return "";
                 }),
                 new Option("Edit car", () -> {
-
+                    System.out.println("Working on it...");
+                    System.out.println();
                     return "";
                 }),
                 new Option("Delete car", () -> {
-
+                    DeleteCarDialog deleteCarDialog = new DeleteCarDialog();
+                    deleteCarDialog.input(LOGGED_IN_USER);
                     return "";
                 })
         ));

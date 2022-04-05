@@ -105,17 +105,14 @@ public class UserController {
                         return "";
                     }),
                     new Option("Orders", () -> {
-
                         OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "";
                     }),
                     new Option("Cars", () -> {
                         carService.loadData();
-                        // todo ask about cars status or do a car dialog
                         CarController carController = new CarController(userService, carService);
                         carController.init(LOGGED_IN_USER);
-
                         return "";
                     }),
                     new Option("Comments", () -> {

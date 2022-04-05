@@ -17,11 +17,7 @@ import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static model.enums.CarStatus.FINISH_CLEANING;
 
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
