@@ -9,10 +9,7 @@ import model.Car;
 import model.Order;
 import model.enums.Location;
 import model.user.User;
-import service.CarService;
-import service.OrderService;
-import service.UserService;
-import service.WorkerService;
+import service.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,13 +28,15 @@ public class EditOrderDialog {
     private final OrderService orderService;
     private final UserRepository userRepository;
     private final WorkerService workerService;
+    private final CommentService commentService;
 
-    public EditOrderDialog(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService) {
+    public EditOrderDialog(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService, CommentService commentService) {
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
         this.userRepository = userRepository;
         this.workerService = workerService;
+        this.commentService = commentService;
     }
 
 
@@ -89,7 +88,7 @@ public class EditOrderDialog {
             choice = 0;
             choice = checkValidInput(choice, input);
             boolean incorrectInput = true;
-            BookingDialog bookingDialog = new BookingDialog(userService, carService, orderService, userRepository, workerService);
+            BookingDialog bookingDialog = new BookingDialog(userService, carService, orderService, userRepository, workerService, commentService);
 
             Car car = null;
             while (choice == 1 || choice == 2 || choice == 3 || choice == 4) {

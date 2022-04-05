@@ -1,15 +1,13 @@
 package view;
 
+import Controller.CommentController;
 import dao.UserRepository;
 import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Order;
 import model.user.User;
-import service.CarService;
-import service.OrderService;
-import service.UserService;
-import service.WorkerService;
+import service.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,18 +23,21 @@ public class DeleteOrderDialog {
     private final OrderService orderService;
     private final UserRepository userRepository;
     private final WorkerService workerService;
+    private final CommentService commentService;
 
-    public DeleteOrderDialog(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService) {
+    public DeleteOrderDialog(UserService userService, CarService carService, OrderService orderService,
+                             UserRepository userRepository, WorkerService workerService, CommentService commentService) {
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
         this.userRepository = userRepository;
         this.workerService = workerService;
+        this.commentService = commentService;
     }
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
         orderService.loadData();
-        EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository, workerService);
+        EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository, workerService, commentService);
         Collection<Order> userOrders = LOGGED_IN_USER.getOrders();
         List<Order> orders = new ArrayList<>();
         for (Order order : userOrders) {

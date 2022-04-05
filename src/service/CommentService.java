@@ -9,7 +9,7 @@ import java.util.Collection;
 
 public interface CommentService {
 
-    void addCarComment(Comment comment) throws InvalidEntityDataException;
+    void addCarComment(Comment comment) throws InvalidEntityDataException, NoneExistingEntityException;
 
     Collection<Comment> getAllComments();
 
@@ -18,4 +18,6 @@ public interface CommentService {
     void deleteComment(Long id) throws NoneExistingEntityException;
 
     Comment getCommentById(Long id) throws NoneExistingEntityException;
+
+    void loadData();
 }

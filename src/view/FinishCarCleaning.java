@@ -20,7 +20,7 @@ public class FinishCarCleaning {
         this.workerService = workerService;
     }
 
-    public void init(User LOGGED_IN_USER) throws NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         carService.loadData();
         workerService.loadData();
 

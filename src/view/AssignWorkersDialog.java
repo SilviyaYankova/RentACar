@@ -28,7 +28,7 @@ public class AssignWorkersDialog {
         this.userService = userService;
     }
 
-    public void init(User LOGGED_IN_USER) throws NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         carService.loadData();
         workerService.loadData();
         List<Car> carsForCleaning = carService.getAllCarsWithStatus(CarStatus.WAITING_FOR_CLEANING);

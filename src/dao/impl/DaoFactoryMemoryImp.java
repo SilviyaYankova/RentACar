@@ -2,10 +2,7 @@ package dao.impl;
 
 
 import dao.*;
-import dao.file.CarsRepositoryFileImpl;
-import dao.file.OrderRepositoryFileImpl;
-import dao.file.UserRepositoryFileImpl;
-import dao.file.WorkerRepositoryFileImpl;
+import dao.file.*;
 
 public class DaoFactoryMemoryImp implements DaoFactory {
 
@@ -57,5 +54,10 @@ public class DaoFactoryMemoryImp implements DaoFactory {
     @Override
     public CommentRepository createCommentRepository() {
         return new CommentRepositoryMemoryImpl(new LongIdGenerator());
+    }
+
+    @Override
+    public CommentRepository createCommentRepository(String dbFileName) {
+        return new CommentRepositoryFileImpl(new LongIdGenerator(), dbFileName);
     }
 }

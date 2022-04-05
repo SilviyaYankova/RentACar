@@ -83,8 +83,12 @@ public class Comment extends BaseEntity {
                 .append(String.format("\t\t rating = '%.2f ", rating))
                 .append("userId = '" + user.getId() + "' ")
                 .append(String.format("brand = %s, model = %s", car.getBrand(), car.getModel()) + "' \n")
-                .append("\t\t postedOn = '" + postedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ")
-                .append("editedOn = " + editedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ");
+                .append("\t\t postedOn = '" + postedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ");
+
+        if (editedOn != null) {
+            sb.append("editedOn = " + editedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ");
+
+        }
 
         return sb.toString();
     }

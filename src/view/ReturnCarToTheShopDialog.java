@@ -17,7 +17,7 @@ public class ReturnCarToTheShopDialog {
         this.carService = carService;
     }
 
-    public void init(User LOGGED_IN_USER) throws NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         List<Car> carsForReturningToTheShop = carService.getAllCarsWithStatus(CarStatus.FINISH_CLEANING);
         System.out.println("Cars waiting to be return to the shop:");
 

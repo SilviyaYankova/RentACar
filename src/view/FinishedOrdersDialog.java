@@ -29,7 +29,7 @@ public class FinishedOrdersDialog {
         this.userService = userService;
     }
 
-    public void init(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
         orderService.loadData();
         carService.loadData();
         userService.loadData();

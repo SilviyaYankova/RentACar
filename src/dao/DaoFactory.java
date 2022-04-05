@@ -17,10 +17,11 @@ public interface DaoFactory {
     OrderRepository createOrderRepositoryFile(String dbFileName);
 
 
-
     WorkerRepository createWorkerRepository();
 
     WorkerRepository createWorkerRepository(String dbFileName);
 
+
     CommentRepository createCommentRepository();
+    CommentRepository createCommentRepository(String dbFileName);
 }

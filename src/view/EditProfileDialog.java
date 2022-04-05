@@ -17,7 +17,7 @@ public class EditProfileDialog {
     }
 
 
-    public void init(User LOGGED_IN_USER) throws NoPermissionException, NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER) throws NoPermissionException, NoneExistingEntityException {
         userService.loadData();
         System.out.println("Your profile:");
         System.out.println(LOGGED_IN_USER);

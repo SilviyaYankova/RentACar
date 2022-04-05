@@ -10,10 +10,7 @@ import model.Worker;
 import model.enums.CarStatus;
 import model.enums.Role;
 import model.user.User;
-import service.CarService;
-import service.OrderService;
-import service.UserService;
-import service.WorkerService;
+import service.*;
 import view.*;
 
 import java.util.Collection;
@@ -25,13 +22,15 @@ public class UserController {
     private final OrderService orderService;
     private final UserRepository userRepository;
     private final WorkerService workerService;
+    private final CommentService commentService;
 
-    public UserController(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService) {
+    public UserController(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService, CommentService commentService) {
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
         this.userRepository = userRepository;
         this.workerService = workerService;
+        this.commentService = commentService;
     }
 
 
@@ -40,6 +39,7 @@ public class UserController {
         carService.loadData();
         orderService.loadData();
         workerService.loadData();
+//        commentService.loadData();
 
         Menu menu = new Menu();
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
@@ -63,7 +63,7 @@ public class UserController {
                     new Option("Book Car", () -> {
                         Collection<Car> allCars = carService.getAllCarsWithStatus(CarStatus.AVAILABLE);
                         if (allCars.size() > 0) {
-                            BookingDialog BookingDialog = new BookingDialog(userService, carService, orderService, userRepository, workerService);
+                            BookingDialog BookingDialog = new BookingDialog(userService, carService, orderService, userRepository, workerService, commentService);
                             BookingDialog.input(LOGGED_IN_USER);
                         } else {
                             System.out.println("Sorry there is no available cars for booking.");
@@ -74,15 +74,13 @@ public class UserController {
                         return "";
                     }),
                     new Option("Orders", () -> {
-                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService);
+                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "orders\n";
                     }),
                     new Option("Comments", () -> {
-                        // todo see all comments
-                        // todo edit comments
-                        // todo delete comments
-
+                        CommentController commentController = new CommentController(commentService, userService, carService);
+                        commentController.init(LOGGED_IN_USER);
                         return "Comments\n";
                     }),
                     new Option("See profile", () -> {
@@ -92,7 +90,7 @@ public class UserController {
                     }),
                     new Option("Edit profile", () -> {
                         EditProfileDialog editProfileDialog = new EditProfileDialog(userService);
-                        editProfileDialog.init(LOGGED_IN_USER);
+                        editProfileDialog.input(LOGGED_IN_USER);
                         return "";
                     })
             ));
@@ -106,7 +104,7 @@ public class UserController {
                         return "";
                     }),
                     new Option("Orders", () -> {
-                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService);
+                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "";
                     }),
@@ -131,7 +129,7 @@ public class UserController {
                     }),
                     new Option("Edit profile", () -> {
                         EditProfileDialog editProfileDialog = new EditProfileDialog(userService);
-                        editProfileDialog.init(LOGGED_IN_USER);
+                        editProfileDialog.input(LOGGED_IN_USER);
                         return "";
                     })
             ));
@@ -140,7 +138,7 @@ public class UserController {
 
             menu = new Menu("Seller Menu", List.of(
                     new Option("Orders", () -> {
-                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService);
+                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "";
                     }),
@@ -168,7 +166,7 @@ public class UserController {
                     }),
                     new Option("Edit profile", () -> {
                         EditProfileDialog editProfileDialog = new EditProfileDialog(userService);
-                        editProfileDialog.init(LOGGED_IN_USER);
+                        editProfileDialog.input(LOGGED_IN_USER);
                         return "";
                     })
             ));
@@ -176,7 +174,7 @@ public class UserController {
         if (LOGGED_IN_USER.getRole().equals(Role.DRIVER)) {
             menu = new Menu("Driver Menu", List.of(
                     new Option("Orders", () -> {
-                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService);
+                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "";
                     }),
@@ -204,7 +202,7 @@ public class UserController {
                     }),
                     new Option("Edit profile", () -> {
                         EditProfileDialog editProfileDialog = new EditProfileDialog(userService);
-                        editProfileDialog.init(LOGGED_IN_USER);
+                        editProfileDialog.input(LOGGED_IN_USER);
                         return "";
                     })
             ));
@@ -237,7 +235,7 @@ public class UserController {
 
                         if (allCarsWithStatus.size() > 0) {
                             AssignWorkersDialog cleaningDialog = new AssignWorkersDialog(carService, workerService, userService);
-                            cleaningDialog.init(LOGGED_IN_USER);
+                            cleaningDialog.input(LOGGED_IN_USER);
                         } else {
                             System.out.println("There is no cars waiting for cleaning.");
                             System.out.println();
@@ -265,7 +263,7 @@ public class UserController {
 
                         if (allCarsWithStatus.size() > 0) {
                             FinishCarCleaning finishCarCleaning = new FinishCarCleaning(carService, workerService);
-                            finishCarCleaning.init(LOGGED_IN_USER);
+                            finishCarCleaning.input(LOGGED_IN_USER);
                         } else {
                             System.out.println("There is no cars being cleaned at the moment.");
                         }
@@ -276,7 +274,7 @@ public class UserController {
                         List<Car> allCarsWithStatus = carService.getAllCarsWithStatus(CarStatus.FINISH_CLEANING);
                         if (allCarsWithStatus.size() > 0) {
                             ReturnCarToTheShopDialog returnCarToTheShopDialog = new ReturnCarToTheShopDialog(carService);
-                            returnCarToTheShopDialog.init(LOGGED_IN_USER);
+                            returnCarToTheShopDialog.input(LOGGED_IN_USER);
                         } else {
                             System.out.println("There is no cars to return to the shop.");
                         }
@@ -289,7 +287,7 @@ public class UserController {
                     }),
                     new Option("Edit profile", () -> {
                         EditProfileDialog editProfileDialog = new EditProfileDialog(userService);
-                        editProfileDialog.init(LOGGED_IN_USER);
+                        editProfileDialog.input(LOGGED_IN_USER);
                         return "";
                     })
             ));

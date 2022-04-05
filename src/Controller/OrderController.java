@@ -9,10 +9,7 @@ import model.Order;
 import model.enums.OrderStatus;
 import model.enums.Role;
 import model.user.User;
-import service.CarService;
-import service.OrderService;
-import service.UserService;
-import service.WorkerService;
+import service.*;
 import view.*;
 
 import java.util.Collection;
@@ -24,13 +21,15 @@ public class OrderController {
     private final OrderService orderService;
     private final UserRepository userRepository;
     private final WorkerService workerService;
+    private final CommentService commentService;
 
-    public OrderController(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService) {
+    public OrderController(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService, CommentService commentService) {
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
         this.userRepository = userRepository;
         this.workerService = workerService;
+        this.commentService = commentService;
     }
 
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
@@ -41,7 +40,7 @@ public class OrderController {
         Menu menu = new Menu();
 
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
-            menu = new Menu("Orders", List.of(
+            menu = new Menu("Orders Menu", List.of(
                     new Option("Order History", () -> {
                         List<Order> orders = LOGGED_IN_USER.getOrders();
                         if (orders.size() == 0) {
@@ -53,7 +52,7 @@ public class OrderController {
                         return "";
                     }),
                     new Option("Edit order", () -> {
-                        EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository, workerService);
+                        EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository, workerService, commentService);
                         editOrderDialog.input(LOGGED_IN_USER);
 
                         System.out.println();
@@ -61,7 +60,7 @@ public class OrderController {
                     }),
                     new Option("Delete order", () -> {
 
-                        DeleteOrderDialog deleteOrderDialog = new DeleteOrderDialog(userService, carService, orderService, userRepository, workerService);
+                        DeleteOrderDialog deleteOrderDialog = new DeleteOrderDialog(userService, carService, orderService, userRepository, workerService, commentService);
                         deleteOrderDialog.input(LOGGED_IN_USER);
 
                         System.out.println();
@@ -87,7 +86,7 @@ public class OrderController {
                         Collection<Order> orders = orderService.getAllOrdersWithStatus(OrderStatus.PENDING);
                         if (orders.size() > 0) {
                             ApproveOrdersDialog approveOrdersDialog = new ApproveOrdersDialog(orderService, userService);
-                            approveOrdersDialog.init(LOGGED_IN_USER);
+                            approveOrdersDialog.input(LOGGED_IN_USER);
                         } else {
                             System.out.println("Sorry there is no pending orders.");
                         }
@@ -98,7 +97,7 @@ public class OrderController {
                         Collection<Order> orders = orderService.getAllOrdersWithStatus(OrderStatus.FINISH);
                         if (orders.size() > 0) {
                             FinishedOrdersDialog finishedOrdersDialog = new FinishedOrdersDialog(orderService, carService, userService);
-                            finishedOrdersDialog.init(LOGGED_IN_USER);
+                            finishedOrdersDialog.input(LOGGED_IN_USER);
                         } else {
                             System.out.println("Sorry there is no finished orders.");
                         }
@@ -106,7 +105,7 @@ public class OrderController {
                         return "";
                     }),
                     new Option("Edit order", () -> {
-                        EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository, workerService);
+                        EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository, workerService, commentService);
                         editOrderDialog.input(LOGGED_IN_USER);
 
                         System.out.println();
@@ -114,7 +113,7 @@ public class OrderController {
                     }),
                     new Option("Delete order", () -> {
 
-                        DeleteOrderDialog deleteOrderDialog = new DeleteOrderDialog(userService, carService, orderService, userRepository, workerService);
+                        DeleteOrderDialog deleteOrderDialog = new DeleteOrderDialog(userService, carService, orderService, userRepository, workerService, commentService);
                         deleteOrderDialog.input(LOGGED_IN_USER);
 
                         System.out.println();

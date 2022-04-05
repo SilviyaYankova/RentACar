@@ -21,6 +21,7 @@ public class Main {
     public static final String CARS_DB_FILENAME = "cars.db";
     public static final String ORDERS_DB_FILENAME = "orders.db";
     public static final String WORKERS_DB_FILENAME = "workers.db";
+    public static final String COMMENTS_DB_FILENAME = "comments.db";
 
     public static void main(String[] args) throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException, NoPermissionException {
         DaoFactory daoFactory = new DaoFactoryMemoryImp();
@@ -29,9 +30,7 @@ public class Main {
         UserRepository userRepository = daoFactory.createUserRepositoryFile(USERS_DB_FILENAME);
         OrderRepository orderRepository = daoFactory.createOrderRepositoryFile(ORDERS_DB_FILENAME);
         WorkerRepository workerRepository = daoFactory.createWorkerRepository(WORKERS_DB_FILENAME);
-
-
-        CommentRepository commentRepository = daoFactory.createCommentRepository();
+        CommentRepository commentRepository = daoFactory.createCommentRepository(COMMENTS_DB_FILENAME);
 
         WorkerService workerService = new WorkerServiceImpl(workerRepository, carRepository);
         CarService carService = new CarServiceImpl(carRepository, workerService, userRepository, orderRepository);
@@ -46,7 +45,7 @@ public class Main {
 //        createInitialOrders(orderService);
 //        createInitialWorkers(workerService);
 
-        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService);
+        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
         homeController.init();
 
 

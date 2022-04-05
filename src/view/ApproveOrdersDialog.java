@@ -21,7 +21,7 @@ public class ApproveOrdersDialog {
         this.userService = userService;
     }
 
-    public void init(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
         orderService.loadData();
 
         List<Order> pendingOrders = orderService.getAllOrdersWithStatus(OrderStatus.PENDING);
