@@ -2,7 +2,6 @@ package view;
 
 import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
-import model.Car;
 import model.Comment;
 import model.user.User;
 import service.CarService;
@@ -10,7 +9,6 @@ import service.CommentService;
 import service.UserService;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,7 +35,7 @@ public class EditCommentDialog {
                 int count = 0;
                 for (Comment comment : allComments) {
                     count++;
-                    System.out.println(count + " \t" + comment);
+                    System.out.println(count + ". \t" + comment);
                 }
 
                 System.out.println("Choose a comment to edit from the list above .");
@@ -46,7 +44,7 @@ public class EditCommentDialog {
                 choice = checkValidInput(allComments, choice, input);
 
                 Comment comment = allComments.get(choice - 1);
-
+                LOGGED_IN_USER.getComments().remove(comment);
                 comment.setContent(null);
                 while (comment.getContent() == null) {
                     System.out.println("Add new content:");
@@ -64,7 +62,7 @@ public class EditCommentDialog {
                 while (comment.getRating() == 0) {
                     System.out.println("Add new rating from 1 to 5:");
                     String rating = scanner.nextLine();
-
+                    choice = 0;
                     choice = checkValidInput(choice, rating);
 
                     comment.setRating(choice);
@@ -78,6 +76,7 @@ public class EditCommentDialog {
                 continueCommenting = confirmContinue(true, allComments);
             } else {
                 System.out.println("You have no comments.");
+                break;
             }
         }
 

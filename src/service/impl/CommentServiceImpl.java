@@ -11,6 +11,7 @@ import model.user.User;
 import service.CarService;
 import util.CommentValidator;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -32,8 +33,6 @@ public class CommentServiceImpl implements service.CommentService {
     @Override
     public void addCarComment(Comment comment) throws InvalidEntityDataException, NoneExistingEntityException {
         User user = comment.getUser();
-        user.getComments().add(comment);
-
         Car car = comment.getCar();
         car.getComments().add(comment);
 
@@ -48,16 +47,17 @@ public class CommentServiceImpl implements service.CommentService {
             throw new InvalidEntityDataException("Error creating comment", ex);
         }
 
+        commentRepository.create(comment);
+        commentRepository.save();
+
+        carService.editCar(car);
+        user.getComments().add(comment);
         try {
             userRepository.update(user);
             userRepository.save();
         } catch (NoneExistingEntityException e) {
             e.printStackTrace();
         }
-        carService.editCar(car);
-        commentRepository.create(comment);
-        commentRepository.save();
-
     }
 
     @Override
@@ -72,6 +72,12 @@ public class CommentServiceImpl implements service.CommentService {
         carService.editCar(comment.getCar());
         comment.setEditedOn(LocalDateTime.now());
         commentRepository.update(comment);
+        commentRepository.save();
+
+        User user = comment.getUser();
+        user.getComments().add(comment);
+        userRepository.update(user);
+        userRepository.save();
     }
 
 
@@ -81,6 +87,7 @@ public class CommentServiceImpl implements service.CommentService {
         User user = comment.getUser();
         user.getComments().remove(comment);
         userRepository.update(user);
+        userRepository.save();
         System.out.println();
 
         Car car = comment.getCar();
@@ -89,6 +96,7 @@ public class CommentServiceImpl implements service.CommentService {
         carService.editCar(car);
 
         commentRepository.deleteById(id);
+        commentRepository.save();
     }
 
     @Override

@@ -5,6 +5,7 @@ import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Comment;
 
+import java.io.FileNotFoundException;
 import java.util.Collection;
 
 public interface CommentService {

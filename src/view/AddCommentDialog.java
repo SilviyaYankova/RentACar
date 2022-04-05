@@ -67,7 +67,7 @@ public class AddCommentDialog {
                 while (comment.getRating() == 0) {
                     System.out.println("Add rating from 1 to 5:");
                     String rating = scanner.nextLine();
-
+                    choice = 0;
                     choice = checkValidInput(choice, rating);
 
                     comment.setRating(choice);
@@ -137,6 +137,7 @@ public class AddCommentDialog {
     }
 
     public int checkValidInput(int choice, String input) {
+
         while (choice == 0) {
             try {
                 choice = Integer.parseInt(input);

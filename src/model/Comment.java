@@ -79,14 +79,16 @@ public class Comment extends BaseEntity {
         StringBuilder sb = new StringBuilder()
                 .append(Comment.class.getSimpleName() + ": ")
                 .append("id = '" + super.getId() + "' ")
-                .append("content = '" + content + "' \n")
-                .append(String.format("\t\t rating = '%.2f ", rating))
+                .append("content = '" + content + "'")
+                .append(System.lineSeparator())
+                .append(String.format("\t\t rating = '%.2f' ", rating))
                 .append("userId = '" + user.getId() + "' ")
-                .append(String.format("brand = %s, model = %s", car.getBrand(), car.getModel()) + "' \n")
+                .append(String.format("brand = '%s', model = '%s'", car.getBrand(), car.getModel()))
+                .append(System.lineSeparator())
                 .append("\t\t postedOn = '" + postedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ");
 
         if (editedOn != null) {
-            sb.append("editedOn = " + editedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ");
+            sb.append("editedOn = '" + editedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ");
 
         }
 

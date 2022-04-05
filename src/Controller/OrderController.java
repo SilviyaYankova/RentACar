@@ -94,6 +94,7 @@ public class OrderController {
                         return "";
                     }),
                     new Option("Finished orders", () -> {
+                        orderService.finishOrders();
                         Collection<Order> orders = orderService.getAllOrdersWithStatus(OrderStatus.FINISH);
                         if (orders.size() > 0) {
                             FinishedOrdersDialog finishedOrdersDialog = new FinishedOrdersDialog(orderService, carService, userService);
