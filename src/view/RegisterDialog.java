@@ -1,5 +1,6 @@
 package view;
 
+import exeption.InvalidEntityDataException;
 import model.user.User;
 import service.UserService;
 
@@ -18,7 +19,7 @@ public class RegisterDialog implements EntityDialog<User> {
     }
 
     @Override
-    public User input() {
+    public User input() throws InvalidEntityDataException {
         User user = new User();
 
         while (user.getFirstName() == null) {

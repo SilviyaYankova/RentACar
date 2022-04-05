@@ -91,18 +91,17 @@ public class UserController {
                         return "";
                     }),
                     new Option("Edit profile", () -> {
-                        EditProfileDialog editProfileDialog = new EditProfileDialog(userService);
-                        editProfileDialog.input(LOGGED_IN_USER);
+                        EditUserDialog editUserDialog = new EditUserDialog(userService);
+                        editUserDialog.input(LOGGED_IN_USER);
                         return "";
                     })
             ));
         }
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
             menu = new Menu("Admin Menu", List.of(
-                    new Option("Users", () -> {
-                        userService.loadData();
-                        userService.getAllUsers().forEach(System.out::println);
-                        System.out.println();
+                    new Option("Manage users", () -> {
+                        ManageUsersController manageUsersController = new ManageUsersController(userService);
+                        manageUsersController.init(LOGGED_IN_USER);
                         return "";
                     }),
                     new Option("Orders", () -> {
@@ -132,8 +131,8 @@ public class UserController {
                         return "";
                     }),
                     new Option("Edit profile", () -> {
-                        EditProfileDialog editProfileDialog = new EditProfileDialog(userService);
-                        editProfileDialog.input(LOGGED_IN_USER);
+                        EditUserDialog editUserDialog = new EditUserDialog(userService);
+                        editUserDialog.input(LOGGED_IN_USER);
                         return "";
                     })
             ));
@@ -169,8 +168,8 @@ public class UserController {
                         return "";
                     }),
                     new Option("Edit profile", () -> {
-                        EditProfileDialog editProfileDialog = new EditProfileDialog(userService);
-                        editProfileDialog.input(LOGGED_IN_USER);
+                        EditUserDialog editUserDialog = new EditUserDialog(userService);
+                        editUserDialog.input(LOGGED_IN_USER);
                         return "";
                     })
             ));
@@ -218,8 +217,8 @@ public class UserController {
                         return "";
                     }),
                     new Option("Edit profile", () -> {
-                        EditProfileDialog editProfileDialog = new EditProfileDialog(userService);
-                        editProfileDialog.input(LOGGED_IN_USER);
+                        EditUserDialog editUserDialog = new EditUserDialog(userService);
+                        editUserDialog.input(LOGGED_IN_USER);
                         return "";
                     })
             ));
@@ -303,8 +302,8 @@ public class UserController {
                         return "";
                     }),
                     new Option("Edit profile", () -> {
-                        EditProfileDialog editProfileDialog = new EditProfileDialog(userService);
-                        editProfileDialog.input(LOGGED_IN_USER);
+                        EditUserDialog editUserDialog = new EditUserDialog(userService);
+                        editUserDialog.input(LOGGED_IN_USER);
                         return "";
                     })
             ));

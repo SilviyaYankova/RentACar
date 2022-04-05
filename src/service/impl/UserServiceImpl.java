@@ -89,8 +89,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void editUser(User user) throws NoneExistingEntityException, NoPermissionException {
-        userRepository.update(user);
-        userRepository.save();
+        System.out.println();
+//        userRepository.update(user);
+//        userRepository.save();
     }
 
     @Override

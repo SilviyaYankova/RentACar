@@ -44,6 +44,7 @@ public class EditCommentDialog {
                 choice = checkValidInput(allComments, choice, input);
 
                 Comment comment = allComments.get(choice - 1);
+
                 LOGGED_IN_USER.getComments().remove(comment);
                 comment.setContent(null);
                 while (comment.getContent() == null) {

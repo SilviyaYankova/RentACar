@@ -1,7 +1,8 @@
 package view;
 
+import exeption.InvalidEntityDataException;
 import model.user.User;
 
 public interface EntityDialog<E> {
-    E input();
+    E input() throws InvalidEntityDataException;
 }
