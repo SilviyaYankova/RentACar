@@ -119,7 +119,9 @@ public class EditUserDialog {
                 System.out.println("1. First name");
                 System.out.println("2. Last name");
                 System.out.println("3. Role");
-
+                input = scanner.nextLine();
+                choice = 0;
+                choice = checkValidInput(choice, input);
                 while (choice == 1 || choice == 2 || choice == 3) {
                     if (choice == 1) {
                         userToEdit.setFirstName(null);
@@ -146,13 +148,12 @@ public class EditUserDialog {
                         userToEdit.setRole(null);
                         while (userToEdit.getRole() == null) {
                             Role[] rolesArr = Role.values();
-                            for (Role role : rolesArr) {
+
                                 count = 0;
                                 for (Role r : rolesArr) {
                                     count++;
                                     System.out.println(count + ".\t " + r);
                                 }
-                            }
 
                             System.out.println("Please choose role from the list above.");
                             List<Role> roles = List.of(rolesArr);

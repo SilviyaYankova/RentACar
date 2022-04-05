@@ -6,10 +6,7 @@ import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.user.User;
 import service.UserService;
-import view.EditUserDialog;
-import view.Menu;
-import view.Option;
-import view.RegisterDialog;
+import view.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +21,7 @@ public class ManageUsersController {
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
         userService.loadData();
 
-        Menu menu = new Menu("Admin Menu", List.of(
+        Menu menu = new Menu("Manage users", List.of(
                 new Option("See all users", () -> {
                     userService.loadData();
                     Collection<User> allUsers = userService.getAllUsers();
@@ -53,6 +50,11 @@ public class ManageUsersController {
                 new Option("Edit user", () -> {
                     EditUserDialog editUserDialog = new EditUserDialog(userService);
                     editUserDialog.input(LOGGED_IN_USER);
+                    return "";
+                }),
+                new Option("Delete user", () -> {
+                    DeleteProfileDialog deleteProfileDialog = new DeleteProfileDialog(userService);
+                    deleteProfileDialog.input(LOGGED_IN_USER);
                     return "";
                 })
         ));

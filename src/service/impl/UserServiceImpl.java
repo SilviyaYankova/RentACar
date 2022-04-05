@@ -90,8 +90,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void editUser(User user) throws NoneExistingEntityException, NoPermissionException {
         System.out.println();
-//        userRepository.update(user);
-//        userRepository.save();
+        userRepository.update(user);
+        userRepository.save();
     }
 
     @Override
@@ -99,30 +99,6 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
         userRepository.save();
     }
-
-//    @Override
-//    public void sendCarsForCleaning(User user) {
-//        SiteManager siteManager = (SiteManager) userRepository.findById(3L);
-////        siteManager.getSellersHistory().add(user);
-//        List<Car> allWaitingCarsForCleaning = carService.getAllCarsWithStatus(CarStatus.WAITING_FOR_CLEANING);
-//        if (allWaitingCarsForCleaning.size() > 0) {
-//            allWaitingCarsForCleaning.stream().forEach(c -> {
-//                c.setCarStatus(CarStatus.CLEANING);
-//                siteManager.getCarsHistory().add(c);
-//                try {
-//                    carService.editCar(c);
-//                } catch (NoneExistingEntityException e) {
-//                    e.printStackTrace();
-//                }
-//            });
-//
-//        }
-//    }
-
-//    @Override
-//    public void startCleaning(List<Car> allCarsWaitingForCleaning) throws NoneAvailableEntityException {
-//        workerService.cleanCar(allCarsWaitingForCleaning);
-//    }
 
     @Override
     public Collection<User> getUserByRole(Role role) {

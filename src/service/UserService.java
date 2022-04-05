@@ -30,10 +30,6 @@ public interface UserService {
 
     void deleteUser(Long id) throws NoneExistingEntityException;
 
-//    void sendCarsForCleaning(User admin);
-//
-//    void startCleaning(List<Car> allCarsWaitingForCleaning) throws NoneAvailableEntityException;
-
     Collection<User> getUserByRole(Role role);
 
     String getProfit();
