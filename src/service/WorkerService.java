@@ -26,7 +26,7 @@ public interface WorkerService {
 
     void cleanCar(List<Car> allCarsWaitingForCleaning) throws NoneAvailableEntityException;
 
-    void finishCarCleaning(Worker worker);
+    void finishCarCleaning(Car car) throws NoneExistingEntityException;
 
     void loadData();
 }

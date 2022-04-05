@@ -4,28 +4,31 @@ import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
-import model.Order;
 import model.Worker;
 import model.enums.CarStatus;
 import model.enums.WorkerStatus;
+import model.user.SiteManager;
 import model.user.User;
 import service.CarService;
+import service.UserService;
 import service.WorkerService;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class AssignWorkers {
+public class AssignWorkersDialog {
     Scanner scanner = new Scanner(System.in);
     private final CarService carService;
     private final WorkerService workerService;
+    private final UserService userService;
 
-    public AssignWorkers(CarService carService, WorkerService workerService) {
+    public AssignWorkersDialog(CarService carService, WorkerService workerService, UserService userService) {
         this.carService = carService;
         this.workerService = workerService;
+        this.userService = userService;
     }
 
-    public void init(User logged_in_user) throws NoneExistingEntityException {
+    public void init(User LOGGED_IN_USER) throws NoneExistingEntityException {
         carService.loadData();
         workerService.loadData();
         List<Car> carsForCleaning = carService.getAllCarsWithStatus(CarStatus.WAITING_FOR_CLEANING);
@@ -56,13 +59,22 @@ public class AssignWorkers {
                     workerService.editWorker(worker);
                     carService.editCar(car);
 
+                    SiteManager siteManager = (SiteManager) LOGGED_IN_USER;
+
+                    siteManager.getWorkers().add(worker);
+                    siteManager.getCarsHistory().add(car);
+                    LOGGED_IN_USER = siteManager;
+                    userService.editUser(LOGGED_IN_USER);
+
                     carsForCleaning.remove(car);
 
                     System.out.println("Worker '" + worker.getCode() + "' is assigned to clean car with ID= " + car.getId());
 
                     continueCleaning = confirmEditing(true, carsForCleaning);
-                } catch (NoneAvailableEntityException e) {
+                } catch (NoneAvailableEntityException | NoPermissionException e) {
                     System.out.println("Sorry there is no available worker.");
+                    System.out.println();
+                    break;
                 }
             } else {
                 System.out.println("All cars are appointed to workers to be cleaned.");

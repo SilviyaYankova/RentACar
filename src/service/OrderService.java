@@ -33,5 +33,5 @@ public interface OrderService {
 
     void loadData();
 
-    void checkFinishedOrders() throws NoneExistingEntityException;
+    void finishOrders() throws NoneExistingEntityException;
 }

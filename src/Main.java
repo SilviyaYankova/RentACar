@@ -42,7 +42,7 @@ public class Main {
 
 // create initial users
 //        createInitialUsers(userService);
-//        createInitialCars(carService);
+//        createInitialCars(carService, orderService);
 //        createInitialOrders(orderService);
 //        createInitialWorkers(workerService);
 
@@ -65,7 +65,7 @@ public class Main {
         }
     }
 
-    private static void createInitialCars(CarService carService) {
+    private static void createInitialCars(CarService carService, OrderService orderService) {
         for (Car MOCK_CAR : MOCK_CARS) {
             try {
                 carService.addCar(MOCK_CAR);

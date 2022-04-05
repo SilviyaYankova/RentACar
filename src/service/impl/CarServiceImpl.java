@@ -11,6 +11,7 @@ import model.Order;
 import model.enums.CarStatus;
 import model.enums.DriverStatus;
 import model.enums.OrderStatus;
+import model.enums.WorkerStatus;
 import model.user.Driver;
 import service.CarService;
 import service.WorkerService;
@@ -114,6 +115,14 @@ public class CarServiceImpl implements CarService {
         car.setOrder(null);
         car.getPickUpDates().remove(pickUpDate);
         car.getDropOffDates().remove(dropOffDate);
+        carRepository.update(car);
+        carRepository.save();
+    }
+
+
+    @Override
+    public void returnCarToShop(Car car) throws NoneExistingEntityException {
+        car.setCarStatus(CarStatus.AVAILABLE);
         carRepository.update(car);
         carRepository.save();
     }

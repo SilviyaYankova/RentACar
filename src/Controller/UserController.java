@@ -6,6 +6,7 @@ import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
+import model.Worker;
 import model.enums.CarStatus;
 import model.enums.Role;
 import model.user.User;
@@ -38,6 +39,7 @@ public class UserController {
         userService.loadData();
         carService.loadData();
         orderService.loadData();
+        workerService.loadData();
 
         Menu menu = new Menu();
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
@@ -212,7 +214,7 @@ public class UserController {
                     new Option("See all cars for cleaning", () -> {
                         List<Car> allCarsWithStatus = carService.getAllCarsWithStatus(CarStatus.WAITING_FOR_CLEANING);
 
-                        if (allCarsWithStatus.size() >0) {
+                        if (allCarsWithStatus.size() > 0) {
                             int count = 0;
                             for (Car car : allCarsWithStatus) {
                                 count++;
@@ -224,9 +226,60 @@ public class UserController {
 
                         return "";
                     }),
+                    new Option("See all workers", () -> {
+                        Collection<Worker> allWorkers = workerService.getAllWorkers();
+                        allWorkers.forEach(System.out::println);
+
+                        return "";
+                    }),
                     new Option("Assign Workers to clean cars", () -> {
-                        AssignWorkers cleaningDialog = new AssignWorkers(carService, workerService);
-                        cleaningDialog.init(LOGGED_IN_USER);
+                        List<Car> allCarsWithStatus = carService.getAllCarsWithStatus(CarStatus.WAITING_FOR_CLEANING);
+
+                        if (allCarsWithStatus.size() > 0) {
+                            AssignWorkersDialog cleaningDialog = new AssignWorkersDialog(carService, workerService, userService);
+                            cleaningDialog.init(LOGGED_IN_USER);
+                        } else {
+                            System.out.println("There is no cars waiting for cleaning.");
+                            System.out.println();
+                        }
+
+                        return "";
+                    }),
+                    new Option("See all cars currently cleaning", () -> {
+                        List<Car> allCarsWithStatus = carService.getAllCarsWithStatus(CarStatus.CLEANING);
+
+                        if (allCarsWithStatus.size() > 0) {
+                            int count = 0;
+                            for (Car car : allCarsWithStatus) {
+                                count++;
+                                System.out.println(count + ". \t" + car);
+                            }
+                        } else {
+                            System.out.println("There is no cars waiting for cleaning.");
+                        }
+
+                        return "";
+                    }),
+                    new Option("Finish car cleaning", () -> {
+                        List<Car> allCarsWithStatus = carService.getAllCarsWithStatus(CarStatus.CLEANING);
+
+                        if (allCarsWithStatus.size() > 0) {
+                            FinishCarCleaning finishCarCleaning = new FinishCarCleaning(carService, workerService);
+                            finishCarCleaning.init(LOGGED_IN_USER);
+                        } else {
+                            System.out.println("There is no cars being cleaned at the moment.");
+                        }
+
+                        return "";
+                    }),
+                    new Option("Return car to shop", () -> {
+                        List<Car> allCarsWithStatus = carService.getAllCarsWithStatus(CarStatus.FINISH_CLEANING);
+                        if (allCarsWithStatus.size() > 0) {
+                            ReturnCarToTheShopDialog returnCarToTheShopDialog = new ReturnCarToTheShopDialog(carService);
+                            returnCarToTheShopDialog.init(LOGGED_IN_USER);
+                        } else {
+                            System.out.println("There is no cars to return to the shop.");
+                        }
                         return "";
                     }),
                     new Option("See profile", () -> {

@@ -28,7 +28,7 @@ public class CarController {
         userService.loadData();
         carService.loadData();
 
-        Menu menu = new Menu("User Menu", List.of(
+        Menu menu = new Menu("Car Menu", List.of(
                 new Option("See all cars", () -> {
                     Collection<Car> allCars = carService.getAllCars();
                     int cont = 0;

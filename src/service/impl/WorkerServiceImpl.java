@@ -116,15 +116,16 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
-    public void finishCarCleaning(Worker worker) {
-        worker.getCurrentCar().setCarStatus(CarStatus.FINISH_CLEANING);
+    public void finishCarCleaning(Car car) throws NoneExistingEntityException {
+        Worker worker = car.getWorker();
         worker.setWorkerStatus(WorkerStatus.AVAILABLE);
-        try {
-            workerRepository.update(worker);
-            workerRepository.save();
-        } catch (NoneExistingEntityException e) {
-            e.printStackTrace();
-        }
+        worker.setCurrentCar(null);
+        car.setCarStatus(CarStatus.FINISH_CLEANING);
+
+        workerRepository.update(worker);
+        workerRepository.save();
+        carRepository.update(car);
+        carRepository.save();
     }
 
     @Override

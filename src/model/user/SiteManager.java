@@ -12,12 +12,10 @@ import java.util.List;
 
 public class SiteManager extends User {
     List<Worker> workers;
-    private List<User> sellersHistory;
     private List<Car> carsHistory;
 
     public SiteManager() {
         this.workers = new ArrayList<>();
-        this.sellersHistory = new ArrayList<>();
         this.carsHistory = new ArrayList<>();
     }
 
@@ -26,7 +24,6 @@ public class SiteManager extends User {
         super(firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
         this.setRole(Role.SITE_MANAGER);
         this.workers = new ArrayList<>();
-        this.sellersHistory = new ArrayList<>();
         this.carsHistory = new ArrayList<>();
     }
 
@@ -36,14 +33,6 @@ public class SiteManager extends User {
 
     public void setWorkers(List<Worker> workers) {
         this.workers = workers;
-    }
-
-    public List<User> getSellersHistory() {
-        return sellersHistory;
-    }
-
-    public void setSellersHistory(List<User> sellersHistory) {
-        this.sellersHistory = sellersHistory;
     }
 
     public List<Car> getCarsHistory() {
@@ -68,7 +57,6 @@ public class SiteManager extends User {
                 .append("\t\t" + "registeredOn = '" + super.getRegisteredOn().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ")
                 .append("role = '" + super.getRole() + "' ")
                 .append("workers = '" + workers.size() + "' ")
-                .append("sellersHistory = '" + sellersHistory.size() + "' ")
                 .append("carsHistory = '" + carsHistory.size() + "' ")
                 .toString();
     }

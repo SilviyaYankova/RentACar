@@ -34,8 +34,6 @@ public interface UserService {
 
     void startCleaning(List<Car> allCarsWaitingForCleaning) throws NoneAvailableEntityException;
 
-    void returnCarToShop();
-
     Collection<User> getUserByRole(Role role);
 
     String getProfit();

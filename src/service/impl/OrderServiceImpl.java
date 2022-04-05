@@ -143,13 +143,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void checkFinishedOrders() throws NoneExistingEntityException {
+    public void finishOrders() throws NoneExistingEntityException {
         Collection<Order> allOrders = orderRepository.findAll();
         for (Order order : allOrders) {
             if (order.getOrderStatus().equals(OrderStatus.START) && order.getDropOffDate().isBefore(LocalDateTime.now())) {
-                    order.setOrderStatus(OrderStatus.FINISH);
-                    orderRepository.update(order);
-                    orderRepository.save();
+                Car car = order.getCar();
+                car.setCarStatus(CarStatus.WAITING);
+                order.setOrderStatus(OrderStatus.FINISH);
+                orderRepository.update(order);
+                orderRepository.save();
+                carService.editCar(car);
 
             }
         }

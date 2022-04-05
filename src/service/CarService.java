@@ -27,6 +27,8 @@ public interface CarService {
 
     void returnCar(Order order) throws NoneExistingEntityException;
 
+    void returnCarToShop(Car car) throws NoneExistingEntityException;
+
     void loadData();
 
 }

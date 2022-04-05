@@ -4,7 +4,7 @@ import model.Car;
 import model.Comment;
 import model.Order;
 import model.enums.*;
-import model.user.User;
+import model.user.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,8 +14,7 @@ public class MockCar {
     public static final Car[] MOCK_CARS;
 
     static {
-
-        MOCK_CARS = new Car[]{
+           MOCK_CARS = new Car[]{
                 new Car("BMW", "330 i", "2021",
                         "https://cdn.bmwblog.com/wp-content/uploads/2021/02/The-New-BMW-330i-Iconic-Edition-in-Mineral-White-metallic-1.jpg",
                         "Mineral White Metallic", CarType.HATCHBACK, 4, 4,

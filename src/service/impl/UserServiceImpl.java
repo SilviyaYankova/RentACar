@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void sendCarsForCleaning(User user) {
         SiteManager siteManager = (SiteManager) userRepository.findById(3L);
-        siteManager.getSellersHistory().add(user);
+//        siteManager.getSellersHistory().add(user);
         List<Car> allWaitingCarsForCleaning = carService.getAllCarsWithStatus(CarStatus.WAITING_FOR_CLEANING);
         if (allWaitingCarsForCleaning.size() > 0) {
             allWaitingCarsForCleaning.stream().forEach(c -> {
@@ -121,30 +121,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void startCleaning(List<Car> allCarsWaitingForCleaning) throws NoneAvailableEntityException {
         workerService.cleanCar(allCarsWaitingForCleaning);
-    }
-
-    @Override
-    public void returnCarToShop() {
-        List<Car> allCarsWithStatus = carService.getAllCarsWithStatus(FINISH_CLEANING);
-        for (Car car : allCarsWithStatus) {
-            if (car.getCarStatus().equals(FINISH_CLEANING)) {
-                car.setCarStatus(CarStatus.AVAILABLE);
-                try {
-                    carService.editCar(car);
-                } catch (NoneExistingEntityException e) {
-                    e.printStackTrace();
-                }
-                Worker worker = car.getWorker();
-                worker.setWorkerStatus(WorkerStatus.AVAILABLE);
-                worker.setCurrentCar(null);
-                try {
-                    workerService.editWorker(worker);
-                } catch (NoneExistingEntityException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
     }
 
     @Override

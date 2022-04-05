@@ -298,14 +298,7 @@ public class Car extends BaseEntity {
                 .append(System.lineSeparator())
                 .append(String.format("\t rating = '%.2f' ", rating))
                 .append("comments = '" + comments.size() + "' ")
-                .append(System.lineSeparator())
-                .append("\t CarStatus = '" + carStatus + "' ")
                 .append(System.lineSeparator());
-
-        if (carStatus.equals(CarStatus.CLEANING) && worker != null) {
-            sb.append("worker = '" + worker.getCode() + "' ");
-        }
-
         sb.append("\t deposit = '" + deposit + "' ");
         sb.append(String.format("price per day = '%.2f' ", pricePerDay))
                 .append(System.lineSeparator());
@@ -320,7 +313,13 @@ public class Car extends BaseEntity {
         }
 
         if (pickUpDate.size() != 0) {
-            sb.append("dropOffDate = '" + dropOffDate.size() + "' ");
+            sb.append("dropOffDate = '" + dropOffDate.size() + "' ")
+                    .append(System.lineSeparator());
+        }
+        sb.append("\t CarStatus = '" + carStatus + "' ")
+                .append(System.lineSeparator());
+        if (carStatus.equals(CarStatus.CLEANING) && worker != null) {
+            sb.append("\t worker = '" + worker.getCode() + "' ");
         }
         return sb.toString();
     }

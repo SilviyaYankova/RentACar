@@ -4,8 +4,10 @@ import dao.CarRepository;
 import dao.IdGenerator;
 import model.Car;
 import model.Order;
+import model.enums.CarStatus;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CarRepositoryMemoryImpl extends AbstractPersistableRepository<Long, Car> implements CarRepository {
 

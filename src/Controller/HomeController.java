@@ -38,7 +38,7 @@ public class HomeController {
         userService.loadData();
         carService.loadData();
         orderService.loadData();
-        orderService.checkFinishedOrders();
+        orderService.finishOrders();
 
         Menu menu = new Menu("Home Menu", List.of(
                 new Option("See all cars", () -> {
@@ -62,7 +62,7 @@ public class HomeController {
 //                        user = new LoginDialog(userService).input();
 //                    }
 //                    LOGGED_IN_USER = user;
-                    User userById = userService.getUserById(1L);
+                    User userById = userService.getUserById(3L);
 
                     LOGGED_IN_USER = userById;
                     System.out.println(LOGGED_IN_USER.getUsername() + " logged in successfully.");
