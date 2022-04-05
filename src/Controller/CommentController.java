@@ -11,7 +11,6 @@ import service.CommentService;
 import service.UserService;
 import view.*;
 
-import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,6 +27,7 @@ public class CommentController {
 
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
         commentService.loadData();
+
         Menu menu = new Menu("Comment Menu", List.of(
                 new Option("Add comment", () -> {
                     AddCommentDialog addCommentDialog = new AddCommentDialog(userService, carService, commentService);
@@ -37,23 +37,18 @@ public class CommentController {
                 new Option("Edit comment", () -> {
                     commentService.loadData();
                     EditCommentDialog editCommentDialog = new EditCommentDialog(userService, carService, commentService);
-                    editCommentDialog.init(LOGGED_IN_USER);
+                    editCommentDialog.input(LOGGED_IN_USER);
                     return "";
                 }),
                 new Option("Delete comment", () -> {
                     commentService.loadData();
+                    DeleteCommentDialog deleteCommentDialog = new DeleteCommentDialog(userService, carService, commentService);
+                    deleteCommentDialog.input(LOGGED_IN_USER);
                     return "";
                 }),
 
                 new Option("All comments", () -> {
-                        commentService.loadData();
-
-
-//                    LOGGED_IN_USER.getComments().clear();
-//                    userService.editUser(LOGGED_IN_USER);
-//                    commentService.deleteComment(6L);
-//                    carService.getCarById(3L).getComments().clear();
-//                    carService.editCar(carService.getCarById(3L));
+                    commentService.loadData();
                     Collection<Comment> allComments = commentService.getAllComments();
                     if (allComments.size() > 0) {
                         System.out.println("All comments:");
@@ -68,11 +63,7 @@ public class CommentController {
                     return "";
                 }),
                 new Option("Comment history", () -> {
-//                    commentService.loadData();
-
-//                    LOGGED_IN_USER.getComments().clear();
-//                    userService.editUser(LOGGED_IN_USER);
-
+                    commentService.loadData();
                     List<Comment> allComments = LOGGED_IN_USER.getComments();
 
                     if (allComments.size() > 0) {

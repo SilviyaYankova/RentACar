@@ -88,7 +88,6 @@ public class CommentServiceImpl implements service.CommentService {
         user.getComments().remove(comment);
         userRepository.update(user);
         userRepository.save();
-        System.out.println();
 
         Car car = comment.getCar();
         car.getComments().remove(comment);
