@@ -142,7 +142,7 @@ public class User extends BaseEntity {
                 .append("email = '" + email + "' ")
                 .append("phoneNumber = '" + phoneNumber + "' ")
                 .append("username = '" + username + "' ")
-                .append("password = '" + password + String.format("%n"));
+                .append(System.lineSeparator());
         if (registeredOn == null) {
             registeredOn = LocalDateTime.now();
         }

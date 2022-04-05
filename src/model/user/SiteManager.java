@@ -53,7 +53,7 @@ public class SiteManager extends User {
                 .append("email = '" + super.getEmail() + "'")
                 .append("phoneNumber = '" + super.getPhoneNumber() + "' ")
                 .append("username = '" + super.getUsername() + "' ")
-                .append("password = '" + super.getPassword() + String.format(" %n"))
+                .append(System.lineSeparator())
                 .append("\t\t" + "registeredOn = '" + super.getRegisteredOn().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ")
                 .append("role = '" + super.getRole() + "' ")
                 .append("workers = '" + workers.size() + "' ")

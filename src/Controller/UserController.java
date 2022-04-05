@@ -6,6 +6,7 @@ import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
+import model.Order;
 import model.Worker;
 import model.enums.CarStatus;
 import model.enums.Role;
@@ -13,6 +14,7 @@ import model.user.User;
 import service.*;
 import view.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -176,26 +178,39 @@ public class UserController {
         if (LOGGED_IN_USER.getRole().equals(Role.DRIVER)) {
             menu = new Menu("Driver Menu", List.of(
                     new Option("Orders", () -> {
-                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
-                        orderController.init(LOGGED_IN_USER);
+                        List<Order> orders = LOGGED_IN_USER.getOrders();
+                        if (orders.size() > 0) {
+                            System.out.println("Yor orders:");
+                            int count = 0;
+                            for (Order order : orders) {
+                                count++;
+                                System.out.println(count + ".\t" + order);
+                            }
+                        } else {
+                            System.out.println("You have no orders");
+                        }
+
+
                         return "";
                     }),
                     new Option("Cars", () -> {
-                        // todo ask about cars status or do a car dialog
-                        Collection<Car> allCars = carService.getAllCars();
-                        int cont = 0;
-                        for (Car car : allCars) {
-                            cont++;
-                            System.out.println(cont + ". " + car);
-                        }
-                        return "All available car are successfully shown.\n";
-                    }),
-                    new Option("Comments", () -> {
-                        // todo see all comments
-                        // todo edit comments
-                        // todo delete comments
+                        List<Order> orders = LOGGED_IN_USER.getOrders();
+                        if (orders.size() > 0) {
+                            System.out.println("Your cars:");
+                            List<Car> cars = new ArrayList<>();
+                            for (Order order : orders) {
+                                cars.add(order.getCar());
+                            }
 
-                        return "Comments\n";
+                            int count = 0;
+                            for (Car car : cars) {
+                                count++;
+                                System.out.println(count + ".\t" + car);
+                            }
+                        } else {
+                            System.out.println("You have no cars.");
+                        }
+                        return "";
                     }),
                     new Option("See profile", () -> {
                         System.out.println(LOGGED_IN_USER);
