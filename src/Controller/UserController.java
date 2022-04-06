@@ -10,6 +10,7 @@ import model.Order;
 import model.Worker;
 import model.enums.CarStatus;
 import model.enums.Role;
+import model.user.SiteManager;
 import model.user.User;
 import service.*;
 import view.*;
@@ -126,7 +127,7 @@ public class UserController {
                     }),
                     new Option("Sellers", () -> {
                         userService.loadData();
-                        ManageSellersController manageSellersController = new ManageSellersController(userService) ;
+                        ManageSellersController manageSellersController = new ManageSellersController(userService);
                         manageSellersController.init(LOGGED_IN_USER);
                         return "";
                     }),
@@ -138,13 +139,13 @@ public class UserController {
                     }),
                     new Option("Drivers", () -> {
                         userService.loadData();
-                       ManageDriverController manageDriverController = new ManageDriverController(userService);
-                       manageDriverController.init(LOGGED_IN_USER);
+                        ManageDriverController manageDriverController = new ManageDriverController(userService);
+                        manageDriverController.init(LOGGED_IN_USER);
                         return "";
                     }),
 
                     new Option("Statistics", () -> {
-                        StatisticController statisticController = new StatisticController();
+                        StatisticController statisticController = new StatisticController(orderService);
                         statisticController.init(LOGGED_IN_USER);
 
                         return "Comments\n";
@@ -164,12 +165,12 @@ public class UserController {
         if (LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
 
             menu = new Menu("Seller Menu", List.of(
-                    new Option("Orders", () -> {
+                    new Option("All Orders", () -> {
                         OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "";
                     }),
-                    new Option("Cars", () -> {
+                    new Option("All Cars", () -> {
                         // todo ask about cars status or do a car dialog
                         Collection<Car> allCars = carService.getAllCars();
                         int cont = 0;
@@ -179,13 +180,6 @@ public class UserController {
                         }
                         return "All available car are successfully shown.\n";
                     }),
-                    new Option("Comments", () -> {
-                        // todo see all comments
-                        // todo edit comments
-                        // todo delete comments
-
-                        return "Comments\n";
-                    }),
                     new Option("See profile", () -> {
                         System.out.println(LOGGED_IN_USER);
                         System.out.println();
@@ -194,6 +188,17 @@ public class UserController {
                     new Option("Edit profile", () -> {
                         EditUserDialog editUserDialog = new EditUserDialog(userService);
                         editUserDialog.input(LOGGED_IN_USER);
+                        return "";
+                    }),
+                    new Option("Sells Statistic", () -> {
+                        Collection<Order> allOrders = orderService.getAllOrders();
+                        int count = 0;
+                        for (Order order : allOrders) {
+                            if (order.getSeller().equals(LOGGED_IN_USER)) {
+                                System.out.println(count + ".\t" + order);
+                            }
+                        }
+
                         return "";
                     })
             ));
@@ -323,6 +328,16 @@ public class UserController {
                     new Option("Manage Workers", () -> {
                         ManageWorkerController manageWorkerController = new ManageWorkerController(workerService, userService);
                         manageWorkerController.init(LOGGED_IN_USER);
+                        return "";
+                    }),
+                    new Option("Cleaned car statistics", () -> {
+                        SiteManager siteManager = (SiteManager) LOGGED_IN_USER;
+                        int count = 0;
+                        for (Car car : siteManager.getCarsHistory()) {
+                            count++;
+                            System.out.println(count + ".\t" + car);
+                        }
+                        System.out.println();
                         return "";
                     }),
                     new Option("See profile", () -> {
