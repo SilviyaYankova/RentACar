@@ -62,7 +62,7 @@ public class HomeController {
 //                        user = new LoginDialog(userService).input();
 //                    }
 //                    LOGGED_IN_USER = user;
-                    User userById = userService.getUserById(6L);
+                    User userById = userService.getUserById(1L);
 //
                     LOGGED_IN_USER = userById;
 
@@ -75,7 +75,7 @@ public class HomeController {
                     return "";
                 }),
                 new Option("Register", () -> {
-                    User user = new RegisterDialog(userService).input();
+                    User user = new RegisterDialog(userService).input(LOGGED_IN_USER);
                     User created = userService.registerUser(user);
                     if (created == null) {
                         return "Username already exist.";

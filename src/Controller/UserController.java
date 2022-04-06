@@ -101,28 +101,48 @@ public class UserController {
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
             menu = new Menu("Admin Menu", List.of(
                     new Option("Manage users", () -> {
+                        userService.loadData();
                         ManageUsersController manageUsersController = new ManageUsersController(userService);
                         manageUsersController.init(LOGGED_IN_USER);
                         return "";
                     }),
-                    new Option("Orders", () -> {
+                    new Option("Manage orders", () -> {
                         OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "";
                     }),
-                    new Option("Cars", () -> {
+                    new Option("Manage cars", () -> {
                         carService.loadData();
                         CarController carController = new CarController(userService, carService);
                         carController.init(LOGGED_IN_USER);
                         return "";
                     }),
-                    new Option("Comments", () -> {
+                    new Option("Manage comments", () -> {
                         CommentController commentController = new CommentController(commentService, userService, carService);
                         commentController.init(LOGGED_IN_USER);
 
 
                         return "Comments\n";
                     }),
+                    new Option("Sellers", () -> {
+                        userService.loadData();
+                        ManageSellersController manageSellersController = new ManageSellersController(userService) ;
+                        manageSellersController.init(LOGGED_IN_USER);
+                        return "";
+                    }),
+                    new Option("Site Manager", () -> {
+                        userService.loadData();
+                        ManageSiteManagerController manageSiteManagerController = new ManageSiteManagerController(userService);
+                        manageSiteManagerController.init(LOGGED_IN_USER);
+                        return "";
+                    }),
+                    new Option("Drivers", () -> {
+                        userService.loadData();
+                       ManageDriverController manageDriverController = new ManageDriverController(userService);
+                       manageDriverController.init(LOGGED_IN_USER);
+                        return "";
+                    }),
+
                     new Option("Statistics", () -> {
                         StatisticController statisticController = new StatisticController();
                         statisticController.init(LOGGED_IN_USER);

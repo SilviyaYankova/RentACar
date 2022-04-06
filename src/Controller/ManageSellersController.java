@@ -5,32 +5,30 @@ import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.enums.Role;
+import model.user.Driver;
+import model.user.Seller;
+import model.user.SiteManager;
 import model.user.User;
 import service.UserService;
 import view.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ManageUsersController {
+public class ManageSellersController {
     private final UserService userService;
 
-    public ManageUsersController(UserService userService) {
+    public ManageSellersController(UserService userService) {
         this.userService = userService;
     }
 
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
         userService.loadData();
 
-        Menu menu = new Menu("Manage Site Manager", List.of(
-                new Option("See all users", () -> {
+        Menu menu = new Menu("Manage sellers", List.of(
+                new Option("See all sellers", () -> {
                     userService.loadData();
-//                    Collection<User> allUsers = userService.getUserByRole(Role.USER);
-                    Collection<User> all = userService.getAllUsers();
-                    List<User> allUsers = new ArrayList<>(all);
+                    Collection<User> allUsers = userService.getUserByRole(Role.SELLER);
                     if (allUsers.size() > 0) {
                         int count = 0;
                         for (User user : allUsers) {
@@ -38,26 +36,28 @@ public class ManageUsersController {
                             System.out.println(count + ".\t " + user);
                         }
                     } else {
-                        System.out.println("There is no users in the system.");
+                        System.out.println("There is no sellers in the system.");
                     }
                     System.out.println();
                     return "";
                 }),
-                new Option("Add user", () -> {
+                new Option("Add Seller", () -> {
                     User user = new RegisterDialog(userService).input(LOGGED_IN_USER);
                     User created = userService.registerUser(user);
+
                     if (created == null) {
                         return "Username already exist.";
                     }
-                    return "";
+                    return String.format("User ID:%s: '%s' added successfully.%n",
+                            created.getId(), created.getUsername());
 
                 }),
-                new Option("Edit user", () -> {
+                new Option("Edit seller", () -> {
                     EditUserDialog editUserDialog = new EditUserDialog(userService);
                     editUserDialog.input(LOGGED_IN_USER);
                     return "";
                 }),
-                new Option("Delete user", () -> {
+                new Option("Delete seller", () -> {
                     DeleteProfileDialog deleteProfileDialog = new DeleteProfileDialog(userService);
                     deleteProfileDialog.input(LOGGED_IN_USER);
                     return "";

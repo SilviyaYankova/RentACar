@@ -9,16 +9,13 @@ import model.user.User;
 import service.UserService;
 import view.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ManageUsersController {
+public class ManageSiteManagerController {
     private final UserService userService;
 
-    public ManageUsersController(UserService userService) {
+    public ManageSiteManagerController(UserService userService) {
         this.userService = userService;
     }
 
@@ -26,11 +23,9 @@ public class ManageUsersController {
         userService.loadData();
 
         Menu menu = new Menu("Manage Site Manager", List.of(
-                new Option("See all users", () -> {
+                new Option("See Site Manager", () -> {
                     userService.loadData();
-//                    Collection<User> allUsers = userService.getUserByRole(Role.USER);
-                    Collection<User> all = userService.getAllUsers();
-                    List<User> allUsers = new ArrayList<>(all);
+                    Collection<User> allUsers = userService.getUserByRole(Role.SITE_MANAGER);
                     if (allUsers.size() > 0) {
                         int count = 0;
                         for (User user : allUsers) {
@@ -38,26 +33,28 @@ public class ManageUsersController {
                             System.out.println(count + ".\t " + user);
                         }
                     } else {
-                        System.out.println("There is no users in the system.");
+                        System.out.println("There is no site manager in the system.");
                     }
                     System.out.println();
                     return "";
                 }),
-                new Option("Add user", () -> {
+                new Option("Add Site Manager", () -> {
                     User user = new RegisterDialog(userService).input(LOGGED_IN_USER);
                     User created = userService.registerUser(user);
+
                     if (created == null) {
                         return "Username already exist.";
                     }
-                    return "";
+                    return String.format("User ID:%s: '%s' added successfully.%n",
+                            created.getId(), created.getUsername());
 
                 }),
-                new Option("Edit user", () -> {
+                new Option("Edit Site Manager", () -> {
                     EditUserDialog editUserDialog = new EditUserDialog(userService);
                     editUserDialog.input(LOGGED_IN_USER);
                     return "";
                 }),
-                new Option("Delete user", () -> {
+                new Option("Delete Site Manager", () -> {
                     DeleteProfileDialog deleteProfileDialog = new DeleteProfileDialog(userService);
                     deleteProfileDialog.input(LOGGED_IN_USER);
                     return "";

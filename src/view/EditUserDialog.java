@@ -23,7 +23,7 @@ public class EditUserDialog {
     }
 
 
-    public void input(User LOGGED_IN_USER) throws NoPermissionException, NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER ) throws NoPermissionException, NoneExistingEntityException {
         userService.loadData();
 
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {

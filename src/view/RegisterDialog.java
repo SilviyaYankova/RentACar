@@ -1,15 +1,21 @@
 package view;
 
 import exeption.InvalidEntityDataException;
+import model.enums.Role;
+import model.user.Driver;
+import model.user.Seller;
+import model.user.SiteManager;
 import model.user.User;
 import service.UserService;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterDialog implements EntityDialog<User> {
+public class RegisterDialog {
 
     public static Scanner scanner = new Scanner(System.in);
     private final UserService userService;
@@ -18,8 +24,8 @@ public class RegisterDialog implements EntityDialog<User> {
         this.userService = userService;
     }
 
-    @Override
-    public User input() throws InvalidEntityDataException {
+
+    public User input(User LOGGED_IN_USER) throws InvalidEntityDataException {
         User user = new User();
 
         while (user.getFirstName() == null) {
@@ -58,9 +64,6 @@ public class RegisterDialog implements EntityDialog<User> {
             } else {
                 user.setEmail(email);
             }
-
-
-
         }
 
         while (user.getPhoneNumber() == null) {
@@ -116,8 +119,37 @@ public class RegisterDialog implements EntityDialog<User> {
                 user.setRepeatPassword(repeatPassword);
             }
         }
-
         user.setRegisteredOn(LocalDateTime.now());
+
+        if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
+            System.out.println("Role:");
+            List<Role> roles = Arrays.stream(Role.values()).toList();
+            int count = 0;
+            for (Role role : roles) {
+                count++;
+                System.out.println(count + ".\t" + role);
+            }
+            int choice = 0;
+            System.out.println("Assign role from list above.");
+            String str = scanner.nextLine();
+            choice = checkValidInput(choice, str);
+            Role r = roles.get(choice - 1);
+            user.setRole(r);
+        }
         return user;
+    }
+
+    public int checkValidInput(int choice, String input) {
+
+        while (choice == 0) {
+            try {
+                choice = Integer.parseInt(input);
+            } catch (NumberFormatException ex) {
+                System.out.println("Error: Numbers only.");
+                input = scanner.nextLine();
+            }
+
+        }
+        return choice;
     }
 }
