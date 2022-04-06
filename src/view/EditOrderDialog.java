@@ -8,6 +8,7 @@ import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Order;
 import model.enums.Location;
+import model.enums.Role;
 import model.user.User;
 import service.*;
 
@@ -42,13 +43,28 @@ public class EditOrderDialog {
 
     public void input(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
         orderService.loadData();
-        Collection<Order> userOrders = LOGGED_IN_USER.getOrders();
+
+        if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
+            Collection<Order> userOrders = LOGGED_IN_USER.getOrders();
+            editOrder(LOGGED_IN_USER, userOrders);
+        }
+
+        if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR) || LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
+            Collection<Order> allOrders = orderService.getAllOrders();
+            editOrder(LOGGED_IN_USER, allOrders);
+        }
+
+
+    }
+
+    private void editOrder(User LOGGED_IN_USER, Collection<Order> userOrders) throws NoneExistingEntityException, NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException {
+        orderService.loadData();
         List<Order> orders = new ArrayList<>();
         for (Order order : userOrders) {
             int dayOfMonth = order.getPickUpDate().getDayOfMonth() - DAYS_BEFORE_CHANGE_ORDER;
             int now = LocalDateTime.now().getDayOfMonth();
             if (dayOfMonth > now) {
-            orders.add(order);
+                orders.add(order);
             }
         }
 
@@ -107,7 +123,6 @@ public class EditOrderDialog {
                     choice = confirm(order, choice);
                 }
 
-
                 if (choice == 2) {
                     order.setPickUpDate(null);
                     while (order.getPickUpDate() == null) {
@@ -118,9 +133,6 @@ public class EditOrderDialog {
                     while (order.getDropOffDate() == null) {
                         bookingDialog.chooseDropOffDate(order);
                     }
-
-                    // wheter this car is available for this dates
-
                     List<LocalDateTime> pickUpDates = oldCar.getPickUpDates();
                     if (pickUpDates.contains(order.getPickUpDate())) {
                         System.out.println("Sorry your current car is not available for this dates. Change dates or pick another car.");
@@ -134,9 +146,7 @@ public class EditOrderDialog {
                         oldCar.getDropOffDates().add(order.getDropOffDate());
                         choice = confirm(order, choice);
                     }
-
                 }
-
 
                 if (choice == 3) {
                     bookingDialog.chooseToHireADriverOrNot(LOGGED_IN_USER, order, incorrectInput);
@@ -177,7 +187,6 @@ public class EditOrderDialog {
                             System.out.println("Please make a valid choice.");
                             input = scanner.nextLine();
                         }
-
                     }
 
                     count = 0;
@@ -189,7 +198,7 @@ public class EditOrderDialog {
                         }
 
                         System.out.println();
-                        System.out.println("Choose Car number to book from the list above. (from 1 to " + availableCarsForDates.size() + ")");
+                        System.out.println("Choose Car number from the list above. (from 1 to " + availableCarsForDates.size() + ")");
                         input = scanner.nextLine();
                         choice = 0;
                         choice = bookingDialog.validInputNumber(choice, input, availableCarsForDates);
@@ -200,16 +209,12 @@ public class EditOrderDialog {
                         order.setCar(car);
                     }
 
-
                     choice = confirm(order, choice);
                 }
             }
 
-
-            // confirm edited order
             if (!input.equals("E")) {
                 double driverPricePerDays = calculatePrice(order, order.getCar());
-
 
                 if (order.getCar().equals(oldCar)) {
                     carService.editCar(oldCar);
@@ -229,7 +234,6 @@ public class EditOrderDialog {
         } else {
             System.out.println("Sorry there is no orders you can edit.");
         }
-
     }
 
     private int continueOrNot(Order order, int choice) throws NoneExistingEntityException {
@@ -265,7 +269,6 @@ public class EditOrderDialog {
         }
         return choice;
     }
-
 
     private int confirm(Order order, int choice) throws NoneExistingEntityException {
         System.out.println();

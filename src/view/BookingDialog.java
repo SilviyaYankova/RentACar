@@ -274,6 +274,7 @@ public class BookingDialog {
                 }
             } else if (input.equals("NO")) {
                 System.out.println("You choose not to hire a driver.");
+                order.setHireDriver(false);
                 break;
             } else {
                 System.out.println("Error: Please make a choice between 'YES' or 'NO");

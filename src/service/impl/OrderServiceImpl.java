@@ -170,6 +170,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void editOrder(Order order) throws NoneExistingEntityException {
+        orderRepository.load();
         orderRepository.update(order);
         orderRepository.save();
     }

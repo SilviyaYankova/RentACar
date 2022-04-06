@@ -480,7 +480,7 @@ public class EditCarDialog {
                 System.out.println("16. Fuel consumption:");
                 System.out.println("17. Deposit:");
                 System.out.println("18. Price per day:");
-                System.out.println("19. Car status::");
+                System.out.println("19. Car status:");
                 input = scanner.nextLine();
                 choice = 0;
                 choice = checkValidInput(choice, input);
