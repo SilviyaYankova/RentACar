@@ -76,6 +76,7 @@ public class UserController {
                         return "";
                     }),
                     new Option("Orders", () -> {
+                        orderService.loadData();
                         OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "orders\n";

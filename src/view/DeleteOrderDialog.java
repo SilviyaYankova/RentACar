@@ -6,10 +6,13 @@ import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Order;
+import model.enums.OrderStatus;
+import model.enums.Role;
 import model.user.User;
 import service.*;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -37,15 +40,43 @@ public class DeleteOrderDialog {
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
         orderService.loadData();
-        EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository, workerService, commentService);
-        Collection<Order> userOrders = LOGGED_IN_USER.getOrders();
+
+        if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
+            Collection<Order> userOrders = LOGGED_IN_USER.getOrders();
+            deleteOrder(LOGGED_IN_USER, userOrders);
+
+        }
+
+        if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR) || LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
+            Collection<Order> allOrders = orderService.getAllOrders();
+            deleteOrder(LOGGED_IN_USER, allOrders);
+        }
+
+
+    }
+
+    private void deleteOrder(User LOGGED_IN_USER, Collection<Order> userOrders) throws NoneExistingEntityException, NoPermissionException {
         List<Order> orders = new ArrayList<>();
         for (Order order : userOrders) {
-            int dayOfMonth = order.getPickUpDate().getDayOfMonth() - DAYS_BEFORE_CHANGE_ORDER;
-            int now = LocalDateTime.now().getDayOfMonth();
-            if (dayOfMonth > now) {
-                orders.add(order);
+            if (!order.getOrderStatus().equals(OrderStatus.FINISH)) {
+                int year = order.getPickUpDate().getYear();
+                int month = order.getPickUpDate().getMonth().getValue();
+                int day = order.getPickUpDate().getDayOfMonth() - DAYS_BEFORE_CHANGE_ORDER;
+
+
+                int nowYear = LocalDateTime.now().getYear();
+                int nowMonth = LocalDateTime.now().getMonth().getValue();
+                int nowDay = LocalDateTime.now().getDayOfMonth();
+
+                int diff = day - nowDay;
+                if (year == nowYear && month == nowMonth && diff > 2) {
+                    orders.add(order);
+                }
+                if (month > nowMonth) {
+                    orders.add(order);
+                }
             }
+
         }
 
         if (orders.size() > 0) {
@@ -60,19 +91,44 @@ public class DeleteOrderDialog {
             System.out.println("Choose Order number to delete from the list above. (from 1 to " + orders.size() + ")");
             int choice = 0;
             String input = scanner.nextLine();
-            choice = editOrderDialog.checkValidInput(orders, choice, input);
+            choice = checkValidInput(orders, choice, input);
 
             Order order = orders.get(choice - 1);
-            LOGGED_IN_USER.getOrders().remove(order);
+            order.setOrderStatus(OrderStatus.FINISH);
+
+            User user = order.getUser();
+            user.getOrders().remove(order);
+            orderService.editOrder(order);
+            user.getOrders().add(order);
+
             Car car = order.getCar();
             car.getPickUpDates().remove(order.getPickUpDate());
             car.getDropOffDates().remove(order.getDropOffDate());
             carService.editCar(car);
-            userService.editUser(LOGGED_IN_USER);
+
+            userService.editUser(user);
             orderService.deleteOrder(order.getId());
 
         } else {
             System.out.println("Sorry there is no orders you can delete.");
         }
+    }
+
+    public int checkValidInput(List<Order> orders, int choice, String input) {
+        while (choice == 0) {
+            try {
+                choice = Integer.parseInt(input);
+                if (choice < 1 || choice > orders.size()) {
+                    System.out.println("Error: Please choose a valid number.");
+                    choice = 0;
+                    input = scanner.nextLine();
+                }
+            } catch (NumberFormatException ex) {
+                System.out.println("Error: Numbers only.");
+                input = scanner.nextLine();
+            }
+
+        }
+        return choice;
     }
 }

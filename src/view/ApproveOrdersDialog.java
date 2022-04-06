@@ -56,9 +56,10 @@ public class ApproveOrdersDialog {
                 input = scanner.nextLine();
                 choice = checkValidInput(pendingOrders, choice, input);
                 Order order = pendingOrders.get(choice - 1);
-
+                order.getUser().getOrders().remove(order);
                 orderService.approveOrder(order, LOGGED_IN_USER);
-
+                order.getUser().getOrders().add(order);
+                userService.editUser(order.getUser());
                 choice = confirmEditing(LOGGED_IN_USER, choice);
             }
         }

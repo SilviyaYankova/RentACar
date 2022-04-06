@@ -8,11 +8,13 @@ import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Order;
 import model.enums.Location;
+import model.enums.OrderStatus;
 import model.enums.Role;
 import model.user.User;
 import service.*;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,12 +63,27 @@ public class EditOrderDialog {
         orderService.loadData();
         List<Order> orders = new ArrayList<>();
         for (Order order : userOrders) {
-            int dayOfMonth = order.getPickUpDate().getDayOfMonth() - DAYS_BEFORE_CHANGE_ORDER;
-            int now = LocalDateTime.now().getDayOfMonth();
-            if (dayOfMonth > now) {
-                orders.add(order);
+            if (!order.getOrderStatus().equals(OrderStatus.FINISH)) {
+                int year = order.getPickUpDate().getYear();
+                int month = order.getPickUpDate().getMonth().getValue();
+                int day = order.getPickUpDate().getDayOfMonth() - DAYS_BEFORE_CHANGE_ORDER;
+
+
+                int nowYear = LocalDateTime.now().getYear();
+                int nowMonth = LocalDateTime.now().getMonth().getValue();
+                int nowDay = LocalDateTime.now().getDayOfMonth();
+
+                int diff = day - nowDay;
+                if (year == nowYear && month == nowMonth && diff > 2) {
+                    orders.add(order);
+                }
+                if (month > nowMonth) {
+                    orders.add(order);
+                }
             }
+
         }
+
 
         if (orders.size() > 0) {
             System.out.println("You can edit orders only two days before the pick up date.");
@@ -270,7 +287,7 @@ public class EditOrderDialog {
         return choice;
     }
 
-    private int confirm(Order order, int choice) throws NoneExistingEntityException {
+    private int confirm(Order order, int choice) throws NoneExistingEntityException, NoPermissionException {
         System.out.println();
         System.out.println("Save order or continue editing?");
         System.out.println("For saving order press 'YES' for continue editing press 'C'?");
@@ -283,7 +300,10 @@ public class EditOrderDialog {
                 incorrectInput = false;
                 System.out.println("You finished your order.");
                 order.setModifiedOn(LocalDateTime.now());
+                order.getUser().getOrders().remove(order);
                 orderService.editOrder(order);
+                order.getUser().getOrders().add(order);
+                userService.editUser(order.getUser());
             } else if (input.equals("C")) {
                 System.out.println("You choose to continue editing your order.");
                 System.out.println("Choose fields to edit: ");
