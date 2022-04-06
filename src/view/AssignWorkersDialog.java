@@ -61,7 +61,6 @@ public class AssignWorkersDialog {
 
                     SiteManager siteManager = (SiteManager) LOGGED_IN_USER;
 
-                    siteManager.getWorkers().add(worker);
                     siteManager.getCarsHistory().add(car);
                     LOGGED_IN_USER = siteManager;
                     userService.editUser(LOGGED_IN_USER);

@@ -320,6 +320,11 @@ public class UserController {
                         }
                         return "";
                     }),
+                    new Option("Manage Workers", () -> {
+                        ManageWorkerController manageWorkerController = new ManageWorkerController(workerService, userService);
+                        manageWorkerController.init(LOGGED_IN_USER);
+                        return "";
+                    }),
                     new Option("See profile", () -> {
                         System.out.println(LOGGED_IN_USER);
                         System.out.println();

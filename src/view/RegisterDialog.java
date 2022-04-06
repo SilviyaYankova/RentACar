@@ -2,9 +2,6 @@ package view;
 
 import exeption.InvalidEntityDataException;
 import model.enums.Role;
-import model.user.Driver;
-import model.user.Seller;
-import model.user.SiteManager;
 import model.user.User;
 import service.UserService;
 
@@ -136,6 +133,7 @@ public class RegisterDialog {
             Role r = roles.get(choice - 1);
             user.setRole(r);
         }
+
         return user;
     }
 

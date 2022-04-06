@@ -26,6 +26,7 @@ public class EditCommentDialog {
 
 
     public void input(User LOGGED_IN_USER) throws NoPermissionException, NoneExistingEntityException {
+        commentService.loadData();
         List<Comment> allComments = LOGGED_IN_USER.getComments();
 
         boolean continueCommenting = true;
