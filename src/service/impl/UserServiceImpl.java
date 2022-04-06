@@ -107,23 +107,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getProfit() {
-        Collection<Order> allOrders = orderService.getAllOrders();
-        allOrders.forEach(System.out::println);
-        double totalProfit = allOrders.stream().mapToDouble(Order::getCarPricePerDays).sum();
-        return String.format("Total Profit %.2f%n", totalProfit);
+        Collection<Order> allOrders = orderService.getAllOrdersWithStatus(OrderStatus.FINISH);
+
+        double totalProfit = 0;
+        for (Order order : allOrders) {
+            totalProfit += order.getFinalPrice() - order.getDeposit();
+        }
+        return String.format("Total Profit: %.2f%n", totalProfit);
     }
 
     @Override
     public String getProfitForPeriod(LocalDateTime from, LocalDateTime to) {
         double totalProfit = 0;
-        Collection<Order> allOrders = orderService.getAllOrders();
+        Collection<Order> allOrders = orderService.getAllOrdersWithStatus(OrderStatus.FINISH);
         for (Order order : allOrders) {
-
             ChronoLocalDate orderDate = LocalDate.of(order.getPickUpDate().getYear(), order.getPickUpDate().getMonth(), order.getPickUpDate().getDayOfMonth());
             ChronoLocalDate fromData = LocalDate.of(from.getYear(), from.getMonth(), from.getDayOfMonth());
             ChronoLocalDate toDate = LocalDate.of(to.getYear(), to.getMonth(), to.getDayOfMonth());
 
-            if (orderDate.equals(fromData) && !(orderDate.equals(toDate))) {
+            if (orderDate.equals(fromData)) {
                 totalProfit += order.getCarPricePerDays();
             }
         }

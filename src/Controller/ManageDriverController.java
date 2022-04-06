@@ -25,7 +25,7 @@ public class ManageDriverController {
         Menu menu = new Menu("Manage drivers", List.of(
                 new Option("See drivers", () -> {
                     userService.loadData();
-                    Collection<User> allUsers = userService.getUserByRole(Role.SITE_MANAGER);
+                    Collection<User> allUsers = userService.getUserByRole(Role.DRIVER);
                     if (allUsers.size() > 0) {
                         int count = 0;
                         for (User user : allUsers) {

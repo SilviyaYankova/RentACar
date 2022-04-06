@@ -42,7 +42,7 @@ public class UserController {
         carService.loadData();
         orderService.loadData();
         workerService.loadData();
-//        commentService.loadData();
+        commentService.loadData();
 
         Menu menu = new Menu();
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
@@ -145,7 +145,7 @@ public class UserController {
                     }),
 
                     new Option("Statistics", () -> {
-                        StatisticController statisticController = new StatisticController(orderService);
+                        StatisticController statisticController = new StatisticController(userService, carService, orderService, workerService, commentService);
                         statisticController.init(LOGGED_IN_USER);
 
                         return "Comments\n";

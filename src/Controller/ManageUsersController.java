@@ -11,9 +11,7 @@ import view.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ManageUsersController {
     private final UserService userService;
@@ -28,8 +26,7 @@ public class ManageUsersController {
         Menu menu = new Menu("Manage Site Manager", List.of(
                 new Option("See all users", () -> {
                     userService.loadData();
-//                    Collection<User> allUsers = userService.getUserByRole(Role.USER);
-                    Collection<User> all = userService.getAllUsers();
+                    Collection<User> all = userService.getUserByRole(Role.USER);
                     List<User> allUsers = new ArrayList<>(all);
                     if (allUsers.size() > 0) {
                         int count = 0;
