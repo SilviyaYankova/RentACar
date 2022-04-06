@@ -1,17 +1,13 @@
 package view;
 
-import exeption.ConstraintViolation;
 import exeption.InvalidEntityDataException;
 import model.Car;
-import model.Comment;
-import model.Order;
-import model.Worker;
 import model.enums.*;
 import model.user.User;
 import service.CarService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -269,6 +265,9 @@ public class AddCarDialog {
             car.setCarStatus(carStatus);
         }
 
+        car.setPickUpDate(new ArrayList<>());
+        car.setDropOffDate(new ArrayList<>());
+        car.setConvenience(new ArrayList<>());
         carService.addCar(car);
     }
 

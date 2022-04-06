@@ -8,10 +8,7 @@ import model.Car;
 import model.user.User;
 import service.CarService;
 import service.UserService;
-import view.AddCarDialog;
-import view.DeleteCarDialog;
-import view.Menu;
-import view.Option;
+import view.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -46,8 +43,8 @@ public class CarController {
                     return "";
                 }),
                 new Option("Edit car", () -> {
-                    System.out.println("Working on it...");
-                    System.out.println();
+                    EditCarDialog editCarDialog = new EditCarDialog(carService);
+                    editCarDialog.input(LOGGED_IN_USER);
                     return "";
                 }),
                 new Option("Delete car", () -> {
