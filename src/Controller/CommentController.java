@@ -5,6 +5,7 @@ import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Comment;
+import model.enums.Role;
 import model.user.User;
 import service.CarService;
 import service.CommentService;
@@ -28,58 +29,75 @@ public class CommentController {
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
         commentService.loadData();
 
-        Menu menu = new Menu("Comment Menu", List.of(
-                new Option("Add comment", () -> {
-                    AddCommentDialog addCommentDialog = new AddCommentDialog(userService, carService, commentService);
-                    addCommentDialog.input(LOGGED_IN_USER);
-                    return "";
-                }),
-                new Option("Edit comment", () -> {
-                    commentService.loadData();
-                    EditCommentDialog editCommentDialog = new EditCommentDialog(userService, carService, commentService);
-                    editCommentDialog.input(LOGGED_IN_USER);
-                    return "";
-                }),
-                new Option("Delete comment", () -> {
-                    commentService.loadData();
-                    DeleteCommentDialog deleteCommentDialog = new DeleteCommentDialog(userService, carService, commentService);
-                    deleteCommentDialog.input(LOGGED_IN_USER);
-                    return "";
-                }),
+        if (LOGGED_IN_USER.getRole().equals(Role.USER)){
+            Menu menu = new Menu("Comment Menu", List.of(
+                    new Option("Add comment", () -> {
+                        AddCommentDialog addCommentDialog = new AddCommentDialog(userService, carService, commentService);
+                        addCommentDialog.input(LOGGED_IN_USER);
+                        return "";
+                    }),
+                    new Option("Edit comment", () -> {
+                        commentService.loadData();
+                        EditCommentDialog editCommentDialog = new EditCommentDialog(userService, carService, commentService);
+                        editCommentDialog.input(LOGGED_IN_USER);
+                        return "";
+                    }),
+                    new Option("Delete comment", () -> {
+                        commentService.loadData();
+                        DeleteCommentDialog deleteCommentDialog = new DeleteCommentDialog(userService, carService, commentService);
+                        deleteCommentDialog.input(LOGGED_IN_USER);
+                        return "";
+                    }),
+                    new Option("Comment history", () -> {
+                        commentService.loadData();
+                        List<Comment> allComments = LOGGED_IN_USER.getComments();
 
-                new Option("All comments", () -> {
-                    commentService.loadData();
-                    Collection<Comment> allComments = commentService.getAllComments();
-                    if (allComments.size() > 0) {
-                        System.out.println("All comments:");
-                        int count = 0;
-                        for (Comment comment : allComments) {
-                            count++;
-                            System.out.println(count + ". \t" + comment);
+                        if (allComments.size() > 0) {
+                            int count = 0;
+                            for (Comment comment : allComments) {
+                                count++;
+                                System.out.println(count + ". \t" + comment);
+                            }
+                        } else {
+                            System.out.println("You have no comments.");
                         }
-                    } else {
-                        System.out.println("You have no comments.");
-                    }
-                    return "";
-                }),
-                new Option("Comment history", () -> {
-                    commentService.loadData();
-                    List<Comment> allComments = LOGGED_IN_USER.getComments();
+                        return "";
+                    })
 
-                    if (allComments.size() > 0) {
-                        int count = 0;
-                        for (Comment comment : allComments) {
-                            count++;
-                            System.out.println(count + ". \t" + comment);
+            ));
+            menu.show();
+        }
+
+        if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)){
+            Menu menu = new Menu("Comment Menu", List.of(
+                    new Option("All comments", () -> {
+                        commentService.loadData();
+                        Collection<Comment> allComments = commentService.getAllComments();
+                        if (allComments.size() > 0) {
+                            System.out.println("All comments:");
+                            int count = 0;
+                            for (Comment comment : allComments) {
+                                count++;
+                                System.out.println(count + ". \t" + comment);
+                            }
+                        } else {
+                            System.out.println("You have no comments.");
                         }
-                    } else {
-                        System.out.println("You have no comments.");
-                    }
-                    return "";
-                })
+                        System.out.println();
+                        return "";
+                    }),
+                    new Option("Delete comment", () -> {
+                        commentService.loadData();
+                        DeleteCommentDialog deleteCommentDialog = new DeleteCommentDialog(userService, carService, commentService);
+                        deleteCommentDialog.input(LOGGED_IN_USER);
+                        return "";
+                    })
 
-        ));
-        menu.show();
+
+            ));
+            menu.show();
+        }
+
     }
 
 }

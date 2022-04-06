@@ -94,7 +94,7 @@ public class DeleteOrderDialog {
             choice = checkValidInput(orders, choice, input);
 
             Order order = orders.get(choice - 1);
-            order.setOrderStatus(OrderStatus.FINISH);
+            order.setOrderStatus(OrderStatus.DELETED);
 
             User user = order.getUser();
             user.getOrders().remove(order);

@@ -70,7 +70,7 @@ public class OrderController {
         }
 
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR) || LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
-
+            orderService.loadData();
             menu = new Menu("Orders", List.of(
                     new Option("All Orders", () -> {
                         Collection<Order> orders = orderService.getAllOrders();

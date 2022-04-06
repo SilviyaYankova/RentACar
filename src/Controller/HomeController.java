@@ -62,7 +62,7 @@ public class HomeController {
 //                        user = new LoginDialog(userService).input();
 //                    }
 //                    LOGGED_IN_USER = user;
-                    User userById = userService.getUserById(8L);
+                    User userById = userService.getUserById(6L);
 //
                     LOGGED_IN_USER = userById;
 

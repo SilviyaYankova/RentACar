@@ -117,8 +117,9 @@ public class UserController {
                         return "";
                     }),
                     new Option("Comments", () -> {
-                        System.out.println("Working on it...");
-                        System.out.println();
+                        CommentController commentController = new CommentController(commentService, userService, carService);
+                        commentController.init(LOGGED_IN_USER);
+
 
                         return "Comments\n";
                     }),

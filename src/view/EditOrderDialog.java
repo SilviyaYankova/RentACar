@@ -239,7 +239,7 @@ public class EditOrderDialog {
                     carService.editCar(oldCar);
                     carService.editCar(car);
                 }
-                LOGGED_IN_USER.getOrders().add(order);
+
                 userService.editUser(LOGGED_IN_USER);
 
                 printOrder(order, order.getCar(), driverPricePerDays);
