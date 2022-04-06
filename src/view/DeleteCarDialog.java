@@ -1,6 +1,5 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
 import model.Car;
 import model.user.User;
@@ -21,7 +20,7 @@ public class DeleteCarDialog {
     }
 
 
-    public void input(User LOGGED_IN_USER) throws NoPermissionException, NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         carService.loadData();
 
         Collection<Car> all = carService.getAllCars();
@@ -94,7 +93,7 @@ public class DeleteCarDialog {
         return continueEditing;
     }
 
-    private int confirmEditing(int choice, Car car) throws NoneExistingEntityException, NoPermissionException {
+    private int confirmEditing(int choice, Car car) throws NoneExistingEntityException {
         System.out.println();
         System.out.println("To confirm deleting car press 'YES'.");
         System.out.println("For exit press 'E'.");

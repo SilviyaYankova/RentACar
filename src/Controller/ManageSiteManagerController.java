@@ -1,13 +1,14 @@
 package Controller;
 
 import exeption.InvalidEntityDataException;
-import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.enums.Role;
 import model.user.User;
 import service.UserService;
 import view.*;
+import view.Menu.Menu;
+import view.Menu.Option;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +20,7 @@ public class ManageSiteManagerController {
         this.userService = userService;
     }
 
-    public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
+    public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
         userService.loadData();
 
         Menu menu = new Menu("Manage Site Manager", List.of(

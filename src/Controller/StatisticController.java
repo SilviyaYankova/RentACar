@@ -1,7 +1,6 @@
 package Controller;
 
 import exeption.InvalidEntityDataException;
-import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
@@ -9,8 +8,8 @@ import model.Comment;
 import model.Order;
 import model.user.User;
 import service.*;
-import view.Menu;
-import view.Option;
+import view.Menu.Menu;
+import view.Menu.Option;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -36,7 +35,7 @@ public class StatisticController {
     }
 
 
-    public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
+    public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
         userService.loadData();
         carService.loadData();
         orderService.loadData();

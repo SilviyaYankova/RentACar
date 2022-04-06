@@ -1,8 +1,6 @@
 package view;
 
-import Controller.CommentController;
 import dao.UserRepository;
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Order;
@@ -12,7 +10,6 @@ import model.user.User;
 import service.*;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -38,7 +35,7 @@ public class DeleteOrderDialog {
         this.commentService = commentService;
     }
 
-    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         orderService.loadData();
 
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
@@ -55,7 +52,7 @@ public class DeleteOrderDialog {
 
     }
 
-    private void deleteOrder(User LOGGED_IN_USER, Collection<Order> userOrders) throws NoneExistingEntityException, NoPermissionException {
+    private void deleteOrder(User LOGGED_IN_USER, Collection<Order> userOrders) throws NoneExistingEntityException {
         List<Order> orders = new ArrayList<>();
         for (Order order : userOrders) {
             if (!order.getOrderStatus().equals(OrderStatus.FINISH)) {

@@ -1,10 +1,8 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
 import model.Worker;
 import model.enums.WorkerStatus;
-import model.user.Driver;
 import model.user.SiteManager;
 import model.user.User;
 import service.UserService;
@@ -24,7 +22,7 @@ public class AddWorkerDialog {
     }
 
 
-    public void input(User LOGGED_IN_USER) throws NoPermissionException, NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         Worker worker = new Worker();
 
         while (worker.getFirstName() == null) {

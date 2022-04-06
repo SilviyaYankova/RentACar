@@ -1,15 +1,11 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
-import model.Comment;
 import model.Worker;
-import model.enums.CarStatus;
 import model.enums.WorkerStatus;
 import model.user.User;
 import service.WorkerService;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class EditWorkerDialog {
@@ -21,7 +17,7 @@ public class EditWorkerDialog {
     }
 
 
-    public void input(User LOGGED_IN_USER) throws NoPermissionException, NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         workerService.loadData();
         Collection<Worker> all = workerService.getAllWorkers();
         List<Worker> allWorkers = new ArrayList<>(all);
@@ -122,7 +118,7 @@ public class EditWorkerDialog {
         return continueCommenting;
     }
 
-    private int confirmEditing(User LOGGED_IN_USER, int choice, Worker worker) throws NoneExistingEntityException, NoPermissionException {
+    private int confirmEditing(User LOGGED_IN_USER, int choice, Worker worker) throws NoneExistingEntityException {
         System.out.println();
         System.out.println("For saving worker press 'YES'.");
         System.out.println("For exit press 'E'.");

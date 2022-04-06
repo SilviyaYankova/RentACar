@@ -1,6 +1,5 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
 import model.Car;
 import model.enums.*;
@@ -20,7 +19,7 @@ public class EditCarDialog {
     }
 
 
-    public void input(User LOGGED_IN_USER) throws NoPermissionException, NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         carService.loadData();
 
         Collection<Car> all = carService.getAllCars();
@@ -445,7 +444,7 @@ public class EditCarDialog {
         return continueEditing;
     }
 
-    private int confirmEditing(int choice, Car car) throws NoneExistingEntityException, NoPermissionException {
+    private int confirmEditing(int choice, Car car) throws NoneExistingEntityException {
         System.out.println();
         System.out.println("To save edited car press 'YES'.");
         System.out.println("To continue editing car press 'C'.");

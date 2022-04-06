@@ -1,5 +1,7 @@
 package view;
 
+import view.Menu.Command;
+
 public class ExitCommand implements Command {
 
     @Override

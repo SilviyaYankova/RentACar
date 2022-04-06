@@ -1,19 +1,13 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
-import model.Car;
 import model.Order;
-import model.enums.CarStatus;
 import model.enums.OrderStatus;
 import model.user.User;
 import service.CarService;
 import service.OrderService;
 import service.UserService;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,7 +23,7 @@ public class FinishedOrdersDialog {
         this.userService = userService;
     }
 
-    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         orderService.loadData();
         carService.loadData();
         userService.loadData();

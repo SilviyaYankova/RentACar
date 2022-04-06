@@ -1,8 +1,6 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
-import model.Comment;
 import model.user.User;
 import service.UserService;
 

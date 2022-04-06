@@ -1,7 +1,6 @@
 package Controller;
 
 import exeption.InvalidEntityDataException;
-import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Comment;
@@ -11,6 +10,8 @@ import service.CarService;
 import service.CommentService;
 import service.UserService;
 import view.*;
+import view.Menu.Menu;
+import view.Menu.Option;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,7 +27,7 @@ public class CommentController {
         this.carService = carService;
     }
 
-    public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
+    public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
         commentService.loadData();
 
         if (LOGGED_IN_USER.getRole().equals(Role.USER)){

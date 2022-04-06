@@ -1,6 +1,5 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
@@ -70,7 +69,7 @@ public class AssignWorkersDialog {
                     System.out.println("Worker '" + worker.getCode() + "' is assigned to clean car with ID= " + car.getId());
 
                     continueCleaning = confirmEditing(true, carsForCleaning);
-                } catch (NoneAvailableEntityException | NoPermissionException e) {
+                } catch (NoneAvailableEntityException e) {
                     System.out.println("Sorry there is no available worker.");
                     System.out.println();
                     break;

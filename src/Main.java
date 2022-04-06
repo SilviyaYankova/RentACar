@@ -23,7 +23,7 @@ public class Main {
     public static final String WORKERS_DB_FILENAME = "workers.db";
     public static final String COMMENTS_DB_FILENAME = "comments.db";
 
-    public static void main(String[] args) throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException, NoPermissionException {
+    public static void main(String[] args) throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException {
         DaoFactory daoFactory = new DaoFactoryMemoryImp();
 
         CarRepository carRepository = daoFactory.createCarRepositoryFile(CARS_DB_FILENAME);

@@ -1,6 +1,5 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
 import model.Worker;
 import model.user.SiteManager;
@@ -24,7 +23,7 @@ public class DeleteWorkerDialog {
     }
 
 
-    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         workerService.loadData();
 
 
@@ -88,7 +87,7 @@ public class DeleteWorkerDialog {
         return continueCommenting;
     }
 
-    private int confirmEditing(User LOGGED_IN_USER, int choice, Worker worker) throws NoneExistingEntityException, NoPermissionException {
+    private int confirmEditing(User LOGGED_IN_USER, int choice, Worker worker) throws NoneExistingEntityException {
         System.out.println();
         System.out.println("To confirm deleting worker press 'YES'.");
         System.out.println("For exit press 'E'.");

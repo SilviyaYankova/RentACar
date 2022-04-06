@@ -5,7 +5,7 @@ import service.UserService;
 
 import java.util.Scanner;
 
-public class LoginDialog implements EntityDialog<User> {
+public class LoginDialog   {
     public static Scanner scanner = new Scanner(System.in);
     private final UserService userService;
 
@@ -13,7 +13,6 @@ public class LoginDialog implements EntityDialog<User> {
         this.userService = userService;
     }
 
-    @Override
     public User input() {
         User user = new User();
 

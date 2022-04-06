@@ -1,7 +1,6 @@
 package Controller;
 
 import exeption.InvalidEntityDataException;
-import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Worker;
@@ -9,6 +8,8 @@ import model.user.User;
 import service.UserService;
 import service.WorkerService;
 import view.*;
+import view.Menu.Menu;
+import view.Menu.Option;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ManageWorkerController {
         this.userService = userService;
     }
 
-    public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
+    public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
         workerService.loadData();
 
         Menu menu = new Menu("Manage workers", List.of(

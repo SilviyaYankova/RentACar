@@ -1,7 +1,6 @@
 package Controller;
 
 import exeption.InvalidEntityDataException;
-import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
@@ -9,6 +8,8 @@ import model.user.User;
 import service.CarService;
 import service.UserService;
 import view.*;
+import view.Menu.Menu;
+import view.Menu.Option;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,7 +23,7 @@ public class CarController {
         this.carService = carService;
     }
 
-    public void init(User LOGGED_IN_USER) throws InvalidEntityDataException, NoneAvailableEntityException, NoPermissionException, NoneExistingEntityException {
+    public void init(User LOGGED_IN_USER) throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException {
         userService.loadData();
         carService.loadData();
 

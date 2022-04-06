@@ -1,9 +1,9 @@
-package view;
+package view.Menu;
 
 import exeption.InvalidEntityDataException;
-import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
+import view.ExitCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,7 @@ public class Menu {
                 .toString();
     }
 
-    public void show() throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException, NoPermissionException {
+    public void show() throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException {
         while (true) {
             System.out.printf("MENU: %s%n", title);
             for (int i = 0; i < options.size(); i++) {

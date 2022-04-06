@@ -1,6 +1,5 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
 import model.Order;
 import model.enums.OrderStatus;
@@ -21,7 +20,7 @@ public class ApproveOrdersDialog {
         this.userService = userService;
     }
 
-    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         orderService.loadData();
 
         List<Order> pendingOrders = orderService.getAllOrdersWithStatus(OrderStatus.PENDING);
@@ -84,7 +83,7 @@ public class ApproveOrdersDialog {
         return choice;
     }
 
-    private int confirmEditing(User LOGGED_IN_USER, int choice) throws NoneExistingEntityException, NoPermissionException {
+    private int confirmEditing(User LOGGED_IN_USER, int choice) throws NoneExistingEntityException {
         System.out.println();
         System.out.println("For continue approving orders press 'C'?");
         System.out.println("For cancel press 'E'.");

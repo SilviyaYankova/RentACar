@@ -1,11 +1,9 @@
 package service;
 
-import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
 import model.Worker;
-import model.user.User;
 
 import java.util.Collection;
 import java.util.List;

@@ -3,7 +3,6 @@ package view;
 import Controller.UserController;
 import dao.UserRepository;
 import exeption.InvalidEntityDataException;
-import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
@@ -39,7 +38,7 @@ public class BookingDialog {
         this.commentService = commentService;
     }
 
-    public void input(User LOGGED_IN_USER) throws InvalidEntityDataException, NoneExistingEntityException, NoPermissionException, NoneAvailableEntityException {
+    public void input(User LOGGED_IN_USER) throws InvalidEntityDataException, NoneExistingEntityException, NoneAvailableEntityException {
         orderService.loadData();
         Order order = new Order();
         order.setUser(LOGGED_IN_USER);
@@ -64,7 +63,7 @@ public class BookingDialog {
 
     }
 
-    public void chooseCar(User LOGGED_IN_USER, Order order) throws NoneExistingEntityException, InvalidEntityDataException, NoPermissionException {
+    public void chooseCar(User LOGGED_IN_USER, Order order) throws NoneExistingEntityException, InvalidEntityDataException {
         boolean incorrectInput;
         int choice;
         int count;
@@ -243,7 +242,7 @@ public class BookingDialog {
         return choice;
     }
 
-    public void chooseToHireADriverOrNot(User LOGGED_IN_USER, Order order, boolean incorrectInput) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
+    public void chooseToHireADriverOrNot(User LOGGED_IN_USER, Order order, boolean incorrectInput) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
         String input;
         System.out.println("Do you want to hire a driver? (Type 'YES' for 'yes' or 'NO' for 'no')");
         input = scanner.nextLine();

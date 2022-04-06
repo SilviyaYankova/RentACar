@@ -2,7 +2,6 @@ package Controller;
 
 import dao.UserRepository;
 import exeption.InvalidEntityDataException;
-import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
@@ -14,6 +13,8 @@ import model.user.SiteManager;
 import model.user.User;
 import service.*;
 import view.*;
+import view.Menu.Menu;
+import view.Menu.Option;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +38,7 @@ public class UserController {
     }
 
 
-    public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
+    public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
         userService.loadData();
         carService.loadData();
         orderService.loadData();

@@ -1,18 +1,12 @@
 package service;
 
 import exeption.InvalidEntityDataException;
-import exeption.NoPermissionException;
-import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
-import model.Car;
-import model.Order;
-import model.Worker;
 import model.enums.Role;
 import model.user.User;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 
 public interface UserService {
 
@@ -26,7 +20,7 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
-    void editUser(User user) throws NoneExistingEntityException, NoPermissionException;
+    void editUser(User user) throws NoneExistingEntityException;
 
     void deleteUser(Long id) throws NoneExistingEntityException;
 

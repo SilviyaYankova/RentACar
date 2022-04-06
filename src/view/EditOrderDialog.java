@@ -2,7 +2,6 @@ package view;
 
 import dao.UserRepository;
 import exeption.InvalidEntityDataException;
-import exeption.NoPermissionException;
 import exeption.NoneAvailableEntityException;
 import exeption.NoneExistingEntityException;
 import model.Car;
@@ -14,7 +13,6 @@ import model.user.User;
 import service.*;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,7 +41,7 @@ public class EditOrderDialog {
     }
 
 
-    public void input(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException, NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
         orderService.loadData();
 
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
@@ -59,7 +57,7 @@ public class EditOrderDialog {
 
     }
 
-    private void editOrder(User LOGGED_IN_USER, Collection<Order> userOrders) throws NoneExistingEntityException, NoneAvailableEntityException, InvalidEntityDataException, NoPermissionException {
+    private void editOrder(User LOGGED_IN_USER, Collection<Order> userOrders) throws NoneExistingEntityException, NoneAvailableEntityException, InvalidEntityDataException {
         orderService.loadData();
         List<Order> orders = new ArrayList<>();
         for (Order order : userOrders) {
@@ -287,7 +285,7 @@ public class EditOrderDialog {
         return choice;
     }
 
-    private int confirm(Order order, int choice) throws NoneExistingEntityException, NoPermissionException {
+    private int confirm(Order order, int choice) throws NoneExistingEntityException {
         System.out.println();
         System.out.println("Save order or continue editing?");
         System.out.println("For saving order press 'YES' for continue editing press 'C'?");

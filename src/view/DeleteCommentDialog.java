@@ -1,6 +1,5 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
 import model.Comment;
 import model.enums.Role;
@@ -27,7 +26,7 @@ public class DeleteCommentDialog {
     }
 
 
-    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException, NoPermissionException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         commentService.loadData();
 
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
@@ -124,7 +123,7 @@ public class DeleteCommentDialog {
         return continueCommenting;
     }
 
-    private int confirmEditing(User LOGGED_IN_USER, int choice, Comment comment) throws NoneExistingEntityException, NoPermissionException {
+    private int confirmEditing(User LOGGED_IN_USER, int choice, Comment comment) throws NoneExistingEntityException {
         System.out.println();
         System.out.println("To confirm deleting comment press 'YES'.");
         System.out.println("For exit press 'E'.");

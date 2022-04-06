@@ -1,6 +1,5 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
 import model.Comment;
 import model.user.User;
@@ -25,7 +24,7 @@ public class EditCommentDialog {
     }
 
 
-    public void input(User LOGGED_IN_USER) throws NoPermissionException, NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         commentService.loadData();
         List<Comment> allComments = LOGGED_IN_USER.getComments();
 
@@ -109,7 +108,7 @@ public class EditCommentDialog {
         return continueCommenting;
     }
 
-    private int confirmEditing(User LOGGED_IN_USER, int choice, Comment comment) throws NoneExistingEntityException, NoPermissionException {
+    private int confirmEditing(User LOGGED_IN_USER, int choice, Comment comment) throws NoneExistingEntityException {
         System.out.println();
         System.out.println("For saving comment press 'YES'.");
         System.out.println("For exit press 'E'.");

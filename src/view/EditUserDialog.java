@@ -1,14 +1,10 @@
 package view;
 
-import exeption.NoPermissionException;
 import exeption.NoneExistingEntityException;
-import model.Comment;
-import model.Order;
 import model.enums.Role;
 import model.user.User;
 import service.UserService;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +19,7 @@ public class EditUserDialog {
     }
 
 
-    public void input(User LOGGED_IN_USER ) throws NoPermissionException, NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER ) throws NoneExistingEntityException {
         userService.loadData();
 
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
@@ -198,7 +194,7 @@ public class EditUserDialog {
         return choice;
     }
 
-    private int confirmEditing(User userToEdit, int choice) throws NoneExistingEntityException, NoPermissionException {
+    private int confirmEditing(User userToEdit, int choice) throws NoneExistingEntityException {
         System.out.println();
         System.out.println("Save field change or continue editing?");
         System.out.println("For saving profile press 'YES' for continue editing press 'C'?");
