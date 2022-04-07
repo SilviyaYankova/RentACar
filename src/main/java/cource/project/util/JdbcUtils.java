@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class JdbcUtils {
+
     public static Connection createDbConnection(Properties props) throws IOException, ClassNotFoundException, SQLException {
         // 1. Load DB Driver
         try {

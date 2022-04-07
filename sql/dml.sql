@@ -1,0 +1,9 @@
+USE `rent-a-car`;
+
+INSERT INTO `rent-a-car`.`users` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `username`, `password`, `repeat_password`, `role`) VALUES ('1', 'Silviya', 'Yankova', 'silviya@rentacar.com', '0898405658', 'silviya', '8101308797Ja*', '8101308797Ja*', 'ADMINISTRATOR');
+INSERT INTO `rent-a-car`.`users` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `username`, `password`, `repeat_password`, `role`) VALUES ('2', 'Kalina', 'Dimitrova', 'kalina@rentacar.com', '0898405658', 'kalina', '8101308797Ja*', '8101308797Ja*', 'SELLER');
+INSERT INTO `rent-a-car`.`users` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `username`, `password`, `repeat_password`, `role`) VALUES ('3', 'Stefan', 'Hristov', 'stefan@rentacar.com', '0898405658', 'stefan', '8101308797Ja*', '8101308797Ja*', 'SITE_MANAGER');
+INSERT INTO `rent-a-car`.`users` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `username`, `password`, `repeat_password`, `role`) VALUES ('4', 'Kristina', 'Dimitrova', 'kristina@rentacar.com', '0898405658', 'kristina', '8101308797Ja*', '8101308797Ja*', 'DRIVER');
+INSERT INTO `rent-a-car`.`users` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `username`, `password`, `repeat_password`, `role`) VALUES ('5', 'Petar', 'Arsov', 'petar@rentacar.com', '0898405658', 'petar', '8101308797Ja*', '8101308797Ja*', 'DRIVER');
+INSERT INTO `rent-a-car`.`users` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `username`, `password`, `repeat_password`, `role`) VALUES ('6', 'Martin', 'Yankov', 'martin@user.com', '0898405658', 'martin', '8101308797Ja*', '8101308797Ja*', 'USER');
+INSERT INTO `rent-a-car`.`users` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `username`, `password`, `repeat_password`, `role`) VALUES ('7', 'Daniel', 'Petkov', 'daniel@user.com', '0898405658', 'daniel', '8101308797Ja*', '8101308797Ja*', 'USER');

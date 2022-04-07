@@ -7,6 +7,7 @@ import cource.project.model.user.User;
 import cource.project.service.WorkerService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EditWorkerDialog {
     Scanner scanner = new Scanner(System.in);
@@ -66,7 +67,7 @@ public class EditWorkerDialog {
                 worker.setWorkerStatus(null);
                 while (worker.getWorkerStatus() == null) {
                     System.out.println("Worker Status:");
-                    List<WorkerStatus> values = Arrays.stream(WorkerStatus.values()).toList();
+                    List<WorkerStatus> values = Arrays.stream(WorkerStatus.values()).collect(Collectors.toList());
                     count = 0;
                     for (WorkerStatus value : values) {
                         count++;

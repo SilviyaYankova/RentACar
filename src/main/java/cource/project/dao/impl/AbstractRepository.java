@@ -4,9 +4,16 @@ package cource.project.dao.impl;
 import cource.project.dao.Repository;
 import cource.project.exeption.NoneExistingEntityException;
 
+import java.sql.Connection;
 import java.util.Collection;
 
 public abstract class AbstractRepository<K, V> implements Repository<K, V> {
+
+        private final Connection connection;
+
+    protected AbstractRepository(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public V create(V entity) {

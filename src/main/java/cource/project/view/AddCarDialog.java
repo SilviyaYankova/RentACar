@@ -1,5 +1,6 @@
 package cource.project.view;
 
+
 import cource.project.exeption.InvalidEntityDataException;
 import cource.project.model.Car;
 import cource.project.model.enums.*;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.*;
+
 
 public class AddCarDialog {
     Scanner scanner = new Scanner(System.in);
@@ -82,7 +85,7 @@ public class AddCarDialog {
         while (car.getCarType() == null) {
             System.out.println("Car type:");
 
-            List<CarType> values = Arrays.stream(CarType.values()).toList();
+            List<CarType> values = Arrays.stream(CarType.values()).collect(Collectors.toList());
             int count = 0;
             for (CarType value : values) {
                 count++;
@@ -135,8 +138,7 @@ public class AddCarDialog {
 
         while (car.getDrivetrain() == null) {
             System.out.println("Drivetrain:");
-
-            List<Drivetrain> values = Arrays.stream(Drivetrain.values()).toList();
+            List<Drivetrain> values = Arrays.stream(Drivetrain.values()).collect(Collectors.toList());
             int count = 0;
             for (Drivetrain value : values) {
                 count++;
@@ -154,7 +156,7 @@ public class AddCarDialog {
         while (car.getTransmission() == null) {
             System.out.println("Transmission:");
 
-            List<Transmission> values = Arrays.stream(Transmission.values()).toList();
+            List<Transmission> values = Arrays.stream(Transmission.values()).collect(Collectors.toList());;
             int count = 0;
             for (Transmission value : values) {
                 count++;
@@ -184,7 +186,7 @@ public class AddCarDialog {
         while (car.getFuelType() == null) {
             System.out.println("Fuel type:");
 
-            List<Fuel> values = Arrays.stream(Fuel.values()).toList();
+            List<Fuel> values = Arrays.stream(Fuel.values()).collect(Collectors.toList());
             int count = 0;
             for (Fuel value : values) {
                 count++;
@@ -250,7 +252,7 @@ public class AddCarDialog {
         while (car.getCarStatus() == null) {
             System.out.println("Car status:");
 
-            List<CarStatus> values = Arrays.stream(CarStatus.values()).toList();
+            List<CarStatus> values = Arrays.stream(CarStatus.values()).collect(Collectors.toList());
             int count = 0;
             for (CarStatus value : values) {
                 count++;

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class RegisterDialog {
 
@@ -120,7 +121,7 @@ public class RegisterDialog {
 
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
             System.out.println("Role:");
-            List<Role> roles = Arrays.stream(Role.values()).toList();
+            List<Role> roles = Arrays.stream(Role.values()).collect(Collectors.toList());
             int count = 0;
             for (Role role : roles) {
                 count++;

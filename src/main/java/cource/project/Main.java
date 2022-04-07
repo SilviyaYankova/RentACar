@@ -1,73 +1,47 @@
 package cource.project;
 
 import cource.project.Controller.HomeController;
+import cource.project.dao.*;
+import cource.project.dao.DaoFactory;
+import cource.project.dao.impl.DaoFactoryImp;
 import cource.project.exeption.*;
+import cource.project.service.*;
+import cource.project.service.impl.*;
+import cource.project.util.JdbcUtils;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Properties;
 
 public class Main {
-    public static void main(String[] args) throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException {
+    public static void main(String[] args) throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException, SQLException, IOException, ClassNotFoundException {
 
-//        UserService userService = new UserServiceImpl();
-
-// create initial users
-//        createInitialUsers(userService);
-//        createInitialCars(carService, orderService);
-//        createInitialOrders(orderService);
-//        createInitialWorkers(workerService);
-
-//        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
-//        homeController.init();
+        Properties props = new Properties();
+        String dbConfigPath = Main.class.getClassLoader().getResource("jdbc.properties").getPath();
+        props.load(new FileInputStream(dbConfigPath));
 
 
+        DaoFactory daoFactory = new DaoFactoryImp();
+        Connection connection = JdbcUtils.createDbConnection(props);
+        UserRepository userRepository = daoFactory.createUserRepository(connection);
+
+
+        CarRepository carRepository = daoFactory.createCarRepository(connection);
+        OrderRepository orderRepository = daoFactory.createOrderRepository(connection);
+        WorkerRepository workerRepository = daoFactory.createWorkerRepository(connection);
+        CommentRepository commentRepository = daoFactory.createCommentRepository(connection);
+
+        WorkerService workerService = new WorkerServiceImpl(workerRepository, carRepository);
+        CarService carService = new CarServiceImpl(carRepository, workerService, userRepository, orderRepository);
+        OrderService orderService = new OrderServiceImpl(orderRepository, userRepository, carService);
+
+        CommentService commentService = new CommentServiceImpl(commentRepository, carService, userRepository);
+        UserService userService = new UserServiceImpl(userRepository, workerService, orderService, carService, commentService);
+
+        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
+        homeController.init();
     }
 
-//    private static void createInitialOrders(OrderService orderService) throws NoneExistingEntityException, NoneAvailableEntityException, InvalidEntityDataException {
-//        for (Order mockOrder : MOCK_ORDERS) {
-//            orderService.addOrder(mockOrder, mockOrder.getCar());
-//        }
-//    }
-//
-//    private static void createInitialWorkers(WorkerService workerService) throws NoneExistingEntityException {
-//
-//        for (Worker MOCK_WORKER : MOCK_WORKERS) {
-//            workerService.addWorker(MOCK_WORKER);
-//        }
-//    }
-//
-//    private static void createInitialCars(CarService carService, OrderService orderService) {
-//        for (Car MOCK_CAR : MOCK_CARS) {
-//            try {
-//                carService.addCar(MOCK_CAR);
-//            } catch (InvalidEntityDataException e) {
-//                printErrors(e);
-//            }
-//        }
-//    }
-//
-//    private static void printErrors(InvalidEntityDataException ex) {
-//        StringBuilder sb = new StringBuilder(ex.getMessage());
-//
-//        if (ex.getCause() instanceof ConstraintViolationException) {
-//            sb.append(", invalid fields:\n");
-//            var violations = ((ConstraintViolationException) ex.getCause()).getFieldViolations();
-//            sb.append(violations.stream()
-//                    .map(v -> String.format(" - %s.%s [%s] - %s",
-//                            v.getType().substring(v.getType().lastIndexOf(".") + 1),
-//                            v.getField(),
-//                            v.getInvalidValue(),
-//                            v.getErrorMessage())
-//                    ).collect(Collectors.joining("\n"))
-//            );
-//        }
-//        System.out.println(sb);
-//    }
-//
-//    private static void createInitialUsers(UserService userService) {
-//        for (User MOCK_USER : MOCK_USERS) {
-//            try {
-//                userService.registerUser(MOCK_USER);
-//            } catch (InvalidEntityDataException e) {
-//                printErrors(e);
-//            }
-//        }
-//    }
 }
