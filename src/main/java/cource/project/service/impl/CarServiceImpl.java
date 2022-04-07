@@ -86,8 +86,8 @@ public class CarServiceImpl implements CarService {
         List<Car> availableCarsForDates = new ArrayList<>();
         for (Car car : allCars) {
             if (car.getPickUpDates() == null) {
-                car.setPickUpDate(new ArrayList<>());
-                car.setDropOffDate(new ArrayList<>());
+                car.setPickUpDates(new ArrayList<>());
+                car.setDropOffDates(new ArrayList<>());
             }
                 if (!car.getPickUpDates().contains(order.getPickUpDate())) {
                     availableCarsForDates.add(car);
@@ -110,7 +110,7 @@ public class CarServiceImpl implements CarService {
             userRepository.update(order.getDriver());
         }
         car.setCarStatus(CarStatus.WAITING_FOR_CLEANING);
-        car.setOrder(null);
+        car.setOrders(null);
         car.getPickUpDates().remove(pickUpDate);
         car.getDropOffDates().remove(dropOffDate);
         carRepository.update(car);

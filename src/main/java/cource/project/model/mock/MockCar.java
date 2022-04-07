@@ -12,8 +12,11 @@ public class MockCar {
 
     static {
            MOCK_CARS = new Car[]{
-                new Car("BMW", "330 i", "2021",
+                new Car("BMW",
+                        "330 i",
+                        "2021",
                         "https://cdn.bmwblog.com/wp-content/uploads/2021/02/The-New-BMW-330i-Iconic-Edition-in-Mineral-White-metallic-1.jpg",
+
                         "Mineral White Metallic", CarType.HATCHBACK, 4, 4,
                         List.of("Heated Seats", "Keyless Start", "Navigation System"),
                         List.of("Bluetooth", "HomeLink"), Drivetrain.REAR_WHEEL_DRIVE, Transmission.AUTOMATIC,

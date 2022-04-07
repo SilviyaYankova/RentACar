@@ -218,21 +218,21 @@ public class EditCarDialog {
                         }
 
                         if (choice == 9) {
-                            car.setConvenience(null);
-                            while (car.getConvenience() == null) {
+                            car.setConveniences(null);
+                            while (car.getConveniences() == null) {
                                 System.out.println("Conveniences:");
                                 input = scanner.nextLine();
-                                car.setConvenience(List.of(input));
+                                car.setConveniences(List.of(input));
                             }
                             choice = confirmEditing(choice, car);
                         }
 
                         if (choice == 10) {
-                            car.setEntertainment(null);
-                            while (car.getEntertainment() == null) {
+                            car.setEntertainments(null);
+                            while (car.getEntertainments() == null) {
                                 System.out.println("Entertainments:");
                                 input = scanner.nextLine();
-                                car.setEntertainment(List.of(input));
+                                car.setEntertainments(List.of(input));
                             }
                             choice = confirmEditing(choice, car);
                         }

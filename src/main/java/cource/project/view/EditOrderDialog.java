@@ -174,7 +174,7 @@ public class EditOrderDialog {
                 if (choice == 4) {
                     oldCar.getPickUpDates().remove(order.getPickUpDate());
                     oldCar.getDropOffDates().remove(order.getDropOffDate());
-                    oldCar.setOrder(null);
+                    oldCar.getOrders().remove(order);
 
                     List<Car> availableCarsForDates = carService.getAvailableCars(order);
 

@@ -17,8 +17,8 @@ public class Car extends BaseEntity{
     private CarType carType;
     private int doors;
     private int seats;
-    List<String> convenience;
-    List<String> entertainment;
+    List<String> conveniences;
+    List<String> entertainments;
     private Drivetrain drivetrain;
     private Transmission transmission;
     private int horsePowers;
@@ -31,9 +31,9 @@ public class Car extends BaseEntity{
     private double pricePerDay;
     private CarStatus carStatus;
     private Worker worker;
-    private Order order;
-    private List<LocalDateTime> pickUpDate;
-    private List<LocalDateTime> dropOffDate;
+    private List<Order> orders;
+    private List<LocalDateTime> pickUpDates;
+    private List<LocalDateTime> dropOffDates;
 
     public Car() {
     }
@@ -50,45 +50,22 @@ public class Car extends BaseEntity{
         this.carType = carType;
         this.doors = doors;
         this.seats = seats;
-        this.convenience = convenience;
-        this.entertainment = entertainment;
+        this.conveniences = convenience;
+        this.entertainments = entertainment;
         this.drivetrain = drivetrain;
         this.transmission = transmission;
         this.horsePowers = horsePowers;
         this.fuelType = type;
         this.tankVolume = tankVolume;
         this.fuelConsumption = fuelConsumption;
-        this.rating = rating;
+        this.rating = 0;
         this.deposit = deposit;
         this.pricePerDay = pricePerDay;
         this.carStatus = status;
+        this.orders = new ArrayList<>();
         this.comments = new ArrayList<>();
-        this.pickUpDate = new ArrayList<>();
-        this.dropOffDate = new ArrayList<>();
-    }
-
-    public List<LocalDateTime> getPickUpDates() {
-        return pickUpDate;
-    }
-
-    public void setPickUpDate(List<LocalDateTime> pickUpDate) {
-        this.pickUpDate = pickUpDate;
-    }
-
-    public List<LocalDateTime> getDropOffDates() {
-        return dropOffDate;
-    }
-
-    public void setDropOffDate(List<LocalDateTime> dropOffDate) {
-        this.dropOffDate = dropOffDate;
-    }
-
-    public Worker getWorker() {
-        return worker;
-    }
-
-    public void setWorker(Worker worker) {
-        this.worker = worker;
+        this.pickUpDates = new ArrayList<>();
+        this.dropOffDates = new ArrayList<>();
     }
 
     public String getBrand() {
@@ -155,20 +132,20 @@ public class Car extends BaseEntity{
         this.seats = seats;
     }
 
-    public List<String> getConvenience() {
-        return convenience;
+    public List<String> getConveniences() {
+        return conveniences;
     }
 
-    public void setConvenience(List<String> convenience) {
-        this.convenience = convenience;
+    public void setConveniences(List<String> conveniences) {
+        this.conveniences = conveniences;
     }
 
-    public List<String> getEntertainment() {
-        return entertainment;
+    public List<String> getEntertainments() {
+        return entertainments;
     }
 
-    public void setEntertainment(List<String> entertainment) {
-        this.entertainment = entertainment;
+    public void setEntertainments(List<String> entertainments) {
+        this.entertainments = entertainments;
     }
 
     public Drivetrain getDrivetrain() {
@@ -235,22 +212,6 @@ public class Car extends BaseEntity{
         this.comments = comments;
     }
 
-    public CarStatus getCarStatus() {
-        return carStatus;
-    }
-
-    public void setCarStatus(CarStatus carStatus) {
-        this.carStatus = carStatus;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
     public double getDeposit() {
         return deposit;
     }
@@ -265,6 +226,46 @@ public class Car extends BaseEntity{
 
     public void setPricePerDay(double pricePerDay) {
         this.pricePerDay = pricePerDay;
+    }
+
+    public CarStatus getCarStatus() {
+        return carStatus;
+    }
+
+    public void setCarStatus(CarStatus carStatus) {
+        this.carStatus = carStatus;
+    }
+
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public void setWorker(Worker worker) {
+        this.worker = worker;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<LocalDateTime> getPickUpDates() {
+        return pickUpDates;
+    }
+
+    public void setPickUpDates(List<LocalDateTime> pickUpDates) {
+        this.pickUpDates = pickUpDates;
+    }
+
+    public List<LocalDateTime> getDropOffDates() {
+        return dropOffDates;
+    }
+
+    public void setDropOffDates(List<LocalDateTime> dropOffDates) {
+        this.dropOffDates = dropOffDates;
     }
 
     @Override
@@ -292,10 +293,10 @@ public class Car extends BaseEntity{
                 .append("fuelConsumption = '" + fuelConsumption + "' ")
                 .append(System.lineSeparator());
 
-        if (convenience.size() > 0 && entertainment.size() > 0) {
-            sb.append("\t convenience = '" + convenience + "' ")
+        if (conveniences.size() > 0 && entertainments.size() > 0) {
+            sb.append("\t convenience = '" + conveniences + "' ")
                     .append(System.lineSeparator())
-                    .append("\t entertainment = '" + entertainment + "' ")
+                    .append("\t entertainment = '" + entertainments + "' ")
                     .append(System.lineSeparator());
         }
         sb.append(String.format("\t rating = '%.2f' ", rating));
@@ -308,17 +309,17 @@ public class Car extends BaseEntity{
         sb.append(String.format("price per day = '%.2f' ", pricePerDay))
                 .append(System.lineSeparator());
 
-        if (order != null) {
-            sb.append("\t currentOrderId = '" + order.getId() + "' ")
+        if (orders != null) {
+            sb.append("\t orders = '" + orders.size() + "' ")
                     .append(System.lineSeparator());
         }
 
-        if (pickUpDate  != null) {
-            sb.append("\t pickUpDate = '" + pickUpDate.size() + "' ");
+        if (pickUpDates != null) {
+            sb.append("\t pickUpDates = '" + pickUpDates.size() + "' ");
         }
 
-        if (pickUpDate != null) {
-            sb.append("dropOffDate = '" + dropOffDate.size() + "' ")
+        if (pickUpDates != null) {
+            sb.append("dropOffDates = '" + dropOffDates.size() + "' ")
                     .append(System.lineSeparator());
         }
         sb.append("\t CarStatus = '" + carStatus + "' ")

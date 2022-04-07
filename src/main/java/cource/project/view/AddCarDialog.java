@@ -124,16 +124,16 @@ public class AddCarDialog {
             }
         }
 
-        while (car.getConvenience() == null) {
+        while (car.getConveniences() == null) {
             System.out.println("Conveniences:");
             String input = scanner.nextLine();
-            car.setConvenience(List.of(input));
+            car.setConveniences(List.of(input));
         }
 
-        while (car.getEntertainment() == null) {
+        while (car.getEntertainments() == null) {
             System.out.println("Entertainments:");
             String input = scanner.nextLine();
-            car.setEntertainment(List.of(input));
+            car.setEntertainments(List.of(input));
         }
 
         while (car.getDrivetrain() == null) {
@@ -267,9 +267,9 @@ public class AddCarDialog {
             car.setCarStatus(carStatus);
         }
 
-        car.setPickUpDate(new ArrayList<>());
-        car.setDropOffDate(new ArrayList<>());
-        car.setConvenience(new ArrayList<>());
+        car.setPickUpDates(new ArrayList<>());
+        car.setDropOffDates(new ArrayList<>());
+        car.setConveniences(new ArrayList<>());
         carService.addCar(car);
     }
 

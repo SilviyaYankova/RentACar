@@ -58,14 +58,14 @@ public class CarValidator implements Validator<Car> {
             violations.add(new ConstraintViolation(car.getClass().getName(), "seats", car.getSeats(),
                     "Car seats should be between 2 and 5."));
         }
-        List<String> convenience = car.getConvenience();
+        List<String> convenience = car.getConveniences();
         if (convenience == null) {
-            violations.add(new ConstraintViolation(car.getClass().getName(), "convenience", car.getConvenience(),
+            violations.add(new ConstraintViolation(car.getClass().getName(), "convenience", car.getConveniences(),
                     "Car must have at least one convenience."));
         }
-        List<String> entertainment = car.getConvenience();
+        List<String> entertainment = car.getConveniences();
         if (entertainment == null) {
-            violations.add(new ConstraintViolation(car.getClass().getName(), "entertainment", car.getEntertainment(),
+            violations.add(new ConstraintViolation(car.getClass().getName(), "entertainment", car.getEntertainments(),
                     "Car entertainment must have at least one convenience."));
         }
         Drivetrain drivetrain = car.getDrivetrain();
