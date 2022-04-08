@@ -7,12 +7,12 @@ public class DaoFactoryImp implements DaoFactory {
 
     @Override
     public UserRepository createUserRepository(Connection connection) {
-        return new UserRepositoryJdbc(connection);
+        return new UserRepositoryJDBC(connection);
     }
 
     @Override
     public CarRepository createCarRepository(Connection connection) {
-        return new CarRepositoryImpl(connection);
+        return new CarRepositoryJDBC(connection);
     }
 
     @Override

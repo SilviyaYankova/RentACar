@@ -36,14 +36,14 @@ public class HomeController {
 
     public void init() throws NoneAvailableEntityException, NoneExistingEntityException, InvalidEntityDataException {
 
-
+        System.out.println();
         Menu menu = new Menu("Home Menu", List.of(
                 new Option("See all cars", () -> {
                     Collection<Car> allCars = carService.getAllCarsWithStatus(CarStatus.AVAILABLE);
                     if (allCars.size() > 0) {
                         allCars.forEach(System.out::println);
                         System.out.println();
-                        System.out.println("All Cars shown successfully.\n");
+                        System.out.println("All Cars available for booking are shown successfully.\n");
                     } else {
                         System.out.println("Sorry, there is no available cars.");
                         System.out.println();

@@ -17,12 +17,12 @@ import java.util.Collection;
 import java.util.List;
 
 @Slf4j
-public class UserRepositoryJdbc implements UserRepository {
+public class UserRepositoryJDBC implements UserRepository {
 
     @SuppressWarnings("SqlResolve")
-    public static final String SELECT_ALL_USERS = "select * from `users`;";
+    public static final String FIND_ALL_USERS = "select * from `users`;";
     @SuppressWarnings("SqlResolve")
-    public static final String SELECT_USER_BY_ID = "select * from `users` where user_id=?;";
+    public static final String FIND_USER_BY_ID = "select * from `users` where user_id=?;";
     @SuppressWarnings("SqlResolve")
     public static final String INSERT_NEW_USER = "insert into `users` (`first_name`, `last_name`, `email`, `phone_number`, `username`, `password`, `repeat_password`, `registered_on`, `role_id`) values (?, ?,?, ?, ?, ?, ?, ?, ?);";
     @SuppressWarnings("SqlResolve")
@@ -31,12 +31,15 @@ public class UserRepositoryJdbc implements UserRepository {
             "where user_id=?;";
     @SuppressWarnings("SqlResolve")
     public static final String DELETE_USER_BY_ID = "delete from `users` where user_id=?;";
+    @SuppressWarnings("SqlResolve")
     public static final String FIND_USER_BY_USERNAME = "select * from `users` where username=?;";
+    @SuppressWarnings("SqlResolve")
+    public static final String FIND_USER_BY_EMAIL = "select * from `users` where email=?;";
 
 
     private Connection connection;
 
-    protected UserRepositoryJdbc(Connection connection) {
+    protected UserRepositoryJDBC(Connection connection) {
         this.connection = connection;
     }
 
@@ -94,17 +97,17 @@ public class UserRepositoryJdbc implements UserRepository {
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                throw new EntityPersistenceException("Error rolling back SQL query: " + SELECT_ALL_USERS, ex);
+                throw new EntityPersistenceException("Error rolling back SQL query: " + FIND_ALL_USERS, ex);
             }
             log.error("Error creating connection to DB", ex);
-            throw new EntityPersistenceException("Error executing SQL query: " + SELECT_ALL_USERS, ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + FIND_ALL_USERS, ex);
         }
     }
 
     @Override
     public User findById(Long id) {
         User user = new User();
-        try (var stmt = connection.prepareStatement(SELECT_USER_BY_ID)) {
+        try (var stmt = connection.prepareStatement(FIND_USER_BY_ID)) {
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -138,7 +141,7 @@ public class UserRepositoryJdbc implements UserRepository {
             }
         } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);
-            throw new EntityPersistenceException("Error executing SQL query: " + SELECT_USER_BY_ID, ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + FIND_USER_BY_ID, ex);
         }
 
         return user;
@@ -146,14 +149,14 @@ public class UserRepositoryJdbc implements UserRepository {
 
     @Override
     public Collection<User> findAll() {
-        try (var stmt = connection.prepareStatement(SELECT_ALL_USERS)) {
+        try (var stmt = connection.prepareStatement(FIND_ALL_USERS)) {
             // 4. Set params and execute SQL query
             var rs = stmt.executeQuery();
             // 5. Transform ResultSet to User
             return toUsers(rs);
         } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);
-            throw new EntityPersistenceException("Error executing SQL query: " + SELECT_ALL_USERS, ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + FIND_ALL_USERS, ex);
         }
     }
 
@@ -231,11 +234,6 @@ public class UserRepositoryJdbc implements UserRepository {
     }
 
     @Override
-    public long count() {
-        return 0;
-    }
-
-    @Override
     public Driver getAvailableDriver(LocalDateTime pickUpDate, LocalDateTime dropOffDate) throws NoneAvailableEntityException {
         return null;
     }
@@ -285,9 +283,46 @@ public class UserRepositoryJdbc implements UserRepository {
 
     @Override
     public User findUserByEmail(String email) {
-        return null;
-    }
+        User user = new User();
+        try (var stmt = connection.prepareStatement(FIND_USER_BY_EMAIL)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
 
+                user.setId(rs.getLong("user_id"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhoneNumber(rs.getString("phone_number"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setRepeatPassword(rs.getString("repeat_password"));
+
+                String registered_on = rs.getString("registered_on");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+                LocalDateTime localDateTime = LocalDateTime.parse(registered_on, formatter);
+                user.setRegisteredOn(localDateTime);
+
+                Long roleId = rs.getLong("role_id");
+                if (roleId == 1) {
+                    user.setRole(Role.ADMINISTRATOR);
+                } else if (roleId == 2) {
+                    user.setRole(Role.SELLER);
+                } else if (roleId == 3) {
+                    user.setRole(Role.SITE_MANAGER);
+                } else if (roleId == 4) {
+                    user.setRole(Role.DRIVER);
+                } else {
+                    user.setRole(Role.USER);
+                }
+            }
+        } catch (SQLException ex) {
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + FIND_USER_BY_EMAIL, ex);
+        }
+
+        return user;
+    }
 
     public List<User> toUsers(ResultSet rs) throws SQLException {
         List<User> results = new ArrayList<>();

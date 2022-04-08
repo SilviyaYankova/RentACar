@@ -17,5 +17,4 @@ public interface Repository<K, V> {
 
     void deleteById(K id) throws NoneExistingEntityException;
 
-    long count();
 }

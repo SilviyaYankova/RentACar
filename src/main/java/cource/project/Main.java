@@ -40,8 +40,10 @@ public class Main {
         DaoFactory daoFactory = new DaoFactoryImp();
         UserRepository userRepository = daoFactory.createUserRepository(connection);
 
-
         CarRepository carRepository = daoFactory.createCarRepository(connection);
+
+
+
         OrderRepository orderRepository = daoFactory.createOrderRepository(connection);
         WorkerRepository workerRepository = daoFactory.createWorkerRepository(connection);
         CommentRepository commentRepository = daoFactory.createCommentRepository(connection);
@@ -54,8 +56,9 @@ public class Main {
         UserService userService = new UserServiceImpl(userRepository, workerService, orderService, carService, commentService);
 
 
-        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
-        homeController.init();
+//        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
+//        homeController.init();
+
 
 
         closeConnection(connection);

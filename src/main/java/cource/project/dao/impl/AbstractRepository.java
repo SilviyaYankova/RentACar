@@ -40,8 +40,4 @@ public abstract class AbstractRepository<K, V> implements Repository<K, V> {
 
     }
 
-    @Override
-    public long count() {
-        return 0;
-    }
 }
