@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
             throw new NoneExistingEntityException("User with ID " + id + " does not exist.");
         }
 
-        return userRepository.findById(id);
+        return user;
     }
 
     @Override

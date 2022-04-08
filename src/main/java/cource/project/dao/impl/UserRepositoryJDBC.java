@@ -16,18 +16,50 @@ import java.util.Collection;
 import java.util.List;
 
 @Slf4j
-public class UserRepositoryImpl extends AbstractRepository<Long, User> implements UserRepository {
+public class UserRepositoryJdbc implements UserRepository {
 
     public static final String SELECT_ALL_USERS = "select * from `users`;";
+    public static final String SELECT_USER_BY_ID = "select * from `users` where user_id=?;";
 
     private Connection connection;
-    protected UserRepositoryImpl(Connection connection) {
-        super(connection);
+
+    protected UserRepositoryJdbc(Connection connection) {
+        this.connection = connection;
+    }
+
+    @Override
+    public User create(User entity) {
+        return null;
     }
 
     @Override
     public User findById(Long id) {
-        return null;
+        User user = new User();
+        try (var stmt = connection.prepareStatement(SELECT_USER_BY_ID)) {
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                user.setId(rs.getLong("user_id"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhoneNumber(rs.getString("phone_number"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setRepeatPassword(rs.getString("repeat_password"));
+
+                String registered_on = rs.getString("registered_on");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+                LocalDateTime localDateTime = LocalDateTime.parse(registered_on, formatter);
+                user.setRegisteredOn(localDateTime);
+            }
+        } catch (SQLException ex) {
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + SELECT_USER_BY_ID, ex);
+        }
+
+        return user;
     }
 
     @Override
@@ -76,11 +108,12 @@ public class UserRepositoryImpl extends AbstractRepository<Long, User> implement
 
     public List<User> toUsers(ResultSet rs) throws SQLException {
         List<User> results = new ArrayList<>();
-        String registered_on = rs.getString("registered_on");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        LocalDateTime localDateTime = LocalDateTime.parse(registered_on, formatter);
+
 
         while (rs.next()) {
+            String registered_on = rs.getString("registered_on");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+            LocalDateTime localDateTime = LocalDateTime.parse(registered_on, formatter);
             results.add(new User(
                     rs.getLong(1),
                     rs.getString("first_name"),

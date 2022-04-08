@@ -7,7 +7,7 @@ public class DaoFactoryImp implements DaoFactory {
 
     @Override
     public UserRepository createUserRepository(Connection connection) {
-        return new UserRepositoryImpl(connection);
+        return new UserRepositoryJdbc(connection);
     }
 
     @Override
