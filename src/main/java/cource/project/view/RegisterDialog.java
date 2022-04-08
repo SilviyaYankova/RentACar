@@ -119,7 +119,7 @@ public class RegisterDialog {
         }
         user.setRegisteredOn(LocalDateTime.now());
 
-        if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
+        if ( LOGGED_IN_USER != null && LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
             System.out.println("Role:");
             List<Role> roles = Arrays.stream(Role.values()).collect(Collectors.toList());
             int count = 0;
