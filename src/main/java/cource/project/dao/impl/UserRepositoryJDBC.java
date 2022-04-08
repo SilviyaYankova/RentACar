@@ -29,6 +29,8 @@ public class UserRepositoryJdbc implements UserRepository {
     public static final String UPDATE_USER = "update `users` " +
             "set `first_name`=?, `last_name`=?, `phone_number`=?, `password`=?, `repeat_password`=?, `role_id`=? " +
             "where user_id=?;";
+    @SuppressWarnings("SqlResolve")
+    public static final String DELETE_USER_BY_ID = "delete from `users` where user_id=?;";
 
 
     private Connection connection;
@@ -204,7 +206,28 @@ public class UserRepositoryJdbc implements UserRepository {
 
     @Override
     public void deleteById(Long id) throws NoneExistingEntityException {
+        try (var stmt = connection.prepareStatement(DELETE_USER_BY_ID)) {
+            stmt.setLong(1, id);
+            connection.setAutoCommit(false);
+            var affectedRows = stmt.executeUpdate();
+            // more updates here ...
+            connection.commit();
+            connection.setAutoCommit(true);
 
+            // 6. Check results and Get generated primary key
+            if (affectedRows == 0) {
+                throw new EntityPersistenceException("Updating user failed, no rows affected.");
+            }
+
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new EntityPersistenceException("Error rolling back SQL query: " + UPDATE_USER, ex);
+            }
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_USER, ex);
+        }
     }
 
     @Override
