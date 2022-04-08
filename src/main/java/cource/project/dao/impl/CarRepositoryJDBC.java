@@ -7,12 +7,12 @@ import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Car;
 import cource.project.model.Worker;
 import cource.project.model.enums.*;
-import cource.project.service.WorkerService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +23,11 @@ public class CarRepositoryJDBC implements CarRepository {
     public static final String FIND_ALL_CARS = "select * from `cars`;";
     @SuppressWarnings("SqlResolve")
     public static final String FIND_CAR_BY_ID = "select * from `cars` where car_id=?;";
-
+    @SuppressWarnings("SqlResolve")
+    public static final String INSERT_NEW_CAR = "insert into `cars` (`brand`, `model`, `year`, `picture_url`, " +
+            "`color`, `car_type_id`, `doors`, `seats`, `conveniences`, `entertainments`, `drivetrain_id`, " +
+            "`transmission_id`, `horse_powers`, `fuel_type_id`, `tank_volume`, `fuel_consumption`, `rating`, " +
+            "`deposit`, `price_per_day`, `car_status_id`, `worker_id`) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
     private Connection connection;
     private WorkerRepository workerRepository;
@@ -34,8 +38,162 @@ public class CarRepositoryJDBC implements CarRepository {
     }
 
     @Override
-    public Car create(Car entity) {
-        return null;
+    public Car create(Car car) {
+        try (var stmt = connection.prepareStatement(INSERT_NEW_CAR, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, car.getBrand());
+            stmt.setString(2, car.getModel());
+            stmt.setString(3, car.getYear());
+            stmt.setString(4, car.getPictureURL());
+            stmt.setString(5, car.getColor());
+            Long car_type_id = getCarTypeId(car);
+            stmt.setLong(6, car_type_id);
+            stmt.setInt(7, car.getDoors());
+            stmt.setInt(8, car.getSeats());
+            stmt.setString(9, car.getConveniences().toString());
+            stmt.setString(10, car.getEntertainments().toString());
+            Long drivetrain_id = getDrivetrainId(car.getDrivetrain());
+            stmt.setLong(11, drivetrain_id);
+            Long transmission_id = getTransmissionId(car.getTransmission());
+            stmt.setLong(12, transmission_id);
+            stmt.setInt(13, car.getHorsePowers());
+            Long fuel_type_id = getFuelTypeId(car.getFuelType());
+            stmt.setLong(14, fuel_type_id);
+            stmt.setInt(15, car.getTankVolume());
+            stmt.setDouble(16, car.getFuelConsumption());
+            stmt.setDouble(17, car.getRating());
+            stmt.setDouble(18, car.getDeposit());
+            stmt.setDouble(19, car.getPricePerDay());
+            Long car_status_id = getCarStatusId(car.getCarStatus());
+            stmt.setLong(20, car_status_id);
+            Worker worker = car.getWorker();
+            if (worker != null) {
+                stmt.setLong(21, worker.getId());
+            } else {
+                stmt.setLong(21, 0);
+            }
+
+            connection.setAutoCommit(false);
+            var affectedRows = stmt.executeUpdate();
+            // more updates here ...
+            connection.commit();
+            connection.setAutoCommit(true);
+            if (affectedRows == 0) {
+                throw new EntityPersistenceException("Creating car failed, no rows affected.");
+            }
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    car.setId(generatedKeys.getLong(1));
+                    return car;
+                } else {
+                    throw new EntityPersistenceException("Creating car failed, no ID obtained.");
+                }
+            }
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new EntityPersistenceException("Error rolling back SQL query: " + INSERT_NEW_CAR, ex);
+            }
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + INSERT_NEW_CAR, ex);
+        }
+    }
+
+    private Long getCarStatusId(CarStatus carStatus) {
+        long id = 0;
+        if (carStatus.equals(CarStatus.AVAILABLE)){
+            id = 1;
+        } else if (carStatus.equals(CarStatus.BUSY)){
+            id = 2;
+        } else if (carStatus.equals(CarStatus.WAITING)){
+            id = 3;
+        } else if (carStatus.equals(CarStatus.WAITING_FOR_CLEANING)){
+            id = 4;
+        } else if (carStatus.equals(CarStatus.CLEANING)){
+            id = 5;
+        } else if (carStatus.equals(CarStatus.START_CLEANING)){
+            id = 6;
+        } else if (carStatus.equals(CarStatus.FINISH_CLEANING)){
+            id = 7;
+        }
+
+        return id;
+    }
+
+    private Long getFuelTypeId(FuelType fuelType) {
+        long id = 0;
+        if (fuelType.equals(FuelType.GASOLINE)) {
+            id = 1;
+        } else if (fuelType.equals(FuelType.DIESEL)) {
+            id = 2;
+        } else if (fuelType.equals(FuelType.BIODIESEL)) {
+            id = 3;
+        } else if (fuelType.equals(FuelType.ETHANOL)) {
+            id = 4;
+        } else if (fuelType.equals(FuelType.COMPRESSED_NATURAL_GAS)) {
+            id = 5;
+        } else if (fuelType.equals(FuelType.LIQUEFIED_PETROLEUM_GAS)) {
+            id =6 ;
+        } else if (fuelType.equals(FuelType.HYDROGEN)) {
+            id = 7;
+        }
+
+        return id;
+    }
+
+    private Long getTransmissionId(Transmission transmission) {
+        long id = 0;
+        if (transmission.equals(Transmission.MANUAL)) {
+            id = 1;
+        } else if (transmission.equals(Transmission.AUTOMATIC)) {
+            id = 2;
+        } else if (transmission.equals(Transmission.CVT)) {
+            id = 3;
+        } else if (transmission.equals(Transmission.SEMI_AUTOMATIC)) {
+            id = 4;
+        } else if (transmission.equals(Transmission.DUAL_CLUTCH)) {
+            id = 5;
+        }
+
+        return id;
+    }
+
+    private Long getDrivetrainId(Drivetrain drivetrain) {
+        long id = 0;
+
+        if (drivetrain.equals(Drivetrain.FOUR_WHEEL_DRIVE)) {
+            id = 1;
+        } else if (drivetrain.equals(Drivetrain.REAR_WHEEL_DRIVE)) {
+            id = 2;
+        } else if (drivetrain.equals(Drivetrain.FOUR_WHEEL_DRIVE)) {
+            id = 3;
+        } else if (drivetrain.equals(Drivetrain.ALL_WHEEL_DRIVE)) {
+            id = 4;
+        }
+        return id;
+    }
+
+    private Long getCarTypeId(Car car) {
+        long car_type_id = 0L;
+        if (car.getCarType().equals(CarType.HATCHBACK)) {
+            car_type_id = 1L;
+        } else if (car.getCarType().equals(CarType.SEDAN)) {
+            car_type_id = 2L;
+        } else if (car.getCarType().equals(CarType.ESTATE)) {
+            car_type_id = 3L;
+        } else if (car.getCarType().equals(CarType.MPV)) {
+            car_type_id = 4L;
+        } else if (car.getCarType().equals(CarType.SUV)) {
+            car_type_id = 5L;
+        } else if (car.getCarType().equals(CarType.COUPE)) {
+            car_type_id = 6L;
+        } else if (car.getCarType().equals(CarType.SPORTS_CAR)) {
+            car_type_id = 7L;
+        } else if (car.getCarType().equals(CarType.CONVERTIBLE)) {
+            car_type_id = 8L;
+        }
+
+        return car_type_id;
     }
 
     @Override
@@ -82,19 +240,19 @@ public class CarRepositoryJDBC implements CarRepository {
 
         while (rs.next()) {
             long car_type_id = rs.getLong("car_type_id");
-            CarType carType = getCarType(car_type_id);
+            CarType carType = getCarTypeName(car_type_id);
 
             long drivetrain_id = rs.getLong("drivetrain_id");
-            Drivetrain drivetrain = getDrivetrain(drivetrain_id);
+            Drivetrain drivetrain = getDrivetrainName(drivetrain_id);
 
             long transmission_id = rs.getLong("transmission_id");
-            Transmission transmission = getTransmission(transmission_id);
+            Transmission transmission = getTransmissionName(transmission_id);
 
             long fuel_type_id = rs.getLong("fuel_type_id");
-            FuelType fuelType = getFuelType(fuel_type_id);
+            FuelType fuelType = getFuelTypeName(fuel_type_id);
 
             long car_status_id = rs.getLong("car_status_id");
-            CarStatus carStatus = getCarStatus(car_status_id);
+            CarStatus carStatus = getCarStatusName(car_status_id);
 
             Car car = new Car();
 
@@ -108,19 +266,19 @@ public class CarRepositoryJDBC implements CarRepository {
 
     private Car setCar(Car car, ResultSet rs) throws SQLException, NoneExistingEntityException {
         long car_type_id = rs.getLong("car_type_id");
-        CarType carType = getCarType(car_type_id);
+        CarType carType = getCarTypeName(car_type_id);
 
         long drivetrain_id = rs.getLong("drivetrain_id");
-        Drivetrain drivetrain = getDrivetrain(drivetrain_id);
+        Drivetrain drivetrain = getDrivetrainName(drivetrain_id);
 
         long transmission_id = rs.getLong("transmission_id");
-        Transmission transmission = getTransmission(transmission_id);
+        Transmission transmission = getTransmissionName(transmission_id);
 
         long fuel_type_id = rs.getLong("fuel_type_id");
-        FuelType fuelType = getFuelType(fuel_type_id);
+        FuelType fuelType = getFuelTypeName(fuel_type_id);
 
         long car_status_id = rs.getLong("car_status_id");
-        CarStatus carStatus = getCarStatus(car_status_id);
+        CarStatus carStatus = getCarStatusName(car_status_id);
 
         car.setId(rs.getLong("car_id"));
         car.setBrand(rs.getString("brand"));
@@ -154,7 +312,7 @@ public class CarRepositoryJDBC implements CarRepository {
         return car;
     }
 
-    private CarStatus getCarStatus(long car_status_id) {
+    private CarStatus getCarStatusName(long car_status_id) {
         CarStatus carStatus = null;
         if (car_status_id == 1) {
             carStatus = CarStatus.AVAILABLE;
@@ -175,7 +333,7 @@ public class CarRepositoryJDBC implements CarRepository {
         return carStatus;
     }
 
-    private FuelType getFuelType(long fuel_type_id) {
+    private FuelType getFuelTypeName(long fuel_type_id) {
         FuelType fuelType = null;
         if (fuel_type_id == 1) {
             fuelType = FuelType.GASOLINE;
@@ -196,7 +354,7 @@ public class CarRepositoryJDBC implements CarRepository {
         return fuelType;
     }
 
-    private Transmission getTransmission(long transmission_id) {
+    private Transmission getTransmissionName(long transmission_id) {
         Transmission transmission = null;
         if (transmission_id == 1) {
             transmission = Transmission.MANUAL;
@@ -212,7 +370,7 @@ public class CarRepositoryJDBC implements CarRepository {
         return transmission;
     }
 
-    private Drivetrain getDrivetrain(long drivetrain_id) {
+    private Drivetrain getDrivetrainName(long drivetrain_id) {
         Drivetrain drivetrain = null;
 
         if (drivetrain_id == 1) {
@@ -228,7 +386,7 @@ public class CarRepositoryJDBC implements CarRepository {
         return drivetrain;
     }
 
-    private CarType getCarType(long car_type_id) {
+    private CarType getCarTypeName(long car_type_id) {
         CarType carType = null;
         if (car_type_id == 1) {
             carType = CarType.HATCHBACK;

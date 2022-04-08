@@ -56,11 +56,11 @@ public class Main {
         UserService userService = new UserServiceImpl(userRepository, workerService, orderService, carService, commentService);
 
 
-//        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
-//        homeController.init();
+        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
+        homeController.init();
 
-        System.out.println(workerService.getWorkerById(3L));
- workerService.getAllWorkers().forEach(System.out::println);
+////        System.out.println(workerService.getWorkerById(3L));
+// workerService.getAllWorkers().forEach(System.out::println);
         closeConnection(connection);
     }
 
