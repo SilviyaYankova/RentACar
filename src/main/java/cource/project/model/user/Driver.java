@@ -25,9 +25,9 @@ public class Driver extends User {
         this.dropOffDate = new ArrayList<>();
     }
 
-    public Driver(String firstName, String lastName, String email, String phoneNumber, String username,
+    public Driver(Long id, String firstName, String lastName, String email, String phoneNumber, String username,
                   String password, String repeatPassword, LocalDateTime registeredOn, double price) {
-        super(firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
+        super(id, firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
         this.setRole(Role.DRIVER);
         this.driverStatus = DriverStatus.AVAILABLE;
         this.pricePerDay = price;

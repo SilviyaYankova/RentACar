@@ -16,13 +16,18 @@ public class Order extends BaseEntity {
     private boolean hireDriver;
     private User seller;
     private Car car;
+
     private OrderStatus orderStatus;
+
     private LocalDateTime createdOn;
     private LocalDateTime modifiedOn;
+
     private Location pickUpLocation;
     private Location dropOfLocation;
+
     private LocalDateTime pickUpDate;
     private LocalDateTime dropOffDate;
+
     private Long days;
     private double carPricePerDays;
     private double deposit;
@@ -32,7 +37,8 @@ public class Order extends BaseEntity {
         this.orderStatus = OrderStatus.PENDING;
     }
 
-    public Order(User user, boolean hireDriver, Car car, Location pickUpLocation, Location dropOfLocation, LocalDateTime pickUpDate, LocalDateTime dropOffDate) {
+    public Order(Long id,User user, boolean hireDriver, Car car, Location pickUpLocation, Location dropOfLocation, LocalDateTime pickUpDate, LocalDateTime dropOffDate) {
+        super(id);
         this.user = user;
         this.hireDriver = hireDriver;
         this.car = car;
@@ -42,9 +48,10 @@ public class Order extends BaseEntity {
         this.dropOffDate = dropOffDate;
     }
 
-    public Order(User user, Driver driver, boolean hireDriver, User seller, Car car, OrderStatus orderStatus, LocalDateTime createdOn,
+    public Order(Long id, User user, Driver driver, boolean hireDriver, User seller, Car car, OrderStatus orderStatus, LocalDateTime createdOn,
                  Location pickUpLocation, Location dropOfLocation, LocalDateTime pickUpDate, LocalDateTime dropOffDate, Long days,
                  double pricePerDays, double deposit, double finalPrice) {
+        super(id);
         this.user = user;
         this.driver = driver;
         this.hireDriver = hireDriver;

@@ -22,7 +22,7 @@ public class Car extends BaseEntity{
     private Drivetrain drivetrain;
     private Transmission transmission;
     private int horsePowers;
-    private Fuel fuelType;
+    private FuelType fuelType;
     private int tankVolume;
     private double fuelConsumption;
     private double rating;
@@ -38,10 +38,11 @@ public class Car extends BaseEntity{
     public Car() {
     }
 
-    public Car(String brand, String model, String year, String pictureURL, String color, CarType carType, int doors, int seats,
+    public Car(Long id,String brand, String model, String year, String pictureURL, String color, CarType carType, int doors, int seats,
                List<String> convenience, List<String> entertainment, Drivetrain drivetrain, Transmission transmission,
-               int horsePowers, Fuel type, int tankVolume, double fuelConsumption,
+               int horsePowers, FuelType type, int tankVolume, double fuelConsumption,
                double deposit, double pricePerDay, CarStatus status) {
+        super(id);
         this.brand = brand;
         this.model = model;
         this.year = year;
@@ -172,11 +173,11 @@ public class Car extends BaseEntity{
         this.horsePowers = horsePowers;
     }
 
-    public Fuel getFuelType() {
+    public FuelType getFuelType() {
         return fuelType;
     }
 
-    public void setFuelType(Fuel fuelType) {
+    public void setFuelType(FuelType fuelType) {
         this.fuelType = fuelType;
     }
 

@@ -186,9 +186,9 @@ public class AddCarDialog {
         while (car.getFuelType() == null) {
             System.out.println("Fuel type:");
 
-            List<Fuel> values = Arrays.stream(Fuel.values()).collect(Collectors.toList());
+            List<FuelType> values = Arrays.stream(FuelType.values()).collect(Collectors.toList());
             int count = 0;
-            for (Fuel value : values) {
+            for (FuelType value : values) {
                 count++;
                 System.out.println(count + ".\t" + value);
             }
@@ -197,8 +197,8 @@ public class AddCarDialog {
             String input = scanner.nextLine();
             int choice = 0;
             choice = checkValidInput(values, choice, input);
-            Fuel fuel = values.get(choice - 1);
-            car.setFuelType(fuel);
+            FuelType fuelType = values.get(choice - 1);
+            car.setFuelType(fuelType);
         }
 
         while (car.getTankVolume() == 0) {

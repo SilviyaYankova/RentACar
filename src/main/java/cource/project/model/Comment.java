@@ -17,7 +17,8 @@ public class Comment extends BaseEntity {
     public Comment() {
     }
 
-    public Comment(String content, double rating, User user, Car car, LocalDateTime postedOn, LocalDateTime editedOn) {
+    public Comment(Long id, String content, double rating, User user, Car car, LocalDateTime postedOn, LocalDateTime editedOn) {
+       super(id);
         this.content = content;
         this.rating = rating;
         this.user = user;

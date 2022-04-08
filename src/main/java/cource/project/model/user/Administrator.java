@@ -15,9 +15,9 @@ public class Administrator extends User {
         this.clientHistory = new ArrayList<>();
     }
 
-    public Administrator(String firstName, String lastName, String email, String phoneNumber, String username,
+    public Administrator(Long id, String firstName, String lastName, String email, String phoneNumber, String username,
                          String password, String repeatPassword, LocalDateTime registeredOn) {
-        super(firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
+        super(id, firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
         this.setRole(Role.ADMINISTRATOR);
         this.clientHistory = new ArrayList<>();
     }

@@ -63,8 +63,8 @@ public class UserController {
                     new Option("Book Car", () -> {
                         Collection<Car> allCars = carService.getAllCarsWithStatus(CarStatus.AVAILABLE);
                         if (allCars.size() > 0) {
-                            BookingDialog BookingDialog = new BookingDialog(userService, carService, orderService, userRepository, workerService, commentService);
-                            BookingDialog.input(LOGGED_IN_USER);
+                            AddOrderDialog AddOrderDialog = new AddOrderDialog(userService, carService, orderService, userRepository, workerService, commentService);
+                            AddOrderDialog.input(LOGGED_IN_USER);
                         } else {
                             System.out.println("Sorry there is no available cars for booking.");
                             System.out.println();

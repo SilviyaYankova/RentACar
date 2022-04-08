@@ -1,6 +1,6 @@
 package cource.project.model.enums;
 
-public enum Fuel {
+public enum FuelType {
     // gas, diеsel, био дизел, Етанол, Сгъстен природен газ, propan, ,
     GASOLINE,
     DIESEL,

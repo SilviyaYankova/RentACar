@@ -302,9 +302,9 @@ public class EditCarDialog {
                             while (car.getFuelType() == null) {
                                 System.out.println("Fuel type:");
 
-                                List<Fuel> values = Arrays.stream(Fuel.values()).collect(Collectors.toList());
+                                List<FuelType> values = Arrays.stream(FuelType.values()).collect(Collectors.toList());
                                 count = 0;
-                                for (Fuel value : values) {
+                                for (FuelType value : values) {
                                     count++;
                                     System.out.println(count + ".\t" + value);
                                 }
@@ -313,8 +313,8 @@ public class EditCarDialog {
                                 input = scanner.nextLine();
                                 choice = 0;
                                 choice = checkValidInput(values, choice, input);
-                                Fuel fuel = values.get(choice - 1);
-                                car.setFuelType(fuel);
+                                FuelType fuelType = values.get(choice - 1);
+                                car.setFuelType(fuelType);
                             }
                             choice = confirmEditing(choice, car);
                         }

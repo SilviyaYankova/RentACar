@@ -28,8 +28,9 @@ public class User extends BaseEntity {
         this.comments = new ArrayList<>();
     }
 
-    public User(String firstName, String lastName, String email, String phoneNumber, String username,
+    public User(Long id, String firstName, String lastName, String email, String phoneNumber, String username,
                 String password, String repeatPassword, LocalDateTime registeredOn) {
+        super(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -42,6 +43,7 @@ public class User extends BaseEntity {
         this.orders = new ArrayList<>();
         this.comments = new ArrayList<>();
     }
+
 
     public String getRepeatPassword() {
         return repeatPassword;

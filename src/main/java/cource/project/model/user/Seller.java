@@ -15,9 +15,9 @@ public class Seller extends User {
         this.clientsHistory = new ArrayList<>();
     }
 
-    public Seller(String firstName, String lastName, String email, String phoneNumber, String username,
+    public Seller(Long id, String firstName, String lastName, String email, String phoneNumber, String username,
                   String password, String repeatPassword, LocalDateTime registeredOn) {
-        super(firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
+        super(id, firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
         this.setRole(Role.SELLER);
         this.clientsHistory = new ArrayList<>();
     }

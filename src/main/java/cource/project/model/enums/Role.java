@@ -1,9 +1,9 @@
 package cource.project.model.enums;
 
 public enum Role {
-    USER,
-    DRIVER,
+    ADMINISTRATOR,
     SELLER,
     SITE_MANAGER,
-    ADMINISTRATOR,
+    DRIVER,
+    USER,
 }

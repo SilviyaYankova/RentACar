@@ -83,7 +83,7 @@ public class CarValidator implements Validator<Car> {
             violations.add(new ConstraintViolation(car.getClass().getName(), "horsePowers", car.getHorsePowers(),
                     "Car horse powers must be a positive number."));
         }
-        Fuel fuelType  = car.getFuelType();
+        FuelType fuelType  = car.getFuelType();
         if (fuelType == null) {
             violations.add(new ConstraintViolation(car.getClass().getName(), "fuelType", car.getFuelType(),
                     "Car must have Fuel Type."));

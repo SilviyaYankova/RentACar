@@ -17,7 +17,8 @@ public class Worker extends BaseEntity {
     public Worker() {
     }
 
-    public Worker(String firstName, String lastName, String code) {
+    public Worker(Long id, String firstName, String lastName, String code) {
+      super(id);
         this.workerStatus = WorkerStatus.AVAILABLE;
         this.firstName = firstName;
         this.lastName = lastName;

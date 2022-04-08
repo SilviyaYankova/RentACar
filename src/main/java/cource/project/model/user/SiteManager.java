@@ -19,9 +19,9 @@ public class SiteManager extends User {
         this.carsHistory = new ArrayList<>();
     }
 
-    public SiteManager(String firstName, String lastName, String email, String phoneNumber, String username,
+    public SiteManager(Long id, String firstName, String lastName, String email, String phoneNumber, String username,
                        String password, String repeatPassword, LocalDateTime registeredOn) {
-        super(firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
+        super(id, firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
         this.setRole(Role.SITE_MANAGER);
         this.workers = new ArrayList<>();
         this.carsHistory = new ArrayList<>();

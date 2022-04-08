@@ -119,21 +119,21 @@ public class EditOrderDialog {
             choice = 0;
             choice = checkValidInput(choice, input);
             boolean incorrectInput = true;
-            BookingDialog bookingDialog = new BookingDialog(userService, carService, orderService, userRepository, workerService, commentService);
+            AddOrderDialog addOrderDialog = new AddOrderDialog(userService, carService, orderService, userRepository, workerService, commentService);
 
             Car car = null;
             while (choice == 1 || choice == 2 || choice == 3 || choice == 4) {
                 if (choice == 1) {
                     order.setPickUpLocation(null);
                     while (order.getPickUpLocation() == null) {
-                        Location[] locations = bookingDialog.getLocations();
-                        bookingDialog.choosePickUpLocation(order, choice, locations);
+                        Location[] locations = addOrderDialog.getLocations();
+                        addOrderDialog.choosePickUpLocation(order, choice, locations);
                     }
 
                     order.setDropOfLocation(null);
                     while (order.getDropOffLocation() == null) {
-                        Location[] locations = bookingDialog.getLocations();
-                        bookingDialog.chooseDropOffLocation(order, choice, locations);
+                        Location[] locations = addOrderDialog.getLocations();
+                        addOrderDialog.chooseDropOffLocation(order, choice, locations);
                     }
                     choice = confirm(order, choice);
                 }
@@ -141,12 +141,12 @@ public class EditOrderDialog {
                 if (choice == 2) {
                     order.setPickUpDate(null);
                     while (order.getPickUpDate() == null) {
-                        bookingDialog.choosePickUpdate(order);
+                        addOrderDialog.choosePickUpdate(order);
                     }
 
                     order.setDropOffDate(null);
                     while (order.getDropOffDate() == null) {
-                        bookingDialog.chooseDropOffDate(order);
+                        addOrderDialog.chooseDropOffDate(order);
                     }
                     List<LocalDateTime> pickUpDates = oldCar.getPickUpDates();
                     if (pickUpDates.contains(order.getPickUpDate())) {
@@ -164,7 +164,7 @@ public class EditOrderDialog {
                 }
 
                 if (choice == 3) {
-                    bookingDialog.chooseToHireADriverOrNot(LOGGED_IN_USER, order, incorrectInput);
+                    addOrderDialog.chooseToHireADriverOrNot(LOGGED_IN_USER, order, incorrectInput);
                     if (order.isHireDriver() == false) {
                         order.setDriver(null);
                     }
@@ -190,8 +190,8 @@ public class EditOrderDialog {
                                 order.setPickUpDate(null);
                                 order.setDropOffDate(null);
                                 System.out.println("Pick Up new Dates:");
-                                bookingDialog.choosePickUpdate(order);
-                                bookingDialog.chooseDropOffDate(order);
+                                addOrderDialog.choosePickUpdate(order);
+                                addOrderDialog.chooseDropOffDate(order);
                                 availableCarsForDates = carService.getAvailableCars(order);
                             }
 
@@ -216,7 +216,7 @@ public class EditOrderDialog {
                         System.out.println("Choose Car number from the list above. (from 1 to " + availableCarsForDates.size() + ")");
                         input = scanner.nextLine();
                         choice = 0;
-                        choice = bookingDialog.validInputNumber(choice, input, availableCarsForDates);
+                        choice = addOrderDialog.validInputNumber(choice, input, availableCarsForDates);
 
                         car = availableCarsForDates.get(choice - 1);
                         car.getPickUpDates().add(order.getPickUpDate());

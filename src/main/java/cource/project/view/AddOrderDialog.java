@@ -20,7 +20,7 @@ import java.util.Scanner;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class BookingDialog {
+public class AddOrderDialog {
     Scanner scanner = new Scanner(System.in);
     private final UserService userService;
     private final CarService carService;
@@ -29,7 +29,7 @@ public class BookingDialog {
     private final WorkerService workerService;
     private final CommentService commentService;
 
-    public BookingDialog(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService, CommentService commentService) {
+    public AddOrderDialog(UserService userService, CarService carService, OrderService orderService, UserRepository userRepository, WorkerService workerService, CommentService commentService) {
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
