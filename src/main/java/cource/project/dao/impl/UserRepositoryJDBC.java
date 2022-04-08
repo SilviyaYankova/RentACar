@@ -217,7 +217,7 @@ public class UserRepositoryJDBC implements UserRepository {
 
             // 6. Check results and Get generated primary key
             if (affectedRows == 0) {
-                throw new EntityPersistenceException("Updating user failed, no rows affected.");
+                throw new EntityPersistenceException("Deleting user failed, no rows affected.");
             }
 
         } catch (SQLException ex) {

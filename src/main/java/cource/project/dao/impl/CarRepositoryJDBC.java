@@ -36,6 +36,8 @@ public class CarRepositoryJDBC implements CarRepository {
             "`transmission_id`=?, `horse_powers`=?, `fuel_type_id`=?, `tank_volume`=?, `fuel_consumption`=?, `rating`=?, " +
             "`deposit`=?, `price_per_day`=?, `car_status_id`=?, `worker_id`=? " +
             "where car_id=?;";
+    @SuppressWarnings("SqlResolve")
+    public static final String DELETE_CAR_BY_ID = "delete from `cars` where car_id=?;";
 
     private Connection connection;
     private WorkerRepository workerRepository;
@@ -194,7 +196,26 @@ public class CarRepositoryJDBC implements CarRepository {
 
     @Override
     public void deleteById(Long id) throws NoneExistingEntityException {
+        try (var stmt = connection.prepareStatement(DELETE_CAR_BY_ID)) {
+            stmt.setLong(1, id);
+            connection.setAutoCommit(false);
+            var affectedRows = stmt.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
 
+            if (affectedRows == 0) {
+                throw new EntityPersistenceException("Deleting car failed, no rows affected.");
+            }
+
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new EntityPersistenceException("Error rolling back SQL query: " + DELETE_CAR_BY_ID, ex);
+            }
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + DELETE_CAR_BY_ID, ex);
+        }
     }
 
     private Long getCarStatusId(CarStatus carStatus) {

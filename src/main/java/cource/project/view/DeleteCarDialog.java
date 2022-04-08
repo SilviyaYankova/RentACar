@@ -43,10 +43,12 @@ public class DeleteCarDialog {
                 Car car = allCars.get(choice - 1);
 
                 boolean canBeEdited = true;
-                for (LocalDateTime dropOffDate : car.getDropOffDates()) {
-                    if (dropOffDate.isAfter(LocalDateTime.now())) {
-                        canBeEdited = false;
-                        break;
+                if (car.getDropOffDates() != null){
+                    for (LocalDateTime dropOffDate : car.getDropOffDates()) {
+                        if (dropOffDate.isAfter(LocalDateTime.now())) {
+                            canBeEdited = false;
+                            break;
+                        }
                     }
                 }
 
