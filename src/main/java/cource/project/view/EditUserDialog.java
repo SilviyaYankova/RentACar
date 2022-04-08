@@ -19,7 +19,7 @@ public class EditUserDialog {
     }
 
 
-    public void input(User LOGGED_IN_USER ) throws NoneExistingEntityException {
+    public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
 
 
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
@@ -145,11 +145,11 @@ public class EditUserDialog {
                         while (userToEdit.getRole() == null) {
                             Role[] rolesArr = Role.values();
 
-                                count = 0;
-                                for (Role r : rolesArr) {
-                                    count++;
-                                    System.out.println(count + ".\t " + r);
-                                }
+                            count = 0;
+                            for (Role r : rolesArr) {
+                                count++;
+                                System.out.println(count + ".\t " + r);
+                            }
 
                             System.out.println("Please choose role from the list above.");
                             List<Role> roles = List.of(rolesArr);
@@ -209,10 +209,18 @@ public class EditUserDialog {
                 userService.editUser(userToEdit);
             } else if (input.equals("C")) {
                 System.out.println("You choose to continue editing user profile.");
-                System.out.println("Choose fields to edit: ");
-                System.out.println("1. First name");
-                System.out.println("2. Last name");
-                System.out.println("3. Role");
+
+                if (userToEdit.getRole().equals(Role.ADMINISTRATOR)) {
+                    System.out.println("1. First name");
+                    System.out.println("2. Last name");
+                    System.out.println("3. Role");
+                } else {
+                    System.out.println("Choose fields to edit: ");
+                    System.out.println("1. First name");
+                    System.out.println("2. Last name");
+                    System.out.println("3. Phone Number");
+                    System.out.println("4. Password");
+                }
                 input = scanner.nextLine();
                 choice = 0;
                 choice = checkValidInput(choice, input);

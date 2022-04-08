@@ -29,8 +29,6 @@ import static cource.project.util.JdbcUtils.createDbConnection;
 
 @Slf4j
 public class Main {
-    public static final String SELECT_All_USERS = "select * from `users`;";
-
     public static void main(String[] args) throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException, SQLException, IOException, ClassNotFoundException {
         Properties props = new Properties();
         String dbConfigPath = Main.class.getClassLoader().getResource("jdbc.properties").getPath();
