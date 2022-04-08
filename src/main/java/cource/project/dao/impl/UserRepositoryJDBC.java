@@ -31,6 +31,7 @@ public class UserRepositoryJdbc implements UserRepository {
             "where user_id=?;";
     @SuppressWarnings("SqlResolve")
     public static final String DELETE_USER_BY_ID = "delete from `users` where user_id=?;";
+    public static final String FIND_USER_BY_USERNAME = "select * from `users` where username=?;";
 
 
     private Connection connection;
@@ -38,7 +39,6 @@ public class UserRepositoryJdbc implements UserRepository {
     protected UserRepositoryJdbc(Connection connection) {
         this.connection = connection;
     }
-
 
     @Override
     public User create(User entity) {
@@ -223,10 +223,10 @@ public class UserRepositoryJdbc implements UserRepository {
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                throw new EntityPersistenceException("Error rolling back SQL query: " + UPDATE_USER, ex);
+                throw new EntityPersistenceException("Error rolling back SQL query: " + DELETE_USER_BY_ID, ex);
             }
             log.error("Error creating connection to DB", ex);
-            throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_USER, ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + DELETE_USER_BY_ID, ex);
         }
     }
 
@@ -242,7 +242,45 @@ public class UserRepositoryJdbc implements UserRepository {
 
     @Override
     public User findUserByUsername(String username) {
-        return null;
+        User user = new User();
+        try (var stmt = connection.prepareStatement(FIND_USER_BY_USERNAME)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                user.setId(rs.getLong("user_id"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhoneNumber(rs.getString("phone_number"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setRepeatPassword(rs.getString("repeat_password"));
+
+                String registered_on = rs.getString("registered_on");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+                LocalDateTime localDateTime = LocalDateTime.parse(registered_on, formatter);
+                user.setRegisteredOn(localDateTime);
+
+                Long roleId = rs.getLong("role_id");
+                if (roleId == 1) {
+                    user.setRole(Role.ADMINISTRATOR);
+                } else if (roleId == 2) {
+                    user.setRole(Role.SELLER);
+                } else if (roleId == 3) {
+                    user.setRole(Role.SITE_MANAGER);
+                } else if (roleId == 4) {
+                    user.setRole(Role.DRIVER);
+                } else {
+                    user.setRole(Role.USER);
+                }
+            }
+        } catch (SQLException ex) {
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + FIND_USER_BY_USERNAME, ex);
+        }
+
+        return user;
     }
 
     @Override
