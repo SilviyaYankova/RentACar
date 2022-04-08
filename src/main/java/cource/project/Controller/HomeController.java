@@ -39,7 +39,8 @@ public class HomeController {
         System.out.println();
         Menu menu = new Menu("Home Menu", List.of(
                 new Option("See all cars", () -> {
-                    Collection<Car> allCars = carService.getAllCarsWithStatus(CarStatus.AVAILABLE);
+//                    Collection<Car> allCars = carService.getAllCarsWithStatus(CarStatus.AVAILABLE);
+                    Collection<Car> allCars = carService.getAllCars();
                     if (allCars.size() > 0) {
                         allCars.forEach(System.out::println);
                         System.out.println();

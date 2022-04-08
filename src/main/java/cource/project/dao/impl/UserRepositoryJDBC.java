@@ -150,9 +150,7 @@ public class UserRepositoryJDBC implements UserRepository {
     @Override
     public Collection<User> findAll() {
         try (var stmt = connection.prepareStatement(FIND_ALL_USERS)) {
-            // 4. Set params and execute SQL query
             var rs = stmt.executeQuery();
-            // 5. Transform ResultSet to User
             return toUsers(rs);
         } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);

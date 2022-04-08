@@ -1,12 +1,14 @@
 package cource.project.dao;
 
+import cource.project.service.WorkerService;
+
 import java.sql.Connection;
 
 public interface DaoFactory {
 
     UserRepository createUserRepository(Connection connection);
 
-    CarRepository createCarRepository (Connection connection);
+    CarRepository createCarRepository (Connection connection, WorkerRepository workerRepository);
 
     OrderRepository createOrderRepository(Connection connection);
 

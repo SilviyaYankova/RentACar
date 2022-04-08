@@ -1,9 +1,11 @@
 package cource.project.dao.impl;
 import cource.project.dao.*;
+import cource.project.service.WorkerService;
 
 import java.sql.Connection;
 
 public class DaoFactoryImp implements DaoFactory {
+
 
     @Override
     public UserRepository createUserRepository(Connection connection) {
@@ -11,8 +13,8 @@ public class DaoFactoryImp implements DaoFactory {
     }
 
     @Override
-    public CarRepository createCarRepository(Connection connection) {
-        return new CarRepositoryJDBC(connection);
+    public CarRepository createCarRepository(Connection connection, WorkerRepository workerRepository) {
+        return new CarRepositoryJDBC(connection, workerRepository);
     }
 
     @Override

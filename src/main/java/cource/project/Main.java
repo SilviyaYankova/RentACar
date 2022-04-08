@@ -40,15 +40,15 @@ public class Main {
         DaoFactory daoFactory = new DaoFactoryImp();
         UserRepository userRepository = daoFactory.createUserRepository(connection);
 
-        CarRepository carRepository = daoFactory.createCarRepository(connection);
 
+        WorkerRepository workerRepository = daoFactory.createWorkerRepository(connection);
+        CarRepository carRepository = daoFactory.createCarRepository(connection, workerRepository);
+        WorkerService workerService = new WorkerServiceImpl(workerRepository, carRepository);
 
 
         OrderRepository orderRepository = daoFactory.createOrderRepository(connection);
-        WorkerRepository workerRepository = daoFactory.createWorkerRepository(connection);
         CommentRepository commentRepository = daoFactory.createCommentRepository(connection);
 
-        WorkerService workerService = new WorkerServiceImpl(workerRepository, carRepository);
         CarService carService = new CarServiceImpl(carRepository, workerService, userRepository, orderRepository);
         OrderService orderService = new OrderServiceImpl(orderRepository, userRepository, carService);
 
@@ -59,8 +59,8 @@ public class Main {
 //        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
 //        homeController.init();
 
-
-
+        System.out.println(workerService.getWorkerById(3L));
+ workerService.getAllWorkers().forEach(System.out::println);
         closeConnection(connection);
     }
 
