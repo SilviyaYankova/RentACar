@@ -19,10 +19,7 @@ public class EditCarDialog {
         this.carService = carService;
     }
 
-
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
-
         Collection<Car> all = carService.getAllCars();
         List<Car> allCars = new ArrayList<>(all);
         boolean continueEditing = true;
@@ -43,10 +40,12 @@ public class EditCarDialog {
                 Car car = allCars.get(choice - 1);
 
                 boolean canBeEdited = true;
-                for (LocalDateTime dropOffDate : car.getDropOffDates()) {
-                    if (dropOffDate.isAfter(LocalDateTime.now())) {
-                        canBeEdited = false;
-                        break;
+                if (car.getDropOffDates() != null){
+                    for (LocalDateTime dropOffDate : car.getDropOffDates()) {
+                        if (dropOffDate.isAfter(LocalDateTime.now())) {
+                            canBeEdited = false;
+                            break;
+                        }
                     }
                 }
 
@@ -74,7 +73,7 @@ public class EditCarDialog {
                     System.out.println("16. Fuel consumption:");
                     System.out.println("17. Deposit:");
                     System.out.println("18. Price per day:");
-                    System.out.println("19. Car status::");
+                    System.out.println("19. Car status:");
 
                     input = scanner.nextLine();
                     choice = 0;

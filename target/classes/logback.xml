@@ -9,7 +9,7 @@
         </layout>
     </appender>
 
-    <logger name="course.academy" level="debug" additivity="false">
+    <logger name="course.project" level="debug" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
 
