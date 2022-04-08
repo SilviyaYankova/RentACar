@@ -57,7 +57,7 @@ public class RegisterDialog {
 
             if (!matcher.find()) {
                 System.out.println("Error: Email must be valid.");
-            } else if (userByEmail != null) {
+            } else if (userByEmail.getId() != null) {
                 System.out.println("Email already exists. Please change email.");
             } else {
                 user.setEmail(email);
@@ -82,7 +82,7 @@ public class RegisterDialog {
 
             if (username.length() < 2 || username.length() > 15) {
                 System.out.println("Error: Username should be between 2 and 15 characters long.");
-            } else if (userByUsername != null) {
+            } else if (userByUsername.getId() != null) {
                 System.out.println("Username already exists. Please change username.");
             } else {
                 user.setUsername(username);
