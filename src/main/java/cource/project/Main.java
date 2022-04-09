@@ -57,12 +57,6 @@ public class Main {
         HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
         homeController.init();
 
-////        System.out.println(workerService.getWorkerById(3L));
-// workerService.getAllWorkers().forEach(System.out::println);
-
-//        orderService.getAllOrders().forEach(System.out::println);
-
-//        System.out.println(orderService.getOrderById(2L));
 
         closeConnection(connection);
     }

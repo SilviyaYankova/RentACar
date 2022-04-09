@@ -47,21 +47,21 @@ public class AssignWorkersDialog {
                 Car car = carsForCleaning.get(choice - 1);
                 try {
                     Worker worker = workerService.getAllAvailableWorker();
-                    car.setCarStatus(CarStatus.CLEANING);
+//                    car.setCarStatus(CarStatus.CLEANING);
                     car.setWorker(worker);
 
                     worker.setWorkerStatus(WorkerStatus.BUSY);
                     worker.setCurrentCar(car);
                     worker.getCarHistory().add(car);
 
-                    workerService.editWorker(worker);
-                    carService.editCar(car);
+//                    workerService.editWorker(worker);
+                    carService.updateCarStatus(car);
 
-                    SiteManager siteManager = (SiteManager) LOGGED_IN_USER;
-
-                    siteManager.getCarsHistory().add(car);
-                    LOGGED_IN_USER = siteManager;
-                    userService.editUser(LOGGED_IN_USER);
+//                    SiteManager siteManager = (SiteManager) LOGGED_IN_USER;
+//
+//                    siteManager.getCarsHistory().add(car);
+//                    LOGGED_IN_USER = siteManager;
+//                    userService.editUser(LOGGED_IN_USER);
 
                     carsForCleaning.remove(car);
 

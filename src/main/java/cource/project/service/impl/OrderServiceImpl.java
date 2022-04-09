@@ -155,7 +155,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void editOrder(Order order) throws NoneExistingEntityException {
-        orderRepository.update(order);
+//        orderRepository.update(order);
     }
 
     @Override
@@ -177,32 +177,34 @@ public class OrderServiceImpl implements OrderService {
                 pendingOrder.setOrderStatus(OrderStatus.START);
 
                 if (user.getRole().equals(Role.SELLER)) {
-                    Seller seller = (Seller) user;
+//                    Seller seller = (Seller) user;
+//
+//                    seller.getClientsHistory().add(pendingOrder.getUser());
+//                    seller.getOrders().add(pendingOrder);
 
-                    seller.getClientsHistory().add(pendingOrder.getUser());
-                    seller.getOrders().add(pendingOrder);
+                    pendingOrder.setSeller(user);
 
-                    pendingOrder.setSeller(seller);
-
-                    if (pendingOrder.getDriver() != null) {
-                        pendingOrder.getDriver().getSellers().add(seller);
-                        userRepository.update(pendingOrder.getDriver());
-
-                    }
-                    userRepository.update(seller);
+//                    if (pendingOrder.getDriver() != null) {
+//                        pendingOrder.getDriver().getSellers().add(seller);
+//                        userRepository.update(pendingOrder.getDriver());
+//
+//                    }
+//                    userRepository.update(seller);
                 } else if (user.getRole().equals(Role.ADMINISTRATOR)) {
-                    Administrator administrator = (Administrator) user;
 
-                    administrator.getClientHistory().add(pendingOrder.getUser());
-                    administrator.getOrders().add(pendingOrder);
+//                    Administrator administrator = (Administrator) user;
+////                    Administrator administrator = userRepository.findById(1L);
+//
+//                    administrator.getClientHistory().add(pendingOrder.getUser());
+//                    administrator.getOrders().add(pendingOrder);
 
-                    pendingOrder.setSeller(administrator);
-                    if (pendingOrder.getDriver() != null) {
-                        pendingOrder.getDriver().getSellers().add(administrator);
-                        userRepository.update(pendingOrder.getDriver());
-
-                    }
-                    userRepository.update(administrator);
+                    pendingOrder.setSeller(user);
+//                    if (pendingOrder.getDriver() != null) {
+//                        pendingOrder.getDriver().getSellers().add(administrator);
+//                        userRepository.update(pendingOrder.getDriver());
+//
+//                    }
+//                    userRepository.update(administrator);
 
                 }
             }

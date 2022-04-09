@@ -34,7 +34,8 @@ public class OrderController {
     }
 
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
-
+        // check for finished orders
+        orderService.finishOrders();
 
         Menu menu = new Menu();
 

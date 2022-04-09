@@ -35,7 +35,7 @@ public class FinishCarCleaning {
                     System.out.println(count + ". \t" + car);
                 }
                 System.out.println();
-                System.out.println("Choose finished car cleaning from the list above.");
+                System.out.println("Choose to finish car cleaning from the list above.");
                 String input = scanner.nextLine();
                 int choice = 0;
                 choice = checkValidInput(cleaningCars, choice, input);

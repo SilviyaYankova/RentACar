@@ -110,7 +110,7 @@ public class UserController {
                     }),
                     new Option("Manage cars", () -> {
 
-                        CarController carController = new CarController(userService, carService);
+                        CarController carController = new CarController(userService, carService, orderService);
                         carController.init(LOGGED_IN_USER);
                         return "";
                     }),

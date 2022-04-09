@@ -1,7 +1,6 @@
 package cource.project.dao.impl;
 
 import cource.project.dao.CarRepository;
-import cource.project.dao.OrderRepository;
 import cource.project.dao.WorkerRepository;
 import cource.project.exeption.EntityPersistenceException;
 import cource.project.exeption.NoneExistingEntityException;
@@ -34,7 +33,7 @@ public class CarRepositoryJDBC implements CarRepository {
             "`deposit`, `price_per_day`, `car_status_id`, `worker_id`) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
     @SuppressWarnings("SqlResolve")
-    public static final String UPDATE_CAR = "update `cars` " +
+    public static final String UPDATE_All_CAR = "update `cars` " +
             "set `brand`=?, `model`=?, `year`=?, `picture_url`=?, " +
             "`color`=?, `car_type_id`=?, `doors`=?, `seats`=?, `conveniences`=?, `entertainments`=?, `drivetrain_id`=?, " +
             "`transmission_id`=?, `horse_powers`=?, `fuel_type_id`=?, `tank_volume`=?, `fuel_consumption`=?, `rating`=?, " +
@@ -51,6 +50,11 @@ public class CarRepositoryJDBC implements CarRepository {
     @SuppressWarnings("SqlResolve")
     public static final String INSERT_CARS_ORDERS = "insert into `cars_orders` (`car_id`, `order_id`) values (?, ?);";
 
+    @SuppressWarnings("SqlResolve")
+    public static final String UPDATE_CAR_STATUS = "update `cars` " +
+            "set `car_status_id`=? " +
+            "where car_id=?;";
+
     private Connection connection;
     private WorkerRepository workerRepository;
 
@@ -58,6 +62,114 @@ public class CarRepositoryJDBC implements CarRepository {
         this.connection = connection;
         this.workerRepository = workerRepository;
     }
+
+    @Override
+    public void updateCarStatus(Car car) {
+        if (car.getCarStatus().equals(CarStatus.WAITING)) {
+            try (var stmt = connection.prepareStatement(UPDATE_CAR_STATUS)) {
+                // set order status 1 = finish
+                stmt.setLong(1, 3);
+                stmt.setLong(2, car.getId());
+
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                connection.commit();
+                connection.setAutoCommit(true);
+
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Updating UPDATE_CAR_STATUS failed, no rows affected.");
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + UPDATE_CAR_STATUS, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_CAR_STATUS, ex);
+            }
+        }
+
+        if (car.getCarStatus().equals(CarStatus.WAITING_FOR_CLEANING)) {
+            try (var stmt = connection.prepareStatement(UPDATE_CAR_STATUS)) {
+//                car.setCarStatus(CarStatus.CLEANING);
+                stmt.setLong(1, 5);
+                stmt.setLong(2, car.getId());
+
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                connection.commit();
+                connection.setAutoCommit(true);
+
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Updating UPDATE_CAR_STATUS failed, no rows affected.");
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + UPDATE_CAR_STATUS, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_CAR_STATUS, ex);
+            }
+        }
+
+        if (car.getCarStatus().equals(CarStatus.CLEANING)) {
+            try (var stmt = connection.prepareStatement(UPDATE_CAR_STATUS)) {
+                // set order status 1 = finish
+                stmt.setLong(1, 7);
+                stmt.setLong(2, car.getId());
+
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                connection.commit();
+                connection.setAutoCommit(true);
+
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Updating UPDATE_CAR_STATUS failed, no rows affected.");
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + UPDATE_CAR_STATUS, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_CAR_STATUS, ex);
+            }
+        }
+
+        if (car.getCarStatus().equals(CarStatus.FINISH_CLEANING)) {
+            try (var stmt = connection.prepareStatement(UPDATE_CAR_STATUS)) {
+                // set order status 1 = finish
+                stmt.setLong(1, 1);
+                stmt.setLong(2, car.getId());
+
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                connection.commit();
+                connection.setAutoCommit(true);
+
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Updating UPDATE_CAR_STATUS failed, no rows affected.");
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + UPDATE_CAR_STATUS, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_CAR_STATUS, ex);
+            }
+        }
+    }
+
 
     @Override
     public Car create(Car car) {
@@ -150,9 +262,11 @@ public class CarRepositoryJDBC implements CarRepository {
         }
     }
 
+
     @Override
     public void update(Car car) throws NoneExistingEntityException {
-        try (var stmt = connection.prepareStatement(UPDATE_CAR)) {
+
+        try (var stmt = connection.prepareStatement(UPDATE_All_CAR)) {
             stmt.setString(1, car.getBrand());
             stmt.setString(2, car.getModel());
             stmt.setString(3, car.getYear());
@@ -199,11 +313,12 @@ public class CarRepositoryJDBC implements CarRepository {
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                throw new EntityPersistenceException("Error rolling back SQL query: " + UPDATE_CAR, ex);
+                throw new EntityPersistenceException("Error rolling back SQL query: " + UPDATE_All_CAR, ex);
             }
             log.error("Error creating connection to DB", ex);
-            throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_CAR, ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_All_CAR, ex);
         }
+
     }
 
     @Override
@@ -232,19 +347,19 @@ public class CarRepositoryJDBC implements CarRepository {
 
     private Long getCarStatusId(CarStatus carStatus) {
         long id = 0;
-        if (carStatus.equals(CarStatus.AVAILABLE)){
+        if (carStatus.equals(CarStatus.AVAILABLE)) {
             id = 1;
-        } else if (carStatus.equals(CarStatus.BUSY)){
+        } else if (carStatus.equals(CarStatus.BUSY)) {
             id = 2;
-        } else if (carStatus.equals(CarStatus.WAITING)){
+        } else if (carStatus.equals(CarStatus.WAITING)) {
             id = 3;
-        } else if (carStatus.equals(CarStatus.WAITING_FOR_CLEANING)){
+        } else if (carStatus.equals(CarStatus.WAITING_FOR_CLEANING)) {
             id = 4;
-        } else if (carStatus.equals(CarStatus.CLEANING)){
+        } else if (carStatus.equals(CarStatus.CLEANING)) {
             id = 5;
-        } else if (carStatus.equals(CarStatus.START_CLEANING)){
+        } else if (carStatus.equals(CarStatus.START_CLEANING)) {
             id = 6;
-        } else if (carStatus.equals(CarStatus.FINISH_CLEANING)){
+        } else if (carStatus.equals(CarStatus.FINISH_CLEANING)) {
             id = 7;
         }
 
@@ -264,7 +379,7 @@ public class CarRepositoryJDBC implements CarRepository {
         } else if (fuelType.equals(FuelType.COMPRESSED_NATURAL_GAS)) {
             id = 5;
         } else if (fuelType.equals(FuelType.LIQUEFIED_PETROLEUM_GAS)) {
-            id =6 ;
+            id = 6;
         } else if (fuelType.equals(FuelType.HYDROGEN)) {
             id = 7;
         }
@@ -472,11 +587,11 @@ public class CarRepositoryJDBC implements CarRepository {
         try (var stmt = connection.prepareStatement(SELECT_CARS_ORDERS)) {
             stmt.setLong(1, rs.getLong("car_id"));
             var resultSet = stmt.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 long order_id = resultSet.getLong("order_id");
                 ordersIds.add(order_id);
             }
-        } catch (SQLException  ex) {
+        } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + SELECT_CARS_ORDERS, ex);
         }
@@ -487,13 +602,13 @@ public class CarRepositoryJDBC implements CarRepository {
         try (var stmt = connection.prepareStatement(SELECT_CARS_PICK_UP_DATES)) {
             stmt.setLong(1, rs.getLong("car_id"));
             var resultSet = stmt.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 String pick_up_date = resultSet.getString("pick_up_date");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
                 LocalDateTime pickUpDate = LocalDateTime.parse(pick_up_date, formatter);
                 pickUpDates.add(pickUpDate);
             }
-        } catch (SQLException  ex) {
+        } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + SELECT_CARS_PICK_UP_DATES, ex);
         }
@@ -504,13 +619,13 @@ public class CarRepositoryJDBC implements CarRepository {
         try (var stmt = connection.prepareStatement(SELECT_CARS_DROP_OFF_DATES)) {
             stmt.setLong(1, rs.getLong("car_id"));
             var resultSet = stmt.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 String drop_off_date = resultSet.getString("drop_off_date");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
                 LocalDateTime dropOffDate = LocalDateTime.parse(drop_off_date, formatter);
                 dropOffDates.add(dropOffDate);
             }
-        } catch (SQLException  ex) {
+        } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + SELECT_CARS_DROP_OFF_DATES, ex);
         }
@@ -572,4 +687,6 @@ public class CarRepositoryJDBC implements CarRepository {
             throw new EntityPersistenceException("Error executing SQL query: " + INSERT_CARS_ORDERS, ex);
         }
     }
+
+
 }

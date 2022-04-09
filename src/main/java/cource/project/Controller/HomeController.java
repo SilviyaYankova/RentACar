@@ -52,8 +52,8 @@ public class HomeController {
                     return "";
                 }),
                 new Option("Login", () -> {
+
 //                    User user = new LoginDialog(userService).input();
-//
 //                    while (user.getUsername() == null && user.getPassword() == null) {
 //                        System.out.println("Bad credentials. Try again.");
 //                        System.out.println();
@@ -62,7 +62,7 @@ public class HomeController {
 //                    LOGGED_IN_USER = user;
 
 
-                    User userById = userService.getUserById(7L);
+                    User userById = userService.getUserById(1L);
                     Collection<User> allUsers = userService.getAllUsers();
                     LOGGED_IN_USER = userById;
 
@@ -72,6 +72,7 @@ public class HomeController {
                     UserController userController = new UserController(userService, carService, orderService, userRepository, workerService, commentService);
                     userController.init(LOGGED_IN_USER);
 
+                    System.out.println(LOGGED_IN_USER.getUsername() + "registered successfully.");
                     return "";
                 }),
                 new Option("Register", () -> {

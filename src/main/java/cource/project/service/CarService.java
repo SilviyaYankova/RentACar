@@ -26,9 +26,11 @@ public interface CarService {
 
     List<Car> getAvailableCars(Order order);
 
-    void returnCar(Order order) throws NoneExistingEntityException;
+    void returnCar(Car car) throws NoneExistingEntityException;
 
     void returnCarToShop(Car car) throws NoneExistingEntityException;
 
     void insertCarsOrders(Car car, Order order);
+
+    void updateCarStatus(Car car);
 }

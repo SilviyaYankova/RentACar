@@ -112,12 +112,12 @@ public class WorkerServiceImpl implements WorkerService {
 
     @Override
     public void finishCarCleaning(Car car) throws NoneExistingEntityException {
-        Worker worker = car.getWorker();
-        worker.setWorkerStatus(WorkerStatus.AVAILABLE);
-        worker.setCurrentCar(null);
-        car.setCarStatus(CarStatus.FINISH_CLEANING);
+//        Worker worker = car.getWorker();
+//        worker.setWorkerStatus(WorkerStatus.AVAILABLE);
+//        worker.setCurrentCar(null);
 
-        workerRepository.update(worker);
+        car.setCarStatus(CarStatus.FINISH_CLEANING);
+//        workerRepository.update(worker);
         carRepository.update(car);
     }
 

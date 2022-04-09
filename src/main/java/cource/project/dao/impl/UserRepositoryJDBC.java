@@ -171,16 +171,12 @@ public class UserRepositoryJDBC implements UserRepository {
 
             connection.setAutoCommit(false);
             var affectedRows = stmt.executeUpdate();
-            // more updates here ...
             connection.commit();
             connection.setAutoCommit(true);
 
-            // 6. Check results and Get generated primary key
             if (affectedRows == 0) {
                 throw new EntityPersistenceException("Updating user failed, no rows affected.");
             }
-
-
         } catch (SQLException ex) {
             try {
                 connection.rollback();

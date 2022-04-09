@@ -100,31 +100,36 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void returnCar(Order order) throws NoneExistingEntityException {
-        Car car = order.getCar();
-        LocalDateTime pickUpDate = order.getPickUpDate();
-        LocalDateTime dropOffDate = order.getDropOffDate();
-
-        if (order.getDriver() != null) {
-            order.getDriver().getPickUpDates().remove(pickUpDate);
-            order.getDriver().getDropOffDates().remove(dropOffDate);
-            userRepository.update(order.getDriver());
-        }
+    public void returnCar(Car car) throws NoneExistingEntityException {
+//        Car car = order.getCar();
+//        LocalDateTime pickUpDate = order.getPickUpDate();
+//        LocalDateTime dropOffDate = order.getDropOffDate();
+//
+//        if (order.getDriver() != null) {
+//            order.getDriver().getPickUpDates().remove(pickUpDate);
+//            order.getDriver().getDropOffDates().remove(dropOffDate);
+////            userRepository.update(order.getDriver());
+//        }
         car.setCarStatus(CarStatus.WAITING_FOR_CLEANING);
-        car.setOrders(null);
-        car.getPickUpDates().remove(pickUpDate);
-        car.getDropOffDates().remove(dropOffDate);
+//        car.setOrders(null);
+//        car.getPickUpDates().remove(pickUpDate);
+//        car.getDropOffDates().remove(dropOffDate);
         carRepository.update(car);
     }
 
     @Override
     public void returnCarToShop(Car car) throws NoneExistingEntityException {
-        car.setCarStatus(CarStatus.AVAILABLE);
-        carRepository.update(car);
+//        car.setCarStatus(CarStatus.AVAILABLE);
+        carRepository.updateCarStatus(car);
     }
 
     @Override
     public void insertCarsOrders(Car car, Order order) {
         carRepository.insertCarsOrders(car, order);
+    }
+
+    @Override
+    public void updateCarStatus(Car car) {
+        carRepository.updateCarStatus(car);
     }
 }

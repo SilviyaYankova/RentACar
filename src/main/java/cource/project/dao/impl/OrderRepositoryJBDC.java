@@ -63,6 +63,10 @@ public class OrderRepositoryJBDC implements OrderRepository {
     public static final String DELETE_USERS_ORDERS = "delete from `users_orders` where order_id=?;";
     @SuppressWarnings("SqlResolve")
     public static final String DELETE_ORDER = "delete from `orders` where order_id=?;";
+    @SuppressWarnings("SqlResolve")
+    public static final String UPDATE_ORDER_STATUS = "update `orders` " +
+            "set `order_status_id`=? " +
+            "where order_id=?;";
 
 
     private final Connection connection;
@@ -233,7 +237,58 @@ public class OrderRepositoryJBDC implements OrderRepository {
     }
 
     @Override
-    public void update(Order entity) throws NoneExistingEntityException {
+    public void update(Order order) throws NoneExistingEntityException {
+        if (order.getOrderStatus().equals(OrderStatus.PENDING)){
+            try (var stmt = connection.prepareStatement(UPDATE_ORDER_STATUS)) {
+                // set order status 1 = START
+                stmt.setLong(1, 1);
+                stmt.setLong(2, order.getId());
+
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                connection.commit();
+                connection.setAutoCommit(true);
+
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Updating UPDATE_ORDER failed, no rows affected.");
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + UPDATE_ORDER_STATUS, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_ORDER_STATUS, ex);
+            }
+        }
+
+        if (order.getOrderStatus().equals(OrderStatus.FINISH)){
+            try (var stmt = connection.prepareStatement(UPDATE_ORDER_STATUS)) {
+                // set order status 1 = finish
+                stmt.setLong(1, 3);
+                stmt.setLong(2, order.getId());
+
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                connection.commit();
+                connection.setAutoCommit(true);
+
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Updating UPDATE_ORDER failed, no rows affected.");
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + UPDATE_ORDER_STATUS, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_ORDER_STATUS, ex);
+            }
+        }
 
     }
 
@@ -244,30 +299,28 @@ public class OrderRepositoryJBDC implements OrderRepository {
         LocalDateTime pick = order.getPickUpDate();
         String pickUpDate = pick.format(formatter);
 
+        try (var stmt = connection.prepareStatement(DELETE_PICK_UP_DATE)) {
+            stmt.setString(1, pickUpDate);
+            stmt.setLong(2, carID);
+            connection.setAutoCommit(false);
+            var affectedRows = stmt.executeUpdate();
 
+            connection.commit();
+            connection.setAutoCommit(true);
 
-//        try (var stmt = connection.prepareStatement(DELETE_PICK_UP_DATE)) {
-//            stmt.setString(1, dropOffDate);
-//            stmt.setLong(2, carID);
-//            connection.setAutoCommit(false);
-//            var affectedRows = stmt.executeUpdate();
-//
-//            connection.commit();
-//            connection.setAutoCommit(true);
-//
-//            if (affectedRows == 0) {
-//                throw new EntityPersistenceException("Deleting pickupdate failed, no rows affected.");
-//            }
-//
-//        } catch (SQLException ex) {
-//            try {
-//                connection.rollback();
-//            } catch (SQLException e) {
-//                throw new EntityPersistenceException("Error rolling back SQL query: " + DELETE_PICK_UP_DATE, ex);
-//            }
-//            log.error("Error creating connection to DB", ex);
-//            throw new EntityPersistenceException("Error executing SQL query: " + DELETE_PICK_UP_DATE, ex);
-//        }
+            if (affectedRows == 0) {
+                throw new EntityPersistenceException("Deleting pickupdate failed, no rows affected.");
+            }
+
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new EntityPersistenceException("Error rolling back SQL query: " + DELETE_PICK_UP_DATE, ex);
+            }
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + DELETE_PICK_UP_DATE, ex);
+        }
 
         LocalDateTime drop = order.getDropOffDate();
         String dropOffDate = drop.format(formatter);
