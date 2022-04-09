@@ -41,7 +41,7 @@ public class OrderController {
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
             menu = new Menu("Orders Menu", List.of(
                     new Option("Order History", () -> {
-                        List<Order> orders = LOGGED_IN_USER.getOrders();
+                        List<Order> orders = userService.getAllUserOrders(LOGGED_IN_USER);
                         if (orders.size() == 0) {
                             System.out.println("You have no past orders.");
                         } else {

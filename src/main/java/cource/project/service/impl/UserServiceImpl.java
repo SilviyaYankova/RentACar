@@ -14,7 +14,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserServiceImpl implements UserService {
@@ -144,4 +146,16 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public List<Order> getAllUserOrders(User user) throws NoneExistingEntityException {
+        List<Order> orders = new ArrayList<>();
+        Collection<User> allUsers = getAllUsers();
+        List<Long> ordersIds = user.getOrdersIds();
+
+        for (Long ordersId : ordersIds) {
+            Order orderById = orderService.getOrderById(ordersId);
+            orders.add(orderById);
+        }
+        return orders;
+    }
 }

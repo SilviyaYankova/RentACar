@@ -39,8 +39,8 @@ public class DeleteOrderDialog {
 
 
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
-            Collection<Order> userOrders = LOGGED_IN_USER.getOrders();
-            deleteOrder(LOGGED_IN_USER, userOrders);
+            List<Order> orders = userService.getAllUserOrders(LOGGED_IN_USER);
+            deleteOrder(LOGGED_IN_USER, orders);
 
         }
 
@@ -59,7 +59,6 @@ public class DeleteOrderDialog {
                 int year = order.getPickUpDate().getYear();
                 int month = order.getPickUpDate().getMonth().getValue();
                 int day = order.getPickUpDate().getDayOfMonth() - DAYS_BEFORE_CHANGE_ORDER;
-
 
                 int nowYear = LocalDateTime.now().getYear();
                 int nowMonth = LocalDateTime.now().getMonth().getValue();

@@ -45,13 +45,14 @@ public class EditOrderDialog {
 
 
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
-            Collection<Order> userOrders = LOGGED_IN_USER.getOrders();
-            editOrder(LOGGED_IN_USER, userOrders);
+            List<Order> orders = userService.getAllUserOrders(LOGGED_IN_USER);
+            editOrder(LOGGED_IN_USER, orders);
         }
 
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR) || LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
             Collection<Order> allOrders = orderService.getAllOrders();
-            editOrder(LOGGED_IN_USER, allOrders);
+            List<Order> orders = new ArrayList<>(allOrders);
+            editOrder(LOGGED_IN_USER, orders);
         }
 
 

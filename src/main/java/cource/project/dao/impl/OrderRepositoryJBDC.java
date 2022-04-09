@@ -183,6 +183,7 @@ public class OrderRepositoryJBDC implements OrderRepository {
         order.setCarPricePerDays(rs.getDouble("car_price_per_day"));
         order.setDeposit(rs.getDouble("deposit"));
         order.setFinalPrice(rs.getDouble("final_price"));
+
     }
 
     private Location getLocationName(long pick_up_location_id) {

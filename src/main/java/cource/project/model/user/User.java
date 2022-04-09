@@ -20,6 +20,7 @@ public class User extends BaseEntity {
     private LocalDateTime registeredOn;
     private Role role;
     private List<Order> orders;
+    private List<Long> ordersIds;
     private List<Comment> comments;
 
     public User() {
@@ -41,9 +42,17 @@ public class User extends BaseEntity {
         this.registeredOn = registeredOn;
         this.role = Role.USER;
         this.orders = new ArrayList<>();
+        this.ordersIds = new ArrayList<>();
         this.comments = new ArrayList<>();
     }
 
+    public List<Long> getOrdersIds() {
+        return ordersIds;
+    }
+
+    public void setOrdersIds(List<Long> ordersIds) {
+        this.ordersIds = ordersIds;
+    }
 
     public String getRepeatPassword() {
         return repeatPassword;
@@ -150,7 +159,7 @@ public class User extends BaseEntity {
         }
         sb.append("\t\t" + "registeredOn = '" + registeredOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ");
         sb.append("role = '" + role.name() + "' ")
-                .append("ordersCount = '" + orders.size() + "' ")
+                .append("ordersCount = '" + ordersIds.size() + "' ")
                 .append("commentsCount = '" + comments.size() + "' ");
 
 

@@ -29,6 +29,7 @@ public class LoginDialog   {
         }
         String username = user.getUsername();
         String password = user.getPassword();
+
         return userService.getUserByUsernameAndPassword(username, password);
     }
 }

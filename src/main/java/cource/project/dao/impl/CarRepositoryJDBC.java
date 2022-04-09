@@ -42,7 +42,6 @@ public class CarRepositoryJDBC implements CarRepository {
     public static final String DELETE_CAR_BY_ID = "delete from `cars` where car_id=?;";
     @SuppressWarnings("SqlResolve")
     public static final String SELECT_CARS_ORDERS = "select order_id from cars_orders where car_id=?";
-//    public static final String SELECT_ORDER = "select  orders where order_id=?";
 
     private Connection connection;
     private WorkerRepository workerRepository;

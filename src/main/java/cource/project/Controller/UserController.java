@@ -40,7 +40,6 @@ public class UserController {
 
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
 
-
         Menu menu = new Menu();
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
             menu = new Menu("User Menu", List.of(
