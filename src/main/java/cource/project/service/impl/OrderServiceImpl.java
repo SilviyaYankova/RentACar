@@ -90,24 +90,20 @@ public class OrderServiceImpl implements OrderService {
             throw new InvalidEntityDataException("Error creating order", ex);
         }
         order.setCar(car);
-//        user.getOrders().add(order);
-
 
         orderRepository.create(order);
 
         if (availableDriver != null) {
-            // todo update users_orders
-            userRepository.updateDriver(availableDriver);
+            userRepository.insertUsersOrders(availableDriver, order);
         }
-        // todo update users_orders
-        userRepository.update(order.getUser());
+
+        userRepository.insertUsersOrders(user, order);
 
         car.getOrders().add(order.getId());
+//        car.getPickUpDates().add(order.getPickUpDate());
+//        car.getDropOffDates().add(order.getDropOffDate());
 
-        car.getPickUpDates().add(order.getPickUpDate());
-        car.getDropOffDates().add(order.getDropOffDate());
-        // todo update dates
-        carService.editCar(car);
+        carService.insertCarsOrders(car, order);
 
     }
 

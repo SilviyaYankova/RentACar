@@ -122,4 +122,9 @@ public class CarServiceImpl implements CarService {
         car.setCarStatus(CarStatus.AVAILABLE);
         carRepository.update(car);
     }
+
+    @Override
+    public void insertCarsOrders(Car car, Order order) {
+        carRepository.insertCarsOrders(car, order);
+    }
 }

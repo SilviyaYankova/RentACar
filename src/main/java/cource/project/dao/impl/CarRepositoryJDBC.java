@@ -48,6 +48,8 @@ public class CarRepositoryJDBC implements CarRepository {
     public static final String SELECT_CARS_PICK_UP_DATES = "select pick_up_date from pick_up_dates where car_id=?";
     @SuppressWarnings("SqlResolve")
     public static final String SELECT_CARS_DROP_OFF_DATES = "select drop_off_date from drop_off_dates where car_id=?";
+    @SuppressWarnings("SqlResolve")
+    public static final String INSERT_CARS_ORDERS = "insert into `cars_orders` (`car_id`, `order_id`) values (?, ?);";
 
     private Connection connection;
     private WorkerRepository workerRepository;
@@ -544,5 +546,30 @@ public class CarRepositoryJDBC implements CarRepository {
 
         }
         return results;
+    }
+
+    @Override
+    public void insertCarsOrders(Car car, Order order) {
+        try (var stmt = connection.prepareStatement(INSERT_CARS_ORDERS)) {
+            stmt.setLong(1, car.getId());
+            stmt.setLong(2, order.getId());
+
+            connection.setAutoCommit(false);
+            var affectedRows = stmt.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
+
+            if (affectedRows == 0) {
+                throw new EntityPersistenceException("Updating cars_orders failed, no rows affected.");
+            }
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new EntityPersistenceException("Error rolling back SQL query: " + INSERT_CARS_ORDERS, ex);
+            }
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + INSERT_CARS_ORDERS, ex);
+        }
     }
 }

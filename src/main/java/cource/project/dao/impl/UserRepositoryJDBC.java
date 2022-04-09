@@ -4,6 +4,8 @@ import cource.project.dao.UserRepository;
 import cource.project.exeption.EntityPersistenceException;
 import cource.project.exeption.NoneAvailableEntityException;
 import cource.project.exeption.NoneExistingEntityException;
+import cource.project.model.Order;
+import cource.project.model.Worker;
 import cource.project.model.enums.DriverStatus;
 import cource.project.model.enums.Role;
 import cource.project.model.user.Driver;
@@ -44,7 +46,8 @@ public class UserRepositoryJDBC implements UserRepository {
     public static final String SELECT_DRIVER_PICK_UP_DATES = "select pick_up_date from pick_up_dates where driver_id=?";
     @SuppressWarnings("SqlResolve")
     public static final String SELECT_DRIVER_DROP_OFF_DATES = "select drop_off_date from drop_off_dates where driver_id=?";
-
+    @SuppressWarnings("SqlResolve")
+    public static final String INSERT_USERS_ORDERS = "insert into `users_orders` (`user_id`, `order_id`) values (?, ?);";
 
     private Connection connection;
 
@@ -221,7 +224,6 @@ public class UserRepositoryJDBC implements UserRepository {
 
         for (User user : all) {
             if (user.getRole().equals(Role.DRIVER)) {
-//                Driver driver = (Driver) user;
                 Driver driver = findDriver(user.getId());
                 driver.setId(user.getId());
                 List<LocalDateTime> pickUpDates = driver.getPickUpDates();
@@ -396,7 +398,27 @@ public class UserRepositoryJDBC implements UserRepository {
     }
 
     @Override
-    public void updateDriver(Driver availableDriver) {
+    public void insertUsersOrders(User user, Order order) {
+        try (var stmt = connection.prepareStatement(INSERT_USERS_ORDERS)) {
+            stmt.setLong(1, user.getId());
+            stmt.setLong(2, order.getId());
 
+            connection.setAutoCommit(false);
+            var affectedRows = stmt.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
+
+            if (affectedRows == 0) {
+                throw new EntityPersistenceException("Updating users_orders failed, no rows affected.");
+            }
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new EntityPersistenceException("Error rolling back SQL query: " + INSERT_USERS_ORDERS, ex);
+            }
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + INSERT_USERS_ORDERS, ex);
+        }
     }
 }
