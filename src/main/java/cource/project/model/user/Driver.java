@@ -98,7 +98,7 @@ public class Driver extends User {
                 .append(System.lineSeparator())
                 .append("\t\t" + "registeredOn = '" + super.getRegisteredOn().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ")
                 .append("role = " + super.getRole() + "' ")
-                .append("orders = " + super.getOrders().size() + "' ")
+                .append("ordersCount = " + super.getOrdersIds().size() + "' ")
                 .append("driverStatus = " + driverStatus + "' ")
                 .append("price = " + pricePerDay + "' ")
                 .append("users = " + users.size() + "' ")

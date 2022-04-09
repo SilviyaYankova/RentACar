@@ -5,12 +5,14 @@ import cource.project.exeption.NoneAvailableEntityException;
 import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Order;
 import cource.project.model.enums.Role;
+import cource.project.model.user.Driver;
 import cource.project.model.user.User;
 import cource.project.service.UserService;
 import cource.project.view.*;
 import cource.project.view.Menu.Menu;
 import cource.project.view.Menu.Option;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,12 +28,18 @@ public class ManageDriverController {
 
         Menu menu = new Menu("Manage drivers", List.of(
                 new Option("See drivers", () -> {
-                    Collection<User> allUsers = userService.getUserByRole(Role.DRIVER);
-                    if (allUsers.size() > 0) {
+                    Collection<User> all = userService.getUserByRole(Role.DRIVER);
+                    List<Driver> drivers = new ArrayList<>();
+                    for (User user : all) {
+                        Driver driver = userService.fromUserToDriver(user);
+                        drivers.add(driver);
+                    }
+
+                    if (drivers.size() > 0) {
                         int count = 0;
-                        for (User user : allUsers) {
+                        for (Driver driver : drivers) {
                             count++;
-                            System.out.println(count + ".\t " + user);
+                            System.out.println(count + ".\t " + driver);
                         }
                     } else {
                         System.out.println("There is no drivers in the system.");

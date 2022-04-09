@@ -4,6 +4,7 @@ import cource.project.exeption.InvalidEntityDataException;
 import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Order;
 import cource.project.model.enums.Role;
+import cource.project.model.user.Driver;
 import cource.project.model.user.User;
 
 import java.time.LocalDateTime;
@@ -35,4 +36,8 @@ public interface UserService {
     User getUserByUsernameAndPassword(String username, String password);
 
     List<Order> getAllUserOrders(User user) throws NoneExistingEntityException;
+
+    Driver findDriver(Long id);
+
+    Driver fromUserToDriver(User user);
 }

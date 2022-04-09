@@ -41,9 +41,9 @@ public class UserRepositoryJDBC implements UserRepository {
     @SuppressWarnings("SqlResolve")
     public static final String SELECT_USERS_ORDERS = "select order_id from users_orders where user_id=?";
     @SuppressWarnings("SqlResolve")
-    public static final String SELECT_DRIVER_PICK_UP_DATES = "select id from pick_up_dates where driver_id=?";
+    public static final String SELECT_DRIVER_PICK_UP_DATES = "select pick_up_date from pick_up_dates where driver_id=?";
     @SuppressWarnings("SqlResolve")
-    public static final String SELECT_DRIVER_DROP_OFF_DATES = "select id from pick_up_dates where driver_id=?";
+    public static final String SELECT_DRIVER_DROP_OFF_DATES = "select drop_off_date from drop_off_dates where driver_id=?";
 
 
     private Connection connection;

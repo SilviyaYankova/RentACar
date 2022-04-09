@@ -157,4 +157,31 @@ public class UserServiceImpl implements UserService {
         }
         return orders;
     }
+
+    @Override
+    public Driver findDriver(Long id) {
+        return userRepository.findDriver(id);
+    }
+
+    @Override
+    public Driver fromUserToDriver(User user) {
+        Driver driver = new Driver();
+        driver.setId(user.getId());
+        driver.setFirstName(user.getFirstName());
+        driver.setLastName(user.getLastName());
+        driver.setEmail(user.getEmail());
+        driver.setPassword(user.getPhoneNumber());
+        driver.setUsername(user.getUsername());
+        driver.setPassword(user.getPassword());
+        driver.setRepeatPassword(user.getRepeatPassword());
+        driver.setRegisteredOn(user.getRegisteredOn());
+        driver.setRole(Role.DRIVER);
+
+        Driver foundDriver = findDriver(driver.getId());
+        driver.setPricePerDay(foundDriver.getPricePerDay());
+        driver.setDriverStatus(foundDriver.getDriverStatus());
+        driver.setOrdersIds(user.getOrdersIds());
+
+        return driver;
+    }
 }
