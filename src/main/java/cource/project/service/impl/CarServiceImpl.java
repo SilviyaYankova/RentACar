@@ -9,6 +9,7 @@ import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Car;
 import cource.project.model.Order;
 import cource.project.model.enums.CarStatus;
+import cource.project.model.user.User;
 import cource.project.service.CarService;
 import cource.project.service.WorkerService;
 import cource.project.util.validator.CarValidator;
@@ -106,7 +107,7 @@ public class CarServiceImpl implements CarService {
 
         if (order.getDriver() != null) {
             order.getDriver().getPickUpDates().remove(pickUpDate);
-            order.getDriver().getDropOffDate().remove(dropOffDate);
+            order.getDriver().getDropOffDates().remove(dropOffDate);
             userRepository.update(order.getDriver());
         }
         car.setCarStatus(CarStatus.WAITING_FOR_CLEANING);
@@ -116,11 +117,9 @@ public class CarServiceImpl implements CarService {
         carRepository.update(car);
     }
 
-
     @Override
     public void returnCarToShop(Car car) throws NoneExistingEntityException {
         car.setCarStatus(CarStatus.AVAILABLE);
         carRepository.update(car);
     }
-
 }

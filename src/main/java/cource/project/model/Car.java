@@ -315,11 +315,11 @@ public class Car extends BaseEntity{
                     .append(System.lineSeparator());
         }
 
-        if (pickUpDates != null) {
+        if (pickUpDates.size() != 0) {
             sb.append("\t pickUpDates = '" + pickUpDates.size() + "' ");
         }
 
-        if (pickUpDates != null) {
+        if (dropOffDates.size() != 0) {
             sb.append("dropOffDates = '" + dropOffDates.size() + "' ")
                     .append(System.lineSeparator());
         }

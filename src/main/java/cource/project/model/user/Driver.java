@@ -3,7 +3,6 @@ package cource.project.model.user;
 import cource.project.model.enums.DriverStatus;
 import cource.project.model.enums.Role;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -15,14 +14,14 @@ public class Driver extends User {
     private double pricePerDay;
     private List<User> users;
     private List<User> sellers;
-    private List<LocalDateTime> pickUpDate;
-    private List<LocalDateTime> dropOffDate;
+    private List<LocalDateTime> pickUpDates;
+    private List<LocalDateTime> dropOffDates;
 
     public Driver() {
         this.users = new ArrayList<>();
         this.sellers = new ArrayList<>();
-        this.pickUpDate = new ArrayList<>();
-        this.dropOffDate = new ArrayList<>();
+        this.pickUpDates = new ArrayList<>();
+        this.dropOffDates = new ArrayList<>();
     }
 
     public Driver(Long id, String firstName, String lastName, String email, String phoneNumber, String username,
@@ -33,24 +32,25 @@ public class Driver extends User {
         this.pricePerDay = price;
         this.users = new ArrayList<>();
         this.sellers = new ArrayList<>();
-        this.pickUpDate = new ArrayList<>();
-        this.dropOffDate = new ArrayList<>();
+        this.pickUpDates = new ArrayList<>();
+        this.dropOffDates = new ArrayList<>();
     }
+
 
     public List<LocalDateTime> getPickUpDates() {
-        return pickUpDate;
+        return pickUpDates;
     }
 
-    public void setPickUpDate(List<LocalDateTime> pickUpDate) {
-        this.pickUpDate = pickUpDate;
+    public void setPickUpDates(List<LocalDateTime> pickUpDates) {
+        this.pickUpDates = pickUpDates;
     }
 
-    public List<LocalDateTime> getDropOffDate() {
-        return dropOffDate;
+    public List<LocalDateTime> getDropOffDates() {
+        return dropOffDates;
     }
 
-    public void setDropOffDate(List<LocalDateTime> dropOffDate) {
-        this.dropOffDate = dropOffDate;
+    public void setDropOffDates(List<LocalDateTime> dropOffDates) {
+        this.dropOffDates = dropOffDates;
     }
 
     public DriverStatus getDriverStatus() {
@@ -105,12 +105,12 @@ public class Driver extends User {
                 .append("sellers = " + sellers.size() + "' ");
 
 
-        if (pickUpDate != null) {
-            sb.append("pickUpDate = '" + pickUpDate.size() + "' ");
+        if (pickUpDates.size() != 0) {
+            sb.append("pickUpDate = '" + pickUpDates.size() + "' ");
         }
 
-        if (pickUpDate != null) {
-            sb.append("dropOffDate = '" + dropOffDate.size() + "' ");
+        if (dropOffDates.size() != 0) {
+            sb.append("dropOffDate = '" + dropOffDates.size() + "' ");
         }
         return sb.toString();
     }

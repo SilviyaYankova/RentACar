@@ -55,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
                 users.add(user);
                 availableDriver.setUsers(users);
                 availableDriver.getPickUpDates().add(pendingOrder.getPickUpDate());
-                availableDriver.getDropOffDate().add(pendingOrder.getDropOffDate());
+                availableDriver.getDropOffDates().add(pendingOrder.getDropOffDate());
                 order.setDriver(availableDriver);
                 userRepository.update(availableDriver);
             }

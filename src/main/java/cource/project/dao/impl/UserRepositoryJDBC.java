@@ -40,6 +40,10 @@ public class UserRepositoryJDBC implements UserRepository {
     public static final String SELECT_DRIVER = "select * from `drivers` where driver_id=?;";
     @SuppressWarnings("SqlResolve")
     public static final String SELECT_USERS_ORDERS = "select order_id from users_orders where user_id=?";
+    @SuppressWarnings("SqlResolve")
+    public static final String SELECT_DRIVER_PICK_UP_DATES = "select id from pick_up_dates where driver_id=?";
+    @SuppressWarnings("SqlResolve")
+    public static final String SELECT_DRIVER_DROP_OFF_DATES = "select id from pick_up_dates where driver_id=?";
 
 
     private Connection connection;
@@ -117,32 +121,6 @@ public class UserRepositoryJDBC implements UserRepository {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 user = getUser(rs);
-//                user.setId(rs.getLong("user_id"));
-//                user.setFirstName(rs.getString("first_name"));
-//                user.setLastName(rs.getString("last_name"));
-//                user.setEmail(rs.getString("email"));
-//                user.setPhoneNumber(rs.getString("phone_number"));
-//                user.setUsername(rs.getString("username"));
-//                user.setPassword(rs.getString("password"));
-//                user.setRepeatPassword(rs.getString("repeat_password"));
-//
-//                String registered_on = rs.getString("registered_on");
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-//                LocalDateTime localDateTime = LocalDateTime.parse(registered_on, formatter);
-//                user.setRegisteredOn(localDateTime);
-//
-//                Long roleId = rs.getLong("role_id");
-//                if (roleId == 1) {
-//                    user.setRole(Role.ADMINISTRATOR);
-//                } else if (roleId == 2) {
-//                    user.setRole(Role.SELLER);
-//                } else if (roleId == 3) {
-//                    user.setRole(Role.SITE_MANAGER);
-//                } else if (roleId == 4) {
-//                    user.setRole(Role.DRIVER);
-//                } else {
-//                    user.setRole(Role.USER);
-//                }
             }
         } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);
@@ -249,32 +227,6 @@ public class UserRepositoryJDBC implements UserRepository {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 user = getUser(rs);
-//                user.setId(rs.getLong("user_id"));
-//                user.setFirstName(rs.getString("first_name"));
-//                user.setLastName(rs.getString("last_name"));
-//                user.setEmail(rs.getString("email"));
-//                user.setPhoneNumber(rs.getString("phone_number"));
-//                user.setUsername(rs.getString("username"));
-//                user.setPassword(rs.getString("password"));
-//                user.setRepeatPassword(rs.getString("repeat_password"));
-//
-//                String registered_on = rs.getString("registered_on");
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-//                LocalDateTime localDateTime = LocalDateTime.parse(registered_on, formatter);
-//                user.setRegisteredOn(localDateTime);
-//
-//                Long roleId = rs.getLong("role_id");
-//                if (roleId == 1) {
-//                    user.setRole(Role.ADMINISTRATOR);
-//                } else if (roleId == 2) {
-//                    user.setRole(Role.SELLER);
-//                } else if (roleId == 3) {
-//                    user.setRole(Role.SITE_MANAGER);
-//                } else if (roleId == 4) {
-//                    user.setRole(Role.DRIVER);
-//                } else {
-//                    user.setRole(Role.USER);
-//                }
             }
         } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);
@@ -292,32 +244,6 @@ public class UserRepositoryJDBC implements UserRepository {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                   user = getUser(rs);
-//                user.setId(rs.getLong("user_id"));
-//                user.setFirstName(rs.getString("first_name"));
-//                user.setLastName(rs.getString("last_name"));
-//                user.setEmail(rs.getString("email"));
-//                user.setPhoneNumber(rs.getString("phone_number"));
-//                user.setUsername(rs.getString("username"));
-//                user.setPassword(rs.getString("password"));
-//                user.setRepeatPassword(rs.getString("repeat_password"));
-//
-//                String registered_on = rs.getString("registered_on");
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-//                LocalDateTime localDateTime = LocalDateTime.parse(registered_on, formatter);
-//                user.setRegisteredOn(localDateTime);
-//
-//                Long roleId = rs.getLong("role_id");
-//                if (roleId == 1) {
-//                    user.setRole(Role.ADMINISTRATOR);
-//                } else if (roleId == 2) {
-//                    user.setRole(Role.SELLER);
-//                } else if (roleId == 3) {
-//                    user.setRole(Role.SITE_MANAGER);
-//                } else if (roleId == 4) {
-//                    user.setRole(Role.DRIVER);
-//                } else {
-//                    user.setRole(Role.USER);
-//                }
             }
         } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);

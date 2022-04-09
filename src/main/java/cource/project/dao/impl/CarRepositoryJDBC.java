@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -42,6 +44,10 @@ public class CarRepositoryJDBC implements CarRepository {
     public static final String DELETE_CAR_BY_ID = "delete from `cars` where car_id=?;";
     @SuppressWarnings("SqlResolve")
     public static final String SELECT_CARS_ORDERS = "select order_id from cars_orders where car_id=?";
+    @SuppressWarnings("SqlResolve")
+    public static final String SELECT_CARS_PICK_UP_DATES = "select pick_up_date from pick_up_dates where car_id=?";
+    @SuppressWarnings("SqlResolve")
+    public static final String SELECT_CARS_DROP_OFF_DATES = "select drop_off_date from drop_off_dates where car_id=?";
 
     private Connection connection;
     private WorkerRepository workerRepository;
@@ -474,6 +480,41 @@ public class CarRepositoryJDBC implements CarRepository {
         }
 
         car.setOrders(ordersIds);
+
+        List<LocalDateTime> pickUpDates = new ArrayList<>();
+        try (var stmt = connection.prepareStatement(SELECT_CARS_PICK_UP_DATES)) {
+            stmt.setLong(1, rs.getLong("car_id"));
+            var resultSet = stmt.executeQuery();
+            while (resultSet.next()){
+                String pick_up_date = resultSet.getString("pick_up_date");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+                LocalDateTime pickUpDate = LocalDateTime.parse(pick_up_date, formatter);
+                pickUpDates.add(pickUpDate);
+            }
+        } catch (SQLException  ex) {
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + SELECT_CARS_PICK_UP_DATES, ex);
+        }
+
+        car.setPickUpDates(pickUpDates);
+
+        List<LocalDateTime> dropOffDates = new ArrayList<>();
+        try (var stmt = connection.prepareStatement(SELECT_CARS_DROP_OFF_DATES)) {
+            stmt.setLong(1, rs.getLong("car_id"));
+            var resultSet = stmt.executeQuery();
+            while (resultSet.next()){
+                String drop_off_date = resultSet.getString("drop_off_date");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+                LocalDateTime dropOffDate = LocalDateTime.parse(drop_off_date, formatter);
+                dropOffDates.add(dropOffDate);
+            }
+        } catch (SQLException  ex) {
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + SELECT_CARS_DROP_OFF_DATES, ex);
+        }
+
+        car.setDropOffDates(dropOffDates);
+
     }
 
     private List<Car> toCars(ResultSet rs) throws SQLException, NoneExistingEntityException {

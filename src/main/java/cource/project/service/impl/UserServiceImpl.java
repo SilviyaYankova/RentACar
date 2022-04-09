@@ -149,7 +149,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Order> getAllUserOrders(User user) throws NoneExistingEntityException {
         List<Order> orders = new ArrayList<>();
-        Collection<User> allUsers = getAllUsers();
         List<Long> ordersIds = user.getOrdersIds();
 
         for (Long ordersId : ordersIds) {

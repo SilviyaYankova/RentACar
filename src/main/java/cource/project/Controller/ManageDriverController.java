@@ -3,6 +3,7 @@ package cource.project.Controller;
 import cource.project.exeption.InvalidEntityDataException;
 import cource.project.exeption.NoneAvailableEntityException;
 import cource.project.exeption.NoneExistingEntityException;
+import cource.project.model.Order;
 import cource.project.model.enums.Role;
 import cource.project.model.user.User;
 import cource.project.service.UserService;
@@ -45,9 +46,7 @@ public class ManageDriverController {
                     if (created == null) {
                         return "Username already exist.";
                     }
-                    return String.format("User ID:%s: '%s' added successfully.%n",
-                            created.getId(), created.getUsername());
-
+                    return "";
                 }),
                 new Option("Edit drivers", () -> {
                     EditUserDialog editUserDialog = new EditUserDialog(userService);
