@@ -38,16 +38,18 @@ public class Main {
         Connection connection = createDbConnection(props);
 
         DaoFactory daoFactory = new DaoFactoryImp();
+
         UserRepository userRepository = daoFactory.createUserRepository(connection);
-
-
         WorkerRepository workerRepository = daoFactory.createWorkerRepository(connection);
         CarRepository carRepository = daoFactory.createCarRepository(connection, workerRepository);
+
+        CommentRepository commentRepository = daoFactory.createCommentRepository(connection);
+
+
         WorkerService workerService = new WorkerServiceImpl(workerRepository, carRepository);
 
 
-        OrderRepository orderRepository = daoFactory.createOrderRepository(connection);
-        CommentRepository commentRepository = daoFactory.createCommentRepository(connection);
+        OrderRepository orderRepository = daoFactory.createOrderRepository(connection, userRepository, carRepository);
 
         CarService carService = new CarServiceImpl(carRepository, workerService, userRepository, orderRepository);
         OrderService orderService = new OrderServiceImpl(orderRepository, userRepository, carService);

@@ -1,6 +1,5 @@
 package cource.project.dao.impl;
 import cource.project.dao.*;
-import cource.project.service.WorkerService;
 
 import java.sql.Connection;
 
@@ -18,8 +17,8 @@ public class DaoFactoryImp implements DaoFactory {
     }
 
     @Override
-    public OrderRepository createOrderRepository(Connection connection) {
-        return new OrderRepositoryImpl(connection);
+    public OrderRepository createOrderRepository(Connection connection, UserRepository userRepository, CarRepository carRepository) {
+        return new OrderRepositoryJBDC(connection, userRepository, carRepository);
     }
 
     @Override
