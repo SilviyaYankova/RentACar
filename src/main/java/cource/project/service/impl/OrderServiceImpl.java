@@ -96,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
 
         userRepository.update(order.getUser());
 
-        car.getOrders().add(order);
+        car.getOrders().add(order.getId());
 
         car.getPickUpDates().add(order.getPickUpDate());
         car.getDropOffDates().add(order.getDropOffDate());

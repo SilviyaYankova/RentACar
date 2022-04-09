@@ -1,10 +1,12 @@
 package cource.project.dao.impl;
 
 import cource.project.dao.CarRepository;
+import cource.project.dao.OrderRepository;
 import cource.project.dao.WorkerRepository;
 import cource.project.exeption.EntityPersistenceException;
 import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Car;
+import cource.project.model.Order;
 import cource.project.model.Worker;
 import cource.project.model.enums.*;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +40,9 @@ public class CarRepositoryJDBC implements CarRepository {
             "where car_id=?;";
     @SuppressWarnings("SqlResolve")
     public static final String DELETE_CAR_BY_ID = "delete from `cars` where car_id=?;";
+    @SuppressWarnings("SqlResolve")
+    public static final String SELECT_CARS_ORDERS = "select order_id from cars_orders where car_id=?";
+//    public static final String SELECT_ORDER = "select  orders where order_id=?";
 
     private Connection connection;
     private WorkerRepository workerRepository;
@@ -456,6 +461,20 @@ public class CarRepositoryJDBC implements CarRepository {
             car.setWorker(worker);
         }
 
+        List<Long> ordersIds = new ArrayList<>();
+        try (var stmt = connection.prepareStatement(SELECT_CARS_ORDERS)) {
+            stmt.setLong(1, rs.getLong("car_id"));
+            var resultSet = stmt.executeQuery();
+            while (resultSet.next()){
+                long order_id = resultSet.getLong("order_id");
+                ordersIds.add(order_id);
+            }
+        } catch (SQLException  ex) {
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + SELECT_CARS_ORDERS, ex);
+        }
+
+        car.setOrders(ordersIds);
     }
 
     private List<Car> toCars(ResultSet rs) throws SQLException, NoneExistingEntityException {

@@ -33,8 +33,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
     @SuppressWarnings("SqlResolve")
     public static final String FIND_ORDER_BY_ID = "select * from `orders` where order_id=?;";
 
-
-
     private final Connection connection;
     private final UserRepository userRepository;
     private final CarRepository carRepository;
@@ -230,4 +228,5 @@ public class OrderRepositoryJBDC implements OrderRepository {
 
         return orderStatus;
     }
+
 }

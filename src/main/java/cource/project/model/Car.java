@@ -31,7 +31,7 @@ public class Car extends BaseEntity{
     private double pricePerDay;
     private CarStatus carStatus;
     private Worker worker;
-    private List<Order> orders;
+    private List<Long> orders;
     private List<LocalDateTime> pickUpDates;
     private List<LocalDateTime> dropOffDates;
 
@@ -245,11 +245,11 @@ public class Car extends BaseEntity{
         this.worker = worker;
     }
 
-    public List<Order> getOrders() {
+    public List<Long> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<Long> orders) {
         this.orders = orders;
     }
 

@@ -42,31 +42,27 @@ public class Main {
         UserRepository userRepository = daoFactory.createUserRepository(connection);
         WorkerRepository workerRepository = daoFactory.createWorkerRepository(connection);
         CarRepository carRepository = daoFactory.createCarRepository(connection, workerRepository);
-
-        CommentRepository commentRepository = daoFactory.createCommentRepository(connection);
-
-
         WorkerService workerService = new WorkerServiceImpl(workerRepository, carRepository);
-
 
         OrderRepository orderRepository = daoFactory.createOrderRepository(connection, userRepository, carRepository);
 
         CarService carService = new CarServiceImpl(carRepository, workerService, userRepository, orderRepository);
         OrderService orderService = new OrderServiceImpl(orderRepository, userRepository, carService);
 
+        CommentRepository commentRepository = daoFactory.createCommentRepository(connection);
         CommentService commentService = new CommentServiceImpl(commentRepository, carService, userRepository);
         UserService userService = new UserServiceImpl(userRepository, workerService, orderService, carService, commentService);
 
 
-//        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
-//        homeController.init();
+        HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
+        homeController.init();
 
 ////        System.out.println(workerService.getWorkerById(3L));
 // workerService.getAllWorkers().forEach(System.out::println);
 
 //        orderService.getAllOrders().forEach(System.out::println);
 
-        System.out.println(orderService.getOrderById(2L));
+//        System.out.println(orderService.getOrderById(2L));
 
         closeConnection(connection);
     }
