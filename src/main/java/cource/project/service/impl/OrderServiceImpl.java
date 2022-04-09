@@ -174,7 +174,7 @@ public class OrderServiceImpl implements OrderService {
     public void approveOrder(List<Order> pendingOrders, User user) throws NoneExistingEntityException {
         for (Order pendingOrder : pendingOrders) {
             if (user.getRole().equals(Role.SELLER) || user.getRole().equals(Role.ADMINISTRATOR)) {
-                pendingOrder.setOrderStatus(OrderStatus.START);
+//                pendingOrder.setOrderStatus(OrderStatus.START);
 
                 if (user.getRole().equals(Role.SELLER)) {
 //                    Seller seller = (Seller) user;

@@ -53,18 +53,18 @@ public class HomeController {
                 }),
                 new Option("Login", () -> {
 
-//                    User user = new LoginDialog(userService).input();
-//                    while (user.getUsername() == null && user.getPassword() == null) {
-//                        System.out.println("Bad credentials. Try again.");
-//                        System.out.println();
-//                        user = new LoginDialog(userService).input();
-//                    }
-//                    LOGGED_IN_USER = user;
+                    User user = new LoginDialog(userService).input();
+                    while (user.getUsername() == null && user.getPassword() == null) {
+                        System.out.println("Bad credentials. Try again.");
+                        System.out.println();
+                        user = new LoginDialog(userService).input();
+                    }
+                    LOGGED_IN_USER = user;
 
 
-                    User userById = userService.getUserById(1L);
-                    Collection<User> allUsers = userService.getAllUsers();
-                    LOGGED_IN_USER = userById;
+//                    User userById = userService.getUserById(3L);
+//                    Collection<User> allUsers = userService.getAllUsers();
+//                    LOGGED_IN_USER = userById;
 
                     System.out.println(LOGGED_IN_USER.getUsername() + " logged in successfully.");
                     System.out.println();
