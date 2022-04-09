@@ -243,7 +243,7 @@ public class UserRepositoryJDBC implements UserRepository {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                  user = getUser(rs);
+                user = getUser(rs);
             }
         } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);
@@ -298,11 +298,11 @@ public class UserRepositoryJDBC implements UserRepository {
         try (var stmt = connection.prepareStatement(SELECT_USERS_ORDERS)) {
             stmt.setLong(1, rs.getLong("user_id"));
             var resultSet = stmt.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 long order_id = resultSet.getLong("order_id");
                 orderIds.add(order_id);
             }
-        } catch (SQLException  ex) {
+        } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + SELECT_USERS_ORDERS, ex);
         }
@@ -326,9 +326,45 @@ public class UserRepositoryJDBC implements UserRepository {
                 } else {
                     driverStatus = DriverStatus.BUSY;
                 }
-
                 driver.setPricePerDay(rs.getDouble("price_per_day"));
                 driver.setDriverStatus(driverStatus);
+
+
+                List<LocalDateTime> pickUpDates = new ArrayList<>();
+                try (var stmt2 = connection.prepareStatement(SELECT_DRIVER_PICK_UP_DATES)) {
+                    stmt2.setLong(1, rs.getLong("driver_id"));
+                    var resultSet = stmt2.executeQuery();
+                    while (resultSet.next()) {
+                        String pick_up_date = resultSet.getString("pick_up_date");
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+                        LocalDateTime pickUpDate = LocalDateTime.parse(pick_up_date, formatter);
+                        pickUpDates.add(pickUpDate);
+                    }
+                } catch (SQLException ex) {
+                    log.error("Error creating connection to DB", ex);
+                    throw new EntityPersistenceException("Error executing SQL query: " + SELECT_DRIVER_PICK_UP_DATES, ex);
+                }
+
+                driver.setPickUpDates(pickUpDates);
+
+                List<LocalDateTime> dropOffDates = new ArrayList<>();
+                try (var stmt3 = connection.prepareStatement(SELECT_DRIVER_DROP_OFF_DATES)) {
+                    stmt3.setLong(1, rs.getLong("driver_id"));
+                    var resultSet = stmt3.executeQuery();
+                    while (resultSet.next()) {
+                        String drop_off_date = resultSet.getString("drop_off_date");
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+                        LocalDateTime dropOffDate = LocalDateTime.parse(drop_off_date, formatter);
+                        dropOffDates.add(dropOffDate);
+                    }
+                } catch (SQLException ex) {
+                    log.error("Error creating connection to DB", ex);
+                    throw new EntityPersistenceException("Error executing SQL query: " + SELECT_DRIVER_DROP_OFF_DATES, ex);
+                }
+
+                driver.setDropOffDates(dropOffDates);
+
+
             }
         } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);

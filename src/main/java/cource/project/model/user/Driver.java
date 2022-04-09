@@ -102,11 +102,12 @@ public class Driver extends User {
                 .append("driverStatus = " + driverStatus + "' ")
                 .append("price = " + pricePerDay + "' ")
                 .append("users = " + users.size() + "' ")
-                .append("sellers = " + sellers.size() + "' ");
+                .append("sellers = " + sellers.size() + "' ")
+                .append(System.lineSeparator());
 
 
         if (pickUpDates.size() != 0) {
-            sb.append("pickUpDate = '" + pickUpDates.size() + "' ");
+            sb.append("\t\tpickUpDate = '" + pickUpDates.size() + "' ");
         }
 
         if (dropOffDates.size() != 0) {

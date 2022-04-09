@@ -181,6 +181,8 @@ public class UserServiceImpl implements UserService {
         driver.setPricePerDay(foundDriver.getPricePerDay());
         driver.setDriverStatus(foundDriver.getDriverStatus());
         driver.setOrdersIds(user.getOrdersIds());
+        driver.setPickUpDates(foundDriver.getPickUpDates());
+        driver.setDropOffDates(foundDriver.getDropOffDates());
 
         return driver;
     }
