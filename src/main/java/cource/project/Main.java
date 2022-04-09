@@ -64,7 +64,9 @@ public class Main {
 ////        System.out.println(workerService.getWorkerById(3L));
 // workerService.getAllWorkers().forEach(System.out::println);
 
-        orderService.getAllOrders().forEach(System.out::println);
+//        orderService.getAllOrders().forEach(System.out::println);
+
+        System.out.println(orderService.getOrderById(2L));
 
         closeConnection(connection);
     }

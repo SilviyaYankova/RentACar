@@ -30,6 +30,9 @@ import java.util.List;
 public class OrderRepositoryJBDC implements OrderRepository {
     @SuppressWarnings("SqlResolve")
     public static final String FIND_ALL_ORDERS = "select * from `orders`;";
+    @SuppressWarnings("SqlResolve")
+    public static final String FIND_ORDER_BY_ID = "select * from `orders` where order_id=?;";
+
 
 
     private final Connection connection;
@@ -49,7 +52,18 @@ public class OrderRepositoryJBDC implements OrderRepository {
 
     @Override
     public Order findById(Long id) {
-        return null;
+       Order order = new Order();
+        try (var stmt = connection.prepareStatement(FIND_ORDER_BY_ID)) {
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                setOrder(rs, order);
+            }
+        } catch (SQLException ex) {
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + FIND_ORDER_BY_ID, ex);
+        }
+        return order;
     }
 
     @Override
@@ -79,95 +93,98 @@ public class OrderRepositoryJBDC implements OrderRepository {
         while (rs.next()) {
             Order order = new Order();
 
-            order.setId(rs.getLong("order_id"));
-            long user_id = rs.getLong("user_id");
-            User user = userRepository.findById(user_id);
-            order.setUser(user);
-
-
-            boolean hire_driver = rs.getBoolean("hire_driver");
-            order.setHireDriver(hire_driver);
-            if (hire_driver) {
-                long driver_id = rs.getLong("driver_id");
-                User userDriver = userRepository.findById(driver_id);
-                Driver driver = new Driver();
-                driver.setId(userDriver.getId());
-                driver.setFirstName(userDriver.getFirstName());
-                driver.setLastName(userDriver.getLastName());
-                driver.setEmail(userDriver.getEmail());
-                driver.setPassword(userDriver.getPhoneNumber());
-                driver.setUsername(userDriver.getUsername());
-                driver.setPassword(userDriver.getPassword());
-                driver.setRepeatPassword(userDriver.getRepeatPassword());
-                driver.setRegisteredOn(userDriver.getRegisteredOn());
-                driver.setRole(Role.DRIVER);
-
-                Driver foundDriver = userRepository.findDriver(driver.getId());
-                driver.setPricePerDay(foundDriver.getPricePerDay());
-                driver.setDriverStatus(foundDriver.getDriverStatus());
-
-                order.setDriver(driver);
-            }
-
-            long seller_id = rs.getLong("seller_id");
-            User userSeller = userRepository.findById(seller_id);
-
-            Seller seller = new Seller();
-            seller.setId(userSeller.getId());
-            seller.setFirstName(userSeller.getFirstName());
-            seller.setLastName(userSeller.getLastName());
-            seller.setEmail(userSeller.getEmail());
-            seller.setPassword(userSeller.getPhoneNumber());
-            seller.setUsername(userSeller.getUsername());
-            seller.setPassword(userSeller.getPassword());
-            seller.setRepeatPassword(userSeller.getRepeatPassword());
-            seller.setRegisteredOn(userSeller.getRegisteredOn());
-            seller.setRole(userSeller.getRole());
-
-            order.setSeller(seller);
-
-            long car_id = rs.getLong("car_id");
-            Car car = carRepository.findById(car_id);
-            order.setCar(car);
-
-            long order_status_id = rs.getLong("order_status_id");
-            OrderStatus orderStatus = getOrderStatusName(order_status_id);
-            order.setOrderStatus(orderStatus);
-
-            String created_on = rs.getString("created_on");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-            LocalDateTime co = LocalDateTime.parse(created_on, formatter);
-            order.setCreatedOn(co);
-
-            if (order.getModifiedOn() != null) {
-                String modiefied_on = rs.getString("modiefied_on");
-                LocalDateTime mo = LocalDateTime.parse(modiefied_on, formatter);
-                order.setModifiedOn(mo);
-            }
-
-            long pick_up_location_id = rs.getLong("pick_up_location_id");
-            Location pickUpLocation = getLocationName(pick_up_location_id);
-            order.setPickUpLocation(pickUpLocation);
-
-            long drop_off_location_id = rs.getLong("drop_off_location_id");
-            Location dropOffLocation = getLocationName(drop_off_location_id);
-            order.setDropOfLocation(dropOffLocation);
-
-            String pick_up_date = rs.getString("pick_up_date");
-            LocalDateTime pickUpDate = LocalDateTime.parse(pick_up_date, formatter);
-            order.setPickUpDate(pickUpDate);
-            String drop_off_date = rs.getString("drop_off_date");
-            LocalDateTime dropOffDate = LocalDateTime.parse(drop_off_date, formatter);
-            order.setDropOffDate(dropOffDate);
-
-            order.setDays(rs.getLong("days"));
-            order.setCarPricePerDays(rs.getDouble("car_price_per_day"));
-            order.setDeposit(rs.getDouble("deposit"));
-            order.setFinalPrice(rs.getDouble("final_price"));
+            setOrder(rs, order);
 
             orders.add(order);
         }
         return orders;
+    }
+
+    private void setOrder(ResultSet rs, Order order) throws SQLException {
+        order.setId(rs.getLong("order_id"));
+        long user_id = rs.getLong("user_id");
+        User user = userRepository.findById(user_id);
+        order.setUser(user);
+
+        boolean hire_driver = rs.getBoolean("hire_driver");
+        order.setHireDriver(hire_driver);
+        if (hire_driver) {
+            long driver_id = rs.getLong("driver_id");
+            User userDriver = userRepository.findById(driver_id);
+            Driver driver = new Driver();
+            driver.setId(userDriver.getId());
+            driver.setFirstName(userDriver.getFirstName());
+            driver.setLastName(userDriver.getLastName());
+            driver.setEmail(userDriver.getEmail());
+            driver.setPassword(userDriver.getPhoneNumber());
+            driver.setUsername(userDriver.getUsername());
+            driver.setPassword(userDriver.getPassword());
+            driver.setRepeatPassword(userDriver.getRepeatPassword());
+            driver.setRegisteredOn(userDriver.getRegisteredOn());
+            driver.setRole(Role.DRIVER);
+
+            Driver foundDriver = userRepository.findDriver(driver.getId());
+            driver.setPricePerDay(foundDriver.getPricePerDay());
+            driver.setDriverStatus(foundDriver.getDriverStatus());
+
+            order.setDriver(driver);
+        }
+
+        long seller_id = rs.getLong("seller_id");
+        User userSeller = userRepository.findById(seller_id);
+
+        Seller seller = new Seller();
+        seller.setId(userSeller.getId());
+        seller.setFirstName(userSeller.getFirstName());
+        seller.setLastName(userSeller.getLastName());
+        seller.setEmail(userSeller.getEmail());
+        seller.setPassword(userSeller.getPhoneNumber());
+        seller.setUsername(userSeller.getUsername());
+        seller.setPassword(userSeller.getPassword());
+        seller.setRepeatPassword(userSeller.getRepeatPassword());
+        seller.setRegisteredOn(userSeller.getRegisteredOn());
+        seller.setRole(userSeller.getRole());
+
+        order.setSeller(seller);
+
+        long car_id = rs.getLong("car_id");
+        Car car = carRepository.findById(car_id);
+        order.setCar(car);
+
+        long order_status_id = rs.getLong("order_status_id");
+        OrderStatus orderStatus = getOrderStatusName(order_status_id);
+        order.setOrderStatus(orderStatus);
+
+        String created_on = rs.getString("created_on");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        LocalDateTime co = LocalDateTime.parse(created_on, formatter);
+        order.setCreatedOn(co);
+
+        if (order.getModifiedOn() != null) {
+            String modiefied_on = rs.getString("modiefied_on");
+            LocalDateTime mo = LocalDateTime.parse(modiefied_on, formatter);
+            order.setModifiedOn(mo);
+        }
+
+        long pick_up_location_id = rs.getLong("pick_up_location_id");
+        Location pickUpLocation = getLocationName(pick_up_location_id);
+        order.setPickUpLocation(pickUpLocation);
+
+        long drop_off_location_id = rs.getLong("drop_off_location_id");
+        Location dropOffLocation = getLocationName(drop_off_location_id);
+        order.setDropOfLocation(dropOffLocation);
+
+        String pick_up_date = rs.getString("pick_up_date");
+        LocalDateTime pickUpDate = LocalDateTime.parse(pick_up_date, formatter);
+        order.setPickUpDate(pickUpDate);
+        String drop_off_date = rs.getString("drop_off_date");
+        LocalDateTime dropOffDate = LocalDateTime.parse(drop_off_date, formatter);
+        order.setDropOffDate(dropOffDate);
+
+        order.setDays(rs.getLong("days"));
+        order.setCarPricePerDays(rs.getDouble("car_price_per_day"));
+        order.setDeposit(rs.getDouble("deposit"));
+        order.setFinalPrice(rs.getDouble("final_price"));
     }
 
     private Location getLocationName(long pick_up_location_id) {
