@@ -13,4 +13,6 @@ public interface UserRepository extends Repository<Long, User> {
     User findUserByUsername(String username);
 
     User findUserByEmail(String email);
+
+    public Driver findDriver(Long id);
 }

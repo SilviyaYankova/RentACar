@@ -8,8 +8,10 @@ import cource.project.exeption.EntityPersistenceException;
 import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Car;
 import cource.project.model.Order;
+import cource.project.model.enums.DriverStatus;
 import cource.project.model.enums.Location;
 import cource.project.model.enums.OrderStatus;
+import cource.project.model.enums.Role;
 import cource.project.model.user.Driver;
 import cource.project.model.user.Seller;
 import cource.project.model.user.User;
@@ -81,22 +83,54 @@ public class OrderRepositoryJBDC implements OrderRepository {
             long user_id = rs.getLong("user_id");
             User user = userRepository.findById(user_id);
             order.setUser(user);
-            long driver_id = rs.getLong("driver_id");
-            Driver driver = (Driver) userRepository.findById(driver_id);
-            order.setDriver(driver);
+
 
             boolean hire_driver = rs.getBoolean("hire_driver");
             order.setHireDriver(hire_driver);
+            if (hire_driver) {
+                long driver_id = rs.getLong("driver_id");
+                User userDriver = userRepository.findById(driver_id);
+                Driver driver = new Driver();
+                driver.setId(userDriver.getId());
+                driver.setFirstName(userDriver.getFirstName());
+                driver.setLastName(userDriver.getLastName());
+                driver.setEmail(userDriver.getEmail());
+                driver.setPassword(userDriver.getPhoneNumber());
+                driver.setUsername(userDriver.getUsername());
+                driver.setPassword(userDriver.getPassword());
+                driver.setRepeatPassword(userDriver.getRepeatPassword());
+                driver.setRegisteredOn(userDriver.getRegisteredOn());
+                driver.setRole(Role.DRIVER);
+
+                Driver foundDriver = userRepository.findDriver(driver.getId());
+                driver.setPricePerDay(foundDriver.getPricePerDay());
+                driver.setDriverStatus(foundDriver.getDriverStatus());
+
+                order.setDriver(driver);
+            }
 
             long seller_id = rs.getLong("seller_id");
-            Seller seller = (Seller) userRepository.findById(seller_id);
+            User userSeller = userRepository.findById(seller_id);
+
+            Seller seller = new Seller();
+            seller.setId(userSeller.getId());
+            seller.setFirstName(userSeller.getFirstName());
+            seller.setLastName(userSeller.getLastName());
+            seller.setEmail(userSeller.getEmail());
+            seller.setPassword(userSeller.getPhoneNumber());
+            seller.setUsername(userSeller.getUsername());
+            seller.setPassword(userSeller.getPassword());
+            seller.setRepeatPassword(userSeller.getRepeatPassword());
+            seller.setRegisteredOn(userSeller.getRegisteredOn());
+            seller.setRole(userSeller.getRole());
+
             order.setSeller(seller);
 
             long car_id = rs.getLong("car_id");
             Car car = carRepository.findById(car_id);
             order.setCar(car);
 
-            long order_status_id = rs.getLong(" order_status_id");
+            long order_status_id = rs.getLong("order_status_id");
             OrderStatus orderStatus = getOrderStatusName(order_status_id);
             order.setOrderStatus(orderStatus);
 

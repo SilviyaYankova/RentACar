@@ -4,6 +4,7 @@ import cource.project.dao.UserRepository;
 import cource.project.exeption.EntityPersistenceException;
 import cource.project.exeption.NoneAvailableEntityException;
 import cource.project.exeption.NoneExistingEntityException;
+import cource.project.model.enums.DriverStatus;
 import cource.project.model.enums.Role;
 import cource.project.model.user.Driver;
 import cource.project.model.user.User;
@@ -35,6 +36,8 @@ public class UserRepositoryJDBC implements UserRepository {
     public static final String FIND_USER_BY_USERNAME = "select * from `users` where username=?;";
     @SuppressWarnings("SqlResolve")
     public static final String FIND_USER_BY_EMAIL = "select * from `users` where email=?;";
+
+    public static final String SELECT_DRIVER = "select * from `drivers` where driver_id=?;";
 
 
     private Connection connection;
@@ -358,5 +361,34 @@ public class UserRepositoryJDBC implements UserRepository {
             results.add(user);
         }
         return results;
+    }
+
+    public Driver findDriver(Long id) {
+        Driver driver = new Driver();
+
+        try (var stmt = connection.prepareStatement(SELECT_DRIVER)) {
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                DriverStatus driverStatus = null;
+                long driver_status = rs.getLong("driver_status");
+                if (driver_status == 1) {
+                    driverStatus = DriverStatus.AVAILABLE;
+                } else {
+                    driverStatus = DriverStatus.BUSY;
+                }
+
+                driver.setPricePerDay(rs.getDouble("price_per_day"));
+                driver.setDriverStatus(driverStatus);
+            }
+        } catch (SQLException ex) {
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + SELECT_DRIVER, ex);
+        }
+
+
+
+        return driver;
     }
 }
