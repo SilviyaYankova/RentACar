@@ -48,17 +48,7 @@ public class OrderServiceImpl implements OrderService {
         if (pendingOrder.isHireDriver()) {
             availableDriver = pendingOrder.getDriver();
             if (availableDriver != null) {
-//                List<Order> orders = availableDriver.getOrders();
-//                orders.add(order);
-//                availableDriver.setOrders(orders);
-
-//                List<User> users = availableDriver.getUsers();
-//                users.add(user);
-//                availableDriver.setUsers(users);
-//                availableDriver.getPickUpDates().add(pendingOrder.getPickUpDate());
-//                availableDriver.getDropOffDates().add(pendingOrder.getDropOffDate());
                 order.setDriver(availableDriver);
-//                userRepository.updateDriver(availableDriver);
             }
         }
 
@@ -100,10 +90,12 @@ public class OrderServiceImpl implements OrderService {
         userRepository.insertUsersOrders(user, order);
 
         car.getOrders().add(order.getId());
-//        car.getPickUpDates().add(order.getPickUpDate());
-//        car.getDropOffDates().add(order.getDropOffDate());
 
         carService.insertCarsOrders(car, order);
+
+        // dates, car, driver
+        orderRepository.insertPickUpDate(order.getPickUpDate(), car.getId(), availableDriver);
+        orderRepository.insertDropOffDate(order.getDropOffDate(), car.getId(),availableDriver);
 
     }
 

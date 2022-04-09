@@ -4,6 +4,7 @@ import cource.project.dao.UserRepository;
 import cource.project.exeption.EntityPersistenceException;
 import cource.project.exeption.NoneAvailableEntityException;
 import cource.project.exeption.NoneExistingEntityException;
+import cource.project.model.Car;
 import cource.project.model.Order;
 import cource.project.model.Worker;
 import cource.project.model.enums.DriverStatus;
@@ -421,4 +422,5 @@ public class UserRepositoryJDBC implements UserRepository {
             throw new EntityPersistenceException("Error executing SQL query: " + INSERT_USERS_ORDERS, ex);
         }
     }
+
 }

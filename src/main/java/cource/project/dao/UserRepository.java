@@ -1,6 +1,7 @@
 package cource.project.dao;
 
 import cource.project.exeption.NoneAvailableEntityException;
+import cource.project.model.Car;
 import cource.project.model.Order;
 import cource.project.model.user.Driver;
 import cource.project.model.user.User;
@@ -15,7 +16,7 @@ public interface UserRepository extends Repository<Long, User> {
 
     User findUserByEmail(String email);
 
-    public Driver findDriver(Long id);
+    Driver findDriver(Long id);
 
     void insertUsersOrders(User user, Order order);
 }

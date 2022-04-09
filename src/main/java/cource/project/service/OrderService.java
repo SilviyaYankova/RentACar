@@ -6,8 +6,10 @@ import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Car;
 import cource.project.model.Order;
 import cource.project.model.enums.OrderStatus;
+import cource.project.model.user.Driver;
 import cource.project.model.user.User;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,4 +34,5 @@ public interface OrderService {
     void approveOrder(Order pendingOrders, User user) throws NoneExistingEntityException;
 
     void finishOrders() throws NoneExistingEntityException;
+
 }

@@ -34,10 +34,25 @@ public class OrderRepositoryJBDC implements OrderRepository {
     @SuppressWarnings("SqlResolve")
     public static final String FIND_ORDER_BY_ID = "select * from `orders` where order_id=?;";
     @SuppressWarnings("SqlResolve")
-    public static final String INSERT_NEW_ORDER = "insert into `orders` (`user_id`, `driver_id`, `hire_driver`, " +
+    public static final String INSERT_NEW_ORDER_WITH_DRIVER = "insert into `orders` (`user_id`, `driver_id`, `hire_driver`, " +
             "`car_id`, `order_status_id`, `created_on`, `pick_up_location_id`, `drop_off_location_id`, " +
             "`pick_up_date`, `drop_off_date`, `days`, `car_price_per_day`, `deposit`, `driver_price`, `final_price`) " +
             "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    @SuppressWarnings("SqlResolve")
+    public static final String INSERT_NEW_ORDER_WITHOUT_DRIVER = "insert into `orders` (`user_id`, `hire_driver`, " +
+            "`car_id`, `order_status_id`, `created_on`, `pick_up_location_id`, `drop_off_location_id`, " +
+            "`pick_up_date`, `drop_off_date`, `days`, `car_price_per_day`, `deposit`, `final_price`) " +
+            "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+    @SuppressWarnings("SqlResolve")
+    public static final String INSERT_PICK_UP_DATES_WITH_DRIVER = "insert into `pick_up_dates` (`pick_up_date`, `car_id`, `driver_id`) values (?, ?, ?);";
+    @SuppressWarnings("SqlResolve")
+    public static final String INSERT_PICK_UP_DATES_WITHOUT_DRIVER = "insert into `pick_up_dates` (`pick_up_date`, `car_id`) values (?, ?);";
+
+    @SuppressWarnings("SqlResolve")
+    public static final String INSERT_DROP_OFF_DATES_WITH_DRIVER = "insert into `drop_off_dates` (`drop_off_date`, `car_id`, `driver_id`) values (?, ?, ?);";
+    @SuppressWarnings("SqlResolve")
+    public static final String INSERT_DROP_OFF_DATES_WITHOUT_DRIVER = "insert into `drop_off_dates` (`drop_off_date`, `car_id`) values (?, ?);";
 
 
     private final Connection connection;
@@ -52,62 +67,132 @@ public class OrderRepositoryJBDC implements OrderRepository {
 
     @Override
     public Order create(Order order) {
-        try (var stmt = connection.prepareStatement(INSERT_NEW_ORDER, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setLong(1, order.getUser().getId());
-            stmt.setLong(2, order.getDriver().getId());
+        Driver driver = order.getDriver();
 
-            stmt.setBoolean(3, order.isHireDriver());
+        if (driver != null) {
+            try (var stmt = connection.prepareStatement(INSERT_NEW_ORDER_WITH_DRIVER, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setLong(1, order.getUser().getId());
 
+                stmt.setLong(2, order.getDriver().getId());
 
-            stmt.setLong(4, order.getCar().getId());
-
-            Long orderStatusId = getOrderStatusId(order.getOrderStatus());
-            stmt.setLong(5, orderStatusId);
-
-            LocalDateTime createdOn = order.getCreatedOn();
-            String createOn = createdOn.format(formatter);
-            stmt.setString(6, createOn);
-
-            long pick_up_location_id = getLocationId(order.getPickUpLocation());
-            stmt.setLong(7, pick_up_location_id);
-
-            long drop_off__location_id = getLocationId(order.getDropOffLocation());
-            stmt.setLong(8, drop_off__location_id);
-
-            stmt.setString(9, order.getPickUpDate().format(formatter));
-            stmt.setString(10, order.getDropOffDate().format(formatter));
-
-            stmt.setLong(11, order.getDays());
-            stmt.setDouble(12, order.getCarPricePerDays());
-            stmt.setDouble(13, order.getDeposit());
-            stmt.setDouble(14, order.getDriver().getPricePerDay());
-            stmt.setDouble(15, order.getFinalPrice());
-
-            connection.setAutoCommit(false);
-            var affectedRows = stmt.executeUpdate();
-            // more updates here ...
-            connection.commit();
-            connection.setAutoCommit(true);
-            if (affectedRows == 0) {
-                throw new EntityPersistenceException("Creating order failed, no rows affected.");
-            }
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    order.setId(generatedKeys.getLong(1));
-                    return order;
+                if (order.isHireDriver()) {
+                    stmt.setBoolean(3, true);
                 } else {
-                    throw new EntityPersistenceException("Creating order failed, no ID obtained.");
+                    stmt.setBoolean(3, false);
                 }
+
+
+                stmt.setLong(4, order.getCar().getId());
+
+                Long orderStatusId = getOrderStatusId(order.getOrderStatus());
+                stmt.setLong(5, orderStatusId);
+
+                LocalDateTime createdOn = order.getCreatedOn();
+                String createOn = createdOn.format(formatter);
+                stmt.setString(6, createOn);
+
+                long pick_up_location_id = getLocationId(order.getPickUpLocation());
+                stmt.setLong(7, pick_up_location_id);
+
+                long drop_off__location_id = getLocationId(order.getDropOffLocation());
+                stmt.setLong(8, drop_off__location_id);
+
+                stmt.setString(9, order.getPickUpDate().format(formatter));
+                stmt.setString(10, order.getDropOffDate().format(formatter));
+
+                stmt.setLong(11, order.getDays());
+                stmt.setDouble(12, order.getCarPricePerDays());
+                stmt.setDouble(13, order.getDeposit());
+
+                stmt.setDouble(14, order.getDriver().getPricePerDay());
+                stmt.setDouble(15, order.getFinalPrice());
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                // more updates here ...
+                connection.commit();
+                connection.setAutoCommit(true);
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Creating order failed, no rows affected.");
+                }
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        order.setId(generatedKeys.getLong(1));
+                        return order;
+                    } else {
+                        throw new EntityPersistenceException("Creating order failed, no ID obtained.");
+                    }
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + INSERT_NEW_ORDER_WITH_DRIVER, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + INSERT_NEW_ORDER_WITH_DRIVER, ex);
             }
-        } catch (SQLException ex) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                throw new EntityPersistenceException("Error rolling back SQL query: " + INSERT_NEW_ORDER, ex);
+        } else {
+            try (var stmt = connection.prepareStatement(INSERT_NEW_ORDER_WITHOUT_DRIVER, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setLong(1, order.getUser().getId());
+                if (order.isHireDriver()) {
+                    stmt.setBoolean(2, true);
+                } else {
+                    stmt.setBoolean(2, false);
+                }
+
+
+                stmt.setLong(3, order.getCar().getId());
+
+                Long orderStatusId = getOrderStatusId(order.getOrderStatus());
+                stmt.setLong(4, orderStatusId);
+
+                LocalDateTime createdOn = order.getCreatedOn();
+                String createOn = createdOn.format(formatter);
+                stmt.setString(5, createOn);
+
+                long pick_up_location_id = getLocationId(order.getPickUpLocation());
+                stmt.setLong(6, pick_up_location_id);
+
+                long drop_off__location_id = getLocationId(order.getDropOffLocation());
+                stmt.setLong(7, drop_off__location_id);
+
+                stmt.setString(8, order.getPickUpDate().format(formatter));
+                stmt.setString(9, order.getDropOffDate().format(formatter));
+
+                stmt.setLong(10, order.getDays());
+                stmt.setDouble(11, order.getCarPricePerDays());
+                stmt.setDouble(12, order.getDeposit());
+
+                stmt.setDouble(13, order.getFinalPrice());
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                // more updates here ...
+                connection.commit();
+                connection.setAutoCommit(true);
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Creating order failed, no rows affected.");
+                }
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        order.setId(generatedKeys.getLong(1));
+                        return order;
+                    } else {
+                        throw new EntityPersistenceException("Creating order failed, no ID obtained.");
+                    }
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + INSERT_NEW_ORDER_WITHOUT_DRIVER, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + INSERT_NEW_ORDER_WITHOUT_DRIVER, ex);
             }
-            log.error("Error creating connection to DB", ex);
-            throw new EntityPersistenceException("Error executing SQL query: " + INSERT_NEW_ORDER, ex);
         }
+
     }
 
     private long getLocationId(Location pickUpLocation) {
@@ -357,7 +442,7 @@ public class OrderRepositoryJBDC implements OrderRepository {
 
     }
 
-    private Location getLocationName(long pick_up_location_id) {
+    public Location getLocationName(long pick_up_location_id) {
         Location location = null;
 
         if (pick_up_location_id == 1) {
@@ -385,7 +470,7 @@ public class OrderRepositoryJBDC implements OrderRepository {
         return location;
     }
 
-    private OrderStatus getOrderStatusName(long order_status_id) {
+    public OrderStatus getOrderStatusName(long order_status_id) {
         OrderStatus orderStatus = null;
         if (order_status_id == 1) {
             orderStatus = OrderStatus.START;
@@ -401,4 +486,105 @@ public class OrderRepositoryJBDC implements OrderRepository {
         return orderStatus;
     }
 
+    @Override
+    public void insertPickUpDate(LocalDateTime pickUpDate, Long carId, User driver) {
+
+        if (driver != null) {
+            try (var stmt = connection.prepareStatement(INSERT_PICK_UP_DATES_WITH_DRIVER)) {
+                stmt.setString(1, pickUpDate.format(formatter));
+                stmt.setLong(2, carId);
+                stmt.setLong(3, driver.getId());
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                connection.commit();
+                connection.setAutoCommit(true);
+
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Updating pick_up_dates failed, no rows affected.");
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + INSERT_PICK_UP_DATES_WITH_DRIVER, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + INSERT_PICK_UP_DATES_WITH_DRIVER, ex);
+            }
+        } else {
+            try (var stmt = connection.prepareStatement(INSERT_PICK_UP_DATES_WITHOUT_DRIVER)) {
+                stmt.setString(1, pickUpDate.format(formatter));
+                stmt.setLong(2, carId);
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                connection.commit();
+                connection.setAutoCommit(true);
+
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Updating pick_up_dates failed, no rows affected.");
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + INSERT_PICK_UP_DATES_WITHOUT_DRIVER, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + INSERT_PICK_UP_DATES_WITHOUT_DRIVER, ex);
+            }
+        }
+
+    }
+
+    @Override
+    public void insertDropOffDate(LocalDateTime dropOffDate, Long carId, User driver) {
+        if (driver != null) {
+            try (var stmt = connection.prepareStatement(INSERT_DROP_OFF_DATES_WITH_DRIVER)) {
+                stmt.setString(1, dropOffDate.format(formatter));
+                stmt.setLong(2, carId);
+                stmt.setLong(3, driver.getId());
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                connection.commit();
+                connection.setAutoCommit(true);
+
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Updating pick_up_dates failed, no rows affected.");
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + INSERT_DROP_OFF_DATES_WITH_DRIVER, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + INSERT_DROP_OFF_DATES_WITH_DRIVER, ex);
+            }
+        } else {
+            try (var stmt = connection.prepareStatement(INSERT_DROP_OFF_DATES_WITHOUT_DRIVER)) {
+                stmt.setString(1, dropOffDate.format(formatter));
+                stmt.setLong(2, carId);
+
+                connection.setAutoCommit(false);
+                var affectedRows = stmt.executeUpdate();
+                connection.commit();
+                connection.setAutoCommit(true);
+
+                if (affectedRows == 0) {
+                    throw new EntityPersistenceException("Updating pick_up_dates failed, no rows affected.");
+                }
+            } catch (SQLException ex) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new EntityPersistenceException("Error rolling back SQL query: " + INSERT_DROP_OFF_DATES_WITHOUT_DRIVER, ex);
+                }
+                log.error("Error creating connection to DB", ex);
+                throw new EntityPersistenceException("Error executing SQL query: " + INSERT_DROP_OFF_DATES_WITHOUT_DRIVER, ex);
+            }
+        }
+    }
 }
