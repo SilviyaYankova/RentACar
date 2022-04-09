@@ -53,6 +53,16 @@ public class OrderRepositoryJBDC implements OrderRepository {
     public static final String INSERT_DROP_OFF_DATES_WITH_DRIVER = "insert into `drop_off_dates` (`drop_off_date`, `car_id`, `driver_id`) values (?, ?, ?);";
     @SuppressWarnings("SqlResolve")
     public static final String INSERT_DROP_OFF_DATES_WITHOUT_DRIVER = "insert into `drop_off_dates` (`drop_off_date`, `car_id`) values (?, ?);";
+    @SuppressWarnings("SqlResolve")
+    public static final String DELETE_PICK_UP_DATE = "delete from `pick_up_dates` where pick_up_date=? and car_id=?;";
+    @SuppressWarnings("SqlResolve")
+    public static final String DELETE_DROP_OFF_DATE = "delete from `drop_off_dates` where drop_off_date=? and car_id=?;";
+    @SuppressWarnings("SqlResolve")
+    public static final String DELETE_CARS_ORDERS = "delete from `cars_orders` where car_id=?;";
+    @SuppressWarnings("SqlResolve")
+    public static final String DELETE_USERS_ORDERS = "delete from `users_orders` where order_id=?;";
+    @SuppressWarnings("SqlResolve")
+    public static final String DELETE_ORDER = "delete from `orders` where order_id=?;";
 
 
     private final Connection connection;
@@ -229,7 +239,122 @@ public class OrderRepositoryJBDC implements OrderRepository {
 
     @Override
     public void deleteById(Long id) throws NoneExistingEntityException {
+        Order order = findById(id);
+        Long carID = order.getCar().getId();
+        LocalDateTime pick = order.getPickUpDate();
+        String pickUpDate = pick.format(formatter);
 
+
+
+//        try (var stmt = connection.prepareStatement(DELETE_PICK_UP_DATE)) {
+//            stmt.setString(1, dropOffDate);
+//            stmt.setLong(2, carID);
+//            connection.setAutoCommit(false);
+//            var affectedRows = stmt.executeUpdate();
+//
+//            connection.commit();
+//            connection.setAutoCommit(true);
+//
+//            if (affectedRows == 0) {
+//                throw new EntityPersistenceException("Deleting pickupdate failed, no rows affected.");
+//            }
+//
+//        } catch (SQLException ex) {
+//            try {
+//                connection.rollback();
+//            } catch (SQLException e) {
+//                throw new EntityPersistenceException("Error rolling back SQL query: " + DELETE_PICK_UP_DATE, ex);
+//            }
+//            log.error("Error creating connection to DB", ex);
+//            throw new EntityPersistenceException("Error executing SQL query: " + DELETE_PICK_UP_DATE, ex);
+//        }
+
+        LocalDateTime drop = order.getDropOffDate();
+        String dropOffDate = drop.format(formatter);
+        try (var stmt = connection.prepareStatement(DELETE_DROP_OFF_DATE)) {
+            stmt.setString(1, dropOffDate);
+            stmt.setLong(2, carID);
+            connection.setAutoCommit(false);
+            var affectedRows = stmt.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
+
+            if (affectedRows == 0) {
+                throw new EntityPersistenceException("Deleting DELETE_DROP_OFF_DATE failed, no rows affected.");
+            }
+
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new EntityPersistenceException("Error rolling back SQL query: " + DELETE_DROP_OFF_DATE, ex);
+            }
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + DELETE_DROP_OFF_DATE, ex);
+        }
+
+        try (var stmt = connection.prepareStatement(DELETE_CARS_ORDERS)) {
+            stmt.setLong(1, carID);
+            connection.setAutoCommit(false);
+            var affectedRows = stmt.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
+
+            if (affectedRows == 0) {
+                throw new EntityPersistenceException("Deleting DELETE_CARS_ORDERS failed, no rows affected.");
+            }
+
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new EntityPersistenceException("Error rolling back SQL query: " + DELETE_CARS_ORDERS, ex);
+            }
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + DELETE_CARS_ORDERS, ex);
+        }
+
+        try (var stmt = connection.prepareStatement(DELETE_USERS_ORDERS)) {
+            stmt.setLong(1, order.getId());
+            connection.setAutoCommit(false);
+            var affectedRows = stmt.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
+
+            if (affectedRows == 0) {
+                throw new EntityPersistenceException("Deleting DELETE_USERS_ORDERS failed, no rows affected.");
+            }
+
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new EntityPersistenceException("Error rolling back SQL query: " + DELETE_USERS_ORDERS, ex);
+            }
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + DELETE_USERS_ORDERS, ex);
+        }
+
+        try (var stmt = connection.prepareStatement(DELETE_ORDER)) {
+            stmt.setLong(1, order.getId());
+            connection.setAutoCommit(false);
+            var affectedRows = stmt.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
+
+            if (affectedRows == 0) {
+                throw new EntityPersistenceException("Deleting DELETE_ORDER failed, no rows affected.");
+            }
+
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new EntityPersistenceException("Error rolling back SQL query: " + DELETE_ORDER, ex);
+            }
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + DELETE_ORDER, ex);
+        }
     }
 
     private Collection<Order> toOrders(ResultSet rs) throws SQLException, NoneExistingEntityException {
