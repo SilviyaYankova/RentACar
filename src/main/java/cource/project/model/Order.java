@@ -93,10 +93,6 @@ public class Order extends BaseEntity {
         this.dropOfLocation = dropOfLocation;
     }
 
-    public boolean driverIsHired() {
-        return hireDriver;
-    }
-
     public void setHireDriver(boolean hireDriver) {
         this.hireDriver = hireDriver;
     }

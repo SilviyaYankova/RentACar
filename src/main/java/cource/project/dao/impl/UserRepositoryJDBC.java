@@ -216,7 +216,27 @@ public class UserRepositoryJDBC implements UserRepository {
 
     @Override
     public Driver getAvailableDriver(LocalDateTime pickUpDate, LocalDateTime dropOffDate) throws NoneAvailableEntityException {
-        return null;
+        Collection<User> all = findAll();
+        Driver availableDriver = null;
+
+        for (User user : all) {
+            if (user.getRole().equals(Role.DRIVER)) {
+//                Driver driver = (Driver) user;
+                Driver driver = findDriver(user.getId());
+                driver.setId(user.getId());
+                List<LocalDateTime> pickUpDates = driver.getPickUpDates();
+                if (!pickUpDates.contains(pickUpDate)) {
+                    availableDriver = driver;
+                    break;
+                }
+            }
+        }
+
+        if (availableDriver == null) {
+            throw new NoneAvailableEntityException("Sorry there is no available Drivers. Please change your order.");
+        }
+
+        return availableDriver;
     }
 
     @Override
@@ -373,5 +393,10 @@ public class UserRepositoryJDBC implements UserRepository {
 
 
         return driver;
+    }
+
+    @Override
+    public void updateDriver(Driver availableDriver) {
+
     }
 }

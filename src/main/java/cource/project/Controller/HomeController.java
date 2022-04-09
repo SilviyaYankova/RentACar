@@ -62,7 +62,7 @@ public class HomeController {
 //                    LOGGED_IN_USER = user;
 
 
-                    User userById = userService.getUserById(1L);
+                    User userById = userService.getUserById(7L);
                     Collection<User> allUsers = userService.getAllUsers();
                     LOGGED_IN_USER = userById;
 

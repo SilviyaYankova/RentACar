@@ -15,4 +15,6 @@ public interface UserRepository extends Repository<Long, User> {
     User findUserByEmail(String email);
 
     public Driver findDriver(Long id);
+
+    void updateDriver(Driver availableDriver);
 }

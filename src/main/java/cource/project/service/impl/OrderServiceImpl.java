@@ -44,20 +44,21 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setUser(user);
 
+        Driver availableDriver = null;
         if (pendingOrder.isHireDriver()) {
-            Driver availableDriver = pendingOrder.getDriver();
+            availableDriver = pendingOrder.getDriver();
             if (availableDriver != null) {
-                List<Order> orders = availableDriver.getOrders();
-                orders.add(order);
-                availableDriver.setOrders(orders);
+//                List<Order> orders = availableDriver.getOrders();
+//                orders.add(order);
+//                availableDriver.setOrders(orders);
 
-                List<User> users = availableDriver.getUsers();
-                users.add(user);
-                availableDriver.setUsers(users);
-                availableDriver.getPickUpDates().add(pendingOrder.getPickUpDate());
-                availableDriver.getDropOffDates().add(pendingOrder.getDropOffDate());
+//                List<User> users = availableDriver.getUsers();
+//                users.add(user);
+//                availableDriver.setUsers(users);
+//                availableDriver.getPickUpDates().add(pendingOrder.getPickUpDate());
+//                availableDriver.getDropOffDates().add(pendingOrder.getDropOffDate());
                 order.setDriver(availableDriver);
-                userRepository.update(availableDriver);
+//                userRepository.updateDriver(availableDriver);
             }
         }
 
@@ -89,17 +90,23 @@ public class OrderServiceImpl implements OrderService {
             throw new InvalidEntityDataException("Error creating order", ex);
         }
         order.setCar(car);
-        user.getOrders().add(order);
+//        user.getOrders().add(order);
 
 
         orderRepository.create(order);
 
+        if (availableDriver != null) {
+            // todo update users_orders
+            userRepository.updateDriver(availableDriver);
+        }
+        // todo update users_orders
         userRepository.update(order.getUser());
 
         car.getOrders().add(order.getId());
 
         car.getPickUpDates().add(order.getPickUpDate());
         car.getDropOffDates().add(order.getDropOffDate());
+        // todo update dates
         carService.editCar(car);
 
     }
