@@ -57,7 +57,7 @@ public class ManageDriverController {
                     return "";
                 }),
                 new Option("Edit drivers", () -> {
-                    EditUserDialog editUserDialog = new EditUserDialog(userService);
+                    EditUserDialog editUserDialog = new EditUserDialog(userService, LOGGED_IN_USER);
                     editUserDialog.input(LOGGED_IN_USER);
                     return "";
                 }),

@@ -117,7 +117,6 @@ public class RegisterDialog {
                 user.setRepeatPassword(repeatPassword);
             }
         }
-        user.setRegisteredOn(LocalDateTime.now());
 
         if ( LOGGED_IN_USER != null && LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
             System.out.println("Role:");

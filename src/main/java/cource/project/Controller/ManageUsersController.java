@@ -24,10 +24,10 @@ public class ManageUsersController {
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
 
 
-        Menu menu = new Menu("Manage Site Manager", List.of(
+        Menu menu = new Menu("Manage Users", List.of(
                 new Option("See all users", () -> {
 
-                    Collection<User> all = userService.getUserByRole(Role.USER);
+                    Collection<User> all = userService.getAllUsers();
                     List<User> allUsers = new ArrayList<>(all);
                     if (allUsers.size() > 0) {
                         int count = 0;
@@ -51,7 +51,7 @@ public class ManageUsersController {
 
                 }),
                 new Option("Edit user", () -> {
-                    EditUserDialog editUserDialog = new EditUserDialog(userService);
+                    EditUserDialog editUserDialog = new EditUserDialog(userService, LOGGED_IN_USER);
                     editUserDialog.input(LOGGED_IN_USER);
                     return "";
                 }),

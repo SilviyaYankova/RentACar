@@ -442,7 +442,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
             driver.setUsername(userDriver.getUsername());
             driver.setPassword(userDriver.getPassword());
             driver.setRepeatPassword(userDriver.getRepeatPassword());
-            driver.setRegisteredOn(userDriver.getRegisteredOn());
             driver.setRole(Role.DRIVER);
 
             Driver foundDriver = userRepository.findDriver(driver.getId());
@@ -464,7 +463,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
         seller.setUsername(userSeller.getUsername());
         seller.setPassword(userSeller.getPassword());
         seller.setRepeatPassword(userSeller.getRepeatPassword());
-        seller.setRegisteredOn(userSeller.getRegisteredOn());
         seller.setRole(userSeller.getRole());
 
         order.setSeller(seller);

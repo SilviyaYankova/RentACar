@@ -21,7 +21,7 @@ public class SiteManager extends User {
 
     public SiteManager(Long id, String firstName, String lastName, String email, String phoneNumber, String username,
                        String password, String repeatPassword, LocalDateTime registeredOn) {
-        super(id, firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
+        super(id, firstName, lastName, email, phoneNumber, username, password, repeatPassword);
         this.setRole(Role.SITE_MANAGER);
         this.workers = new ArrayList<>();
         this.carsHistory = new ArrayList<>();
@@ -54,7 +54,6 @@ public class SiteManager extends User {
                 .append("phoneNumber = '" + super.getPhoneNumber() + "' ")
                 .append("username = '" + super.getUsername() + "' ")
                 .append(System.lineSeparator())
-                .append("\t\t" + "registeredOn = '" + super.getRegisteredOn().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ")
                 .append("role = '" + super.getRole() + "' ")
                 .append("workers = '" + workers.size() + "' ")
                 .append("carsHistory = '" + carsHistory.size() + "' ")

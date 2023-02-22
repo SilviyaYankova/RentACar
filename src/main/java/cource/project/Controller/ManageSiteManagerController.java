@@ -51,7 +51,7 @@ public class ManageSiteManagerController {
 
                 }),
                 new Option("Edit Site Manager", () -> {
-                    EditUserDialog editUserDialog = new EditUserDialog(userService);
+                    EditUserDialog editUserDialog = new EditUserDialog(userService, LOGGED_IN_USER);
                     editUserDialog.input(LOGGED_IN_USER);
                     return "";
                 }),

@@ -17,4 +17,9 @@
       <module name="rent-a-car" target="14" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="rent-a-car" options="" />
+    </option>
+  </component>
 </project>

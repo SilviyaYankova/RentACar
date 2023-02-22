@@ -5,23 +5,14 @@ import cource.project.dao.*;
 import cource.project.dao.DaoFactory;
 import cource.project.dao.impl.DaoFactoryImp;
 import cource.project.exeption.*;
-import cource.project.model.user.User;
 import cource.project.service.*;
 import cource.project.service.impl.*;
-import cource.project.util.JdbcUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Properties;
 
 import static cource.project.util.JdbcUtils.closeConnection;
@@ -60,5 +51,4 @@ public class Main {
 
         closeConnection(connection);
     }
-
 }

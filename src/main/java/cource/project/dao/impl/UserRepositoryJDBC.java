@@ -28,7 +28,7 @@ public class UserRepositoryJDBC implements UserRepository {
     @SuppressWarnings("SqlResolve")
     public static final String FIND_USER_BY_ID = "select * from `users` where user_id=?;";
     @SuppressWarnings("SqlResolve")
-    public static final String INSERT_NEW_USER = "insert into `users` (`first_name`, `last_name`, `email`, `phone_number`, `username`, `password`, `repeat_password`, `registered_on`, `role_id`) values (?, ?,?, ?, ?, ?, ?, ?, ?);";
+    public static final String INSERT_NEW_USER = "insert into `users` (`first_name`, `last_name`, `email`, `phone_number`, `username`, `password`, `repeat_password`, `role_id`) values (?, ?, ?, ?, ?, ?, ?, ?);";
     @SuppressWarnings("SqlResolve")
     public static final String UPDATE_USER = "update `users` " +
             "set `first_name`=?, `last_name`=?, `phone_number`=?, `password`=?, `repeat_password`=?, `role_id`=? " +
@@ -40,7 +40,7 @@ public class UserRepositoryJDBC implements UserRepository {
     @SuppressWarnings("SqlResolve")
     public static final String FIND_USER_BY_EMAIL = "select * from `users` where email=?;";
     @SuppressWarnings("SqlResolve")
-    public static final String SELECT_DRIVER = "select * from `drivers` where driver_id=?;";
+    public static final String SELECT_DRIVER = "select * from `user_drivers` where driver_id=?;";
     @SuppressWarnings("SqlResolve")
     public static final String SELECT_USERS_ORDERS = "select order_id from users_orders where user_id=?";
     @SuppressWarnings("SqlResolve")
@@ -60,10 +60,6 @@ public class UserRepositoryJDBC implements UserRepository {
     public User create(User entity) {
         try (var stmt = connection.prepareStatement(INSERT_NEW_USER, Statement.RETURN_GENERATED_KEYS)) {
             // 4. Set params and execute SQL query
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-            LocalDateTime localDateTime = entity.getRegisteredOn();
-            String registeredOn = localDateTime.format(formatter);
-
             stmt.setString(1, entity.getFirstName());
             stmt.setString(2, entity.getLastName());
             stmt.setString(3, entity.getEmail());
@@ -71,7 +67,6 @@ public class UserRepositoryJDBC implements UserRepository {
             stmt.setString(5, entity.getUsername());
             stmt.setString(6, entity.getPassword());
             stmt.setString(7, entity.getRepeatPassword());
-            stmt.setString(8, registeredOn);
 
             Long roleId = 0L;
             if (entity.getRole().equals(Role.ADMINISTRATOR)) {
@@ -85,7 +80,8 @@ public class UserRepositoryJDBC implements UserRepository {
             } else {
                 roleId = 5L;
             }
-            stmt.setLong(9, roleId);
+            stmt.setLong(8, roleId);
+            System.out.println();
 
             // 5. Execute insert statement
             connection.setAutoCommit(false);
@@ -284,9 +280,6 @@ public class UserRepositoryJDBC implements UserRepository {
     }
 
     private User getUser(ResultSet rs) throws SQLException {
-        String registered_on = rs.getString("registered_on");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        LocalDateTime localDateTime = LocalDateTime.parse(registered_on, formatter);
         long roleId = rs.getLong("role_id");
         Role role;
         if (roleId == 1) {
@@ -309,8 +302,8 @@ public class UserRepositoryJDBC implements UserRepository {
                 rs.getString("phone_number"),
                 rs.getString("username"),
                 rs.getString("password"),
-                rs.getString("repeat_password"),
-                localDateTime);
+                rs.getString("repeat_password")
+        );
         user.setRole(role);
 
         List<Long> orderIds = new ArrayList<>();

@@ -82,16 +82,16 @@ VALUES ('9', 'DOBRICH');
 INSERT INTO `rent-a-car`.`location` (`id`, `location`)
 VALUES ('10', 'SHUMEN');
 
-# INSERT INTO `rent-a-car`.`role` (`id`, `role`)
-# VALUES ('1', 'ADMINISTRATOR');
-# INSERT INTO `rent-a-car`.`role` (`id`, `role`)
-# VALUES ('2', 'SELLER');
-# INSERT INTO `rent-a-car`.`role` (`id`, `role`)
-# VALUES ('3', 'SITE_MANAGER');
-# INSERT INTO `rent-a-car`.`role` (`id`, `role`)
-# VALUES ('4', 'DRIVER');
-# INSERT INTO `rent-a-car`.`role` (`id`, `role`)
-# VALUES ('5', 'USER');
+INSERT INTO `rent-a-car`.`role` (`id`, `role`)
+VALUES ('1', 'ADMINISTRATOR');
+INSERT INTO `rent-a-car`.`role` (`id`, `role`)
+VALUES ('2', 'SELLER');
+INSERT INTO `rent-a-car`.`role` (`id`, `role`)
+VALUES ('3', 'SITE_MANAGER');
+INSERT INTO `rent-a-car`.`role` (`id`, `role`)
+VALUES ('4', 'DRIVER');
+INSERT INTO `rent-a-car`.`role` (`id`, `role`)
+VALUES ('5', 'USER');
 
 INSERT INTO `rent-a-car`.`worker_status` (`id`, `worker_status`)
 VALUES ('1', 'AVAILABLE');
@@ -112,29 +112,30 @@ VALUES ('5', 'DUAL_CLUTCH');
 
 INSERT INTO `rent-a-car`.`users` (`user_id`, `first_name`, `last_name`, `email`, `phone_number`,
                                   `username`, `password`, `repeat_password`, `role_id`)
-VALUES ('1', 'Silviya', 'Yankova', 'silviya@rentacar.com', '0898405658', 'silviya', '8101308797Ja*', '8101308797Ja*',
+VALUES ('1', 'Silviya', 'Yankova', 'silviya@rentacar.com', '0898405658', 'silviya', '0123456789Ja*', '0123456789Ja*',
         '1');
 INSERT INTO `rent-a-car`.`users` (`user_id`, `first_name`, `last_name`, `email`, `phone_number`,
                                   `username`, `password`, `repeat_password`, `role_id`)
-VALUES ('2', 'Kalina', 'Dimitrova', 'kalina@rentacar.com', '0898405658', 'kalina', '8101308797Ja*', '8101308797Ja*',
+VALUES ('2', 'Kalina', 'Dimitrova', 'kalina@rentacar.com', '0898405658', 'kalina', '0123456789Ja*', '0123456789Ja*',
         '2');
 INSERT INTO `rent-a-car`.`users` (`user_id`, `first_name`, `last_name`, `email`, `phone_number`,
                                   `username`, `password`, `repeat_password`, `role_id`)
-VALUES ('3', 'Stefan', 'Hristov', 'stefan@rentacar.com', '0898405658', 'stefan', '8101308797Ja*', '8101308797Ja*',
+VALUES ('3', 'Stefan', 'Hristov', 'stefan@rentacar.com', '0898405658', 'stefan', '0123456789Ja*', '0123456789Ja*',
         '3');
 INSERT INTO `rent-a-car`.`users` (`user_id`, `first_name`, `last_name`, `email`, `phone_number`,
                                   `username`, `password`, `repeat_password`, `role_id`)
-VALUES ('4', 'Kristina', 'Dimitrova', 'kristina@rentacar.com', '0898405658', 'kristina', '8101308797Ja*',
-        '8101308797Ja*', '4');
+VALUES ('4', 'Kristina', 'Dimitrova', 'kristina@rentacar.com', '0898405658', 'kristina', '0123456789Ja*',
+        '0123456789Ja*', '4');
 INSERT INTO `rent-a-car`.`users` (`user_id`, `first_name`, `last_name`, `email`, `phone_number`,
                                   `username`, `password`, `repeat_password`, `role_id`)
-VALUES ('5', 'Petar', 'Arsov', 'petar@rentacar.com', '0898405658', 'petar', '8101308797Ja*', '8101308797Ja*', '4');
+VALUES ('5', 'Petar', 'Arsov', 'petar@rentacar.com', '0898405658', 'petar', '0123456789Ja*', '0123456789Ja*', '4');
 INSERT INTO `rent-a-car`.`users` (`user_id`, `first_name`, `last_name`, `email`, `phone_number`,
                                   `username`, `password`, `repeat_password`, `role_id`)
-VALUES ('6', 'Martin', 'Yankov', 'martin@user.com', '0898405658', 'martin', '8101308797Ja*', '8101308797Ja*', '5');
+VALUES ('6', 'Martin', 'Yankov', 'martin@user.com', '0898405658', 'martin', '0123456789Ja*', '0123456789Ja*', '5');
 INSERT INTO `rent-a-car`.`users` (`user_id`, `first_name`, `last_name`, `email`, `phone_number`,
                                   `username`, `password`, `repeat_password`, `role_id`)
-VALUES ('7', 'Daniel', 'Petkov', 'daniel@user.com', '0898405658', 'daniel', '8101308797Ja*', '8101308797Ja*', '5');
+VALUES ('7', 'Daniel', 'Petkov', 'daniel@user.com', '0898405658', 'daniel', '0123456789Ja*', '0123456789Ja*', '5');
+
 
 INSERT INTO `rent-a-car`.`workers` (`worker_id`, `first_name`, `last_name`, `code`, `worker_status_id`)
 VALUES ('1', 'Stanimir', 'Petrov', 'C1', '1');
@@ -151,50 +152,51 @@ INSERT INTO `rent-a-car`.`cars` (`car_id`, `brand`, `model`, `year`, `picture_ur
                                  `seats`,
                                  `conveniences`, `entertainments`, `drivetrain_id`, `transmission_id`, `horse_powers`,
                                  `fuel_type_id`, `tank_volume`,
-                                 `fuel_consumption`, `deposit`, `price_per_day`, `car_status_id`)
+                                 `fuel_consumption`, `rating`, `deposit`, `price_per_day`, `car_status_id`)
 VALUES ('1', 'BMW', '330 i', '2021',
         'https://cdn.bmwblog.com/wp-content/uploads/2021/02/The-New-BMW-330i-Iconic-Edition-in-Mineral-White-metallic-1.jpg',
         'Mineral White Metallic', '1', '4', '4', 'Heated Seats, Keyless Start, Navigation System',
-        'Bluetooth, HomeLink', '2', '2', '255', '1', '58', '7.9', '150', '28.22',
+        'Bluetooth, HomeLink', '2', '2', '255', '1', '58', '7.9', '0.0', '150', '28.22',
         '1');
+
 INSERT INTO `rent-a-car`.`cars` (`car_id`, `brand`, `model`, `year`, `picture_url`, `color`, `car_type_id`, `doors`,
                                  `seats`,
                                  `conveniences`, `entertainments`, `drivetrain_id`, `transmission_id`, `horse_powers`,
-                                 `fuel_type_id`, `tank_volume`, `fuel_consumption`, `deposit`, `price_per_day`,
+                                 `fuel_type_id`, `tank_volume`, `fuel_consumption`, `rating`, `deposit`, `price_per_day`,
                                  `car_status_id`)
 VALUES ('2', 'Citroen', 'C3', '2020', 'https://www.netcarshow.com/Citroen-C3-2020-1024-01.jpg', 'Red', '2', '5',
         '5', 'Heated Seats, Keyless Start, Navigation System', 'Bluetooth, HomeLink', '1', '1',
-        '83', '1', '45', '4.2', '100', '20', '1');
+        '83', '1', '45', '4.2', '0.0', '100', '20', '1');
+
 INSERT INTO `rent-a-car`.`cars` (`car_id`, `brand`, `model`, `year`, `picture_url`, `color`, `car_type_id`, `doors`,
                                  `seats`,
                                  `conveniences`, `entertainments`, `drivetrain_id`, `transmission_id`, `horse_powers`,
-                                 `fuel_type_id`, `tank_volume`, `fuel_consumption`, `deposit`, `price_per_day`,
+                                 `fuel_type_id`, `tank_volume`, `fuel_consumption`, `rating`, `deposit`, `price_per_day`,
                                  `car_status_id`)
 VALUES ('3', 'Peugeot', '308', '2019', 'https://www.auto-data.net/images/f99/Peugeot-3008-II-facelift-2020_3.jpg',
         'Blue', '2', '5', '5', 'Heated Seats, Keyless Start, Navigation System', 'Bluetooth, HomeLink',
-        '1', '1', '90', '1', '45', '5', '100', '20', '1');
+        '1', '1', '90', '1', '45', '5', '0.0', '100', '20', '1');
+
 INSERT INTO `rent-a-car`.`cars` (`car_id`, `brand`, `model`, `year`, `picture_url`, `color`, `car_type_id`, `doors`,
                                  `seats`,
                                  `conveniences`, `entertainments`, `drivetrain_id`, `transmission_id`, `horse_powers`,
-                                 `fuel_type_id`, `tank_volume`, `fuel_consumption`, `deposit`, `price_per_day`,
+                                 `fuel_type_id`, `tank_volume`, `fuel_consumption`, `rating`, `deposit`, `price_per_day`,
                                  `car_status_id`)
 VALUES ('4', 'Dodge ', 'Durango SXT', '2020',
         'https://pictures.dealer.com/h/hughwhitecdjampcllc/0133/33fd4cd4038c9b5ee446d3741806dfc0x.jpg?impolicy=downsize&w=568',
         'Octane Red Pearlcoat', '5', '4', '5', 'Heated Seats, Keyless Start, Navigation System',
-        'Bluetooth, HomeLink', '4', '2', '293', '1', '93', '18', '200', '35', '1');
+        'Bluetooth, HomeLink', '4', '2', '293', '1', '93', '18', '0.0', '200', '35', '1');
+
 INSERT INTO `rent-a-car`.`cars` (`car_id`, `brand`, `model`, `year`, `picture_url`, `color`, `car_type_id`, `doors`,
                                  `seats`,
                                  `conveniences`, `entertainments`, `drivetrain_id`, `transmission_id`, `horse_powers`,
-                                 `fuel_type_id`, `tank_volume`, `fuel_consumption`, `deposit`, `price_per_day`,
+                                 `fuel_type_id`, `tank_volume`, `fuel_consumption`, `rating`, `deposit`, `price_per_day`,
                                  `car_status_id`)
 VALUES ('5', 'Chevrolet ', 'Spark LS', '2022', 'https://www.ccarprice.com/products/Chevrolet_Spark_LS_2022_1.jpg',
         ' Caribben Blue', '1', '4', '4', 'Heated Seats, Keyless Start, Navigation System',
-        'Bluetooth, HomeLink', '1', '1', '98', '2', '34', '7.6', '160', '30', '1');
+        'Bluetooth, HomeLink', '1', '1', '98', '2', '34', '7.6', '0.0', '160', '30', '1');
 
-
-
-INSERT INTO `rent-a-car`.`pick_up_dates` (`id`, `pick_up_date`) VALUES ('1', '2022-04-01 10:00:00');
-INSERT INTO `rent-a-car`.`drop_off_dates` (`id`, `drop_off_date`) VALUES ('1', '2022-04-02 10:00:00');
-
-
-INSERT INTO `rent-a-car`.`orders` (`order_id`, `user_id`, `hire_driver`, `seller_id`, `car_id`, `order_status_id`, `created_on`, `pick_up_location_id`, `drop_off_location_id`, `pick_up_date_id`, `drop_off_date_id`, `days`, `car_price_per_day`, `deposit`, `final_price`) VALUES ('1', '6', '0', '2', '1', '1', '2022-04-01 10:00:00', '1', '1', '1', '1', '1', '28.22', '150', '178.22');
+INSERT INTO `rent-a-car`.`user_drivers` (`driver_id`, `price_per_day`, `driver_status`)
+VALUES ('4', '20', '1');
+INSERT INTO `rent-a-car`.`user_drivers` (`driver_id`, `price_per_day`, `driver_status`)
+VALUES ('5', '30', '1');

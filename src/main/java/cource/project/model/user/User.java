@@ -17,7 +17,6 @@ public class User extends BaseEntity {
     private String username;
     private String password;
     private String repeatPassword;
-    private LocalDateTime registeredOn;
     private Role role;
     private List<Order> orders;
     private List<Long> ordersIds;
@@ -30,7 +29,7 @@ public class User extends BaseEntity {
     }
 
     public User(Long id, String firstName, String lastName, String email, String phoneNumber, String username,
-                String password, String repeatPassword, LocalDateTime registeredOn) {
+                String password, String repeatPassword) {
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,8 +37,7 @@ public class User extends BaseEntity {
         this.phoneNumber = phoneNumber;
         this.username = username;
         this.password = password;
-        this.repeatPassword = password;
-        this.registeredOn = registeredOn;
+        this.repeatPassword = repeatPassword;
         this.role = Role.USER;
         this.orders = new ArrayList<>();
         this.ordersIds = new ArrayList<>();
@@ -118,14 +116,6 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public LocalDateTime getRegisteredOn() {
-        return registeredOn;
-    }
-
-    public void setRegisteredOn(LocalDateTime registeredOn) {
-        this.registeredOn = registeredOn;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -153,15 +143,10 @@ public class User extends BaseEntity {
                 .append("email = '" + email + "' ")
                 .append("phoneNumber = '" + phoneNumber + "' ")
                 .append("username = '" + username + "' ")
-                .append(System.lineSeparator());
-        if (registeredOn == null) {
-            registeredOn = LocalDateTime.now();
-        }
-        sb.append("\t\t" + "registeredOn = '" + registeredOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ");
-        sb.append("role = '" + role.name() + "' ")
+                .append(System.lineSeparator())
+                .append("role = '" + role.name() + "' ")
                 .append("ordersCount = '" + ordersIds.size() + "' ")
                 .append("commentsCount = '" + comments.size() + "' ");
-
 
         return sb.toString();
     }

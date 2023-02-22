@@ -13,15 +13,15 @@ import java.util.Scanner;
 public class EditUserDialog {
     Scanner scanner = new Scanner(System.in);
     private final UserService userService;
+    User LOGGED_IN_USER;
 
-    public EditUserDialog(UserService userService) {
+    public EditUserDialog(UserService userService, User LOGGED_IN_USER) {
         this.userService = userService;
+        this.LOGGED_IN_USER = LOGGED_IN_USER;
     }
 
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
-
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
             System.out.println("Your profile:");
             System.out.println(LOGGED_IN_USER);
@@ -75,7 +75,8 @@ public class EditUserDialog {
                     while (LOGGED_IN_USER.getPassword() == null && LOGGED_IN_USER.getRepeatPassword() == null) {
                         System.out.println("Please enter new password.");
                         System.out.println("Password length must be more than 2 and less then 15 characters long,");
-                        System.out.println("contain at least one digit, one capital letter, and one sign different than letter or digit.");
+                        System.out.println(
+                                "contain at least one digit, one capital letter, and one sign different than letter or digit.");
                         input = scanner.nextLine();
                         LOGGED_IN_USER.setPassword(input);
                         System.out.println("Please repeat password.");
@@ -210,7 +211,7 @@ public class EditUserDialog {
             } else if (input.equals("C")) {
                 System.out.println("You choose to continue editing user profile.");
 
-                if (userToEdit.getRole().equals(Role.ADMINISTRATOR)) {
+                if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
                     System.out.println("1. First name");
                     System.out.println("2. Last name");
                     System.out.println("3. Role");

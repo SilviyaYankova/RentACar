@@ -25,8 +25,8 @@ public class Driver extends User {
     }
 
     public Driver(Long id, String firstName, String lastName, String email, String phoneNumber, String username,
-                  String password, String repeatPassword, LocalDateTime registeredOn, double price) {
-        super(id, firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
+                  String password, String repeatPassword, double price) {
+        super(id, firstName, lastName, email, phoneNumber, username, password, repeatPassword);
         this.setRole(Role.DRIVER);
         this.driverStatus = DriverStatus.AVAILABLE;
         this.pricePerDay = price;
@@ -96,7 +96,6 @@ public class Driver extends User {
                 .append("phoneNumber = '" + super.getPhoneNumber() + "' ")
                 .append("username = '" + super.getUsername() + "' ")
                 .append(System.lineSeparator())
-                .append("\t\t" + "registeredOn = '" + super.getRegisteredOn().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ")
                 .append("role = " + super.getRole() + "' ")
                 .append("ordersCount = " + super.getOrdersIds().size() + "' ")
                 .append("driverStatus = " + driverStatus + "' ")

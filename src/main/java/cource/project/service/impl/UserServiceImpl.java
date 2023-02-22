@@ -174,7 +174,6 @@ public class UserServiceImpl implements UserService {
         driver.setUsername(user.getUsername());
         driver.setPassword(user.getPassword());
         driver.setRepeatPassword(user.getRepeatPassword());
-        driver.setRegisteredOn(user.getRegisteredOn());
         driver.setRole(Role.DRIVER);
 
         Driver foundDriver = findDriver(driver.getId());

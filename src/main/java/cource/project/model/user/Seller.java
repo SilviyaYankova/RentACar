@@ -16,8 +16,8 @@ public class Seller extends User {
     }
 
     public Seller(Long id, String firstName, String lastName, String email, String phoneNumber, String username,
-                  String password, String repeatPassword, LocalDateTime registeredOn) {
-        super(id, firstName, lastName, email, phoneNumber, username, password, repeatPassword, registeredOn);
+                  String password, String repeatPassword) {
+        super(id, firstName, lastName, email, phoneNumber, username, password, repeatPassword);
         this.setRole(Role.SELLER);
         this.clientsHistory = new ArrayList<>();
     }
@@ -42,7 +42,6 @@ public class Seller extends User {
                 .append("phoneNumber = '" + super.getPhoneNumber() + "' ")
                 .append("username = '" + super.getUsername() + "'")
                 .append(System.lineSeparator())
-                .append("\t\t" + "registeredOn = '" + super.getRegisteredOn().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ")
                 .append("role = " + super.getRole() + "' ")
                 .append("sellsHistory = " + super.getOrders().size() + "' ")
                 .append("clientsHistory = " + clientsHistory.size() + "' ")

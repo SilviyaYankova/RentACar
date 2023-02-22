@@ -1,10 +1,10 @@
-CREATE SCHEMA `rent-a-car` DEFAULT CHARACTER SET utf8;
+# CREATE SCHEMA `rent-a-car` DEFAULT CHARACTER SET utf8;
 
 USE `rent-a-car`;
 
 CREATE TABLE `rent-a-car`.`car_status`
 (
-    `id`         INT         NOT NULL AUTO_INCREMENT,
+    `id`         bigint         NOT NULL AUTO_INCREMENT,
     `car_status` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`)
 );
@@ -72,7 +72,6 @@ CREATE TABLE `worker_status`
     PRIMARY KEY (`id`)
 );
 
-
 CREATE TABLE `users`
 (
     `user_id`         bigint      NOT NULL AUTO_INCREMENT,
@@ -87,34 +86,6 @@ CREATE TABLE `users`
     PRIMARY KEY (`user_id`),
     UNIQUE KEY `username_UNIQUE` (`username`),
     KEY `users_roles` (`role_id`)
-);
-
-
-CREATE TABLE `drop_off_dates`
-(
-    `id`            bigint   NOT NULL AUTO_INCREMENT,
-    `drop_off_date` datetime NOT NULL,
-    `car_id`        bigint   NOT NULL,
-    `driver_id`     bigint DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    KEY `fk_drop_off_dates_cars` (`car_id`),
-    KEY `fk_drop_off_dates_driver` (`driver_id`),
-    CONSTRAINT `fk_drop_off_dates_cars` FOREIGN KEY (`car_id`) REFERENCES `cars` (`car_id`),
-    CONSTRAINT `fk_drop_off_dates_driver` FOREIGN KEY (`driver_id`) REFERENCES `user_drivers` (`driver_id`)
-);
-
-
-CREATE TABLE `pick_up_dates`
-(
-    `id`           bigint   NOT NULL AUTO_INCREMENT,
-    `pick_up_date` datetime NOT NULL,
-    `car_id`       bigint   NOT NULL,
-    `driver_id`    bigint DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    KEY `fk_pick_up_dates_cars` (`car_id`),
-    KEY `fk_pick_up_dates_driver` (`driver_id`),
-    CONSTRAINT `fk_pick_up_dates_cars` FOREIGN KEY (`car_id`) REFERENCES `cars` (`car_id`),
-    CONSTRAINT `fk_pick_up_dates_driver` FOREIGN KEY (`driver_id`) REFERENCES `user_drivers` (`driver_id`)
 );
 
 CREATE TABLE `cars`
@@ -154,6 +125,48 @@ CREATE TABLE `cars`
     CONSTRAINT `fk_cars_transmissions` FOREIGN KEY (`transmission_id`) REFERENCES `transmission` (`id`)
 );
 
+CREATE TABLE `user_drivers`
+(
+    `driver_id`     bigint        NOT NULL,
+    `price_per_day` decimal(8, 2) NOT NULL,
+    `client_id`     bigint DEFAULT NULL,
+    `seller_id`     bigint DEFAULT NULL,
+    `driver_status` bigint        NOT NULL,
+    PRIMARY KEY (`driver_id`),
+    KEY `fk_users_users_drivers` (`driver_id`),
+    KEY `fk_users_users_users_s` (`client_id`),
+    KEY `fk_user_drivers` (`driver_status`),
+    CONSTRAINT `fk_user_drivers` FOREIGN KEY (`driver_status`) REFERENCES `driver_status` (`id`),
+    CONSTRAINT `fk_users_users_users_c` FOREIGN KEY (`client_id`) REFERENCES `users` (`user_id`),
+    CONSTRAINT `fk_users_users_users_d` FOREIGN KEY (`driver_id`) REFERENCES `users` (`user_id`),
+    CONSTRAINT `fk_users_users_users_s` FOREIGN KEY (`client_id`) REFERENCES `users` (`user_id`)
+);
+
+CREATE TABLE `drop_off_dates`
+(
+    `id`            bigint   NOT NULL AUTO_INCREMENT,
+    `drop_off_date` datetime NOT NULL,
+    `car_id`        bigint   NOT NULL,
+    `driver_id`     bigint DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `fk_drop_off_dates_cars` (`car_id`),
+    KEY `fk_drop_off_dates_driver` (`driver_id`),
+    CONSTRAINT `fk_drop_off_dates_cars` FOREIGN KEY (`car_id`) REFERENCES `cars` (`car_id`),
+    CONSTRAINT `fk_drop_off_dates_driver` FOREIGN KEY (`driver_id`) REFERENCES `user_drivers` (`driver_id`)
+);
+
+CREATE TABLE `pick_up_dates`
+(
+    `id`           bigint   NOT NULL AUTO_INCREMENT,
+    `pick_up_date` datetime NOT NULL,
+    `car_id`       bigint   NOT NULL,
+    `driver_id`    bigint DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `fk_pick_up_dates_cars` (`car_id`),
+    KEY `fk_pick_up_dates_driver` (`driver_id`),
+    CONSTRAINT `fk_pick_up_dates_cars` FOREIGN KEY (`car_id`) REFERENCES `cars` (`car_id`),
+    CONSTRAINT `fk_pick_up_dates_driver` FOREIGN KEY (`driver_id`) REFERENCES `user_drivers` (`driver_id`)
+);
 
 CREATE TABLE `workers`
 (
@@ -183,7 +196,6 @@ CREATE TABLE `comments`
     CONSTRAINT `fk_comments_cars` FOREIGN KEY (`car_id`) REFERENCES `cars` (`car_id`),
     CONSTRAINT `fk_comments_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
-
 
 CREATE TABLE `orders`
 (
@@ -221,7 +233,6 @@ CREATE TABLE `orders`
     CONSTRAINT `orders_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
 
-
 CREATE TABLE `cars_orders`
 (
     `car_id`   bigint NOT NULL,
@@ -241,7 +252,6 @@ CREATE TABLE `comments_cars`
     CONSTRAINT `fk_comments_cars_cars` FOREIGN KEY (`car_id`) REFERENCES `cars` (`car_id`),
     CONSTRAINT `fk_comments_cars_comments` FOREIGN KEY (`comment_id`) REFERENCES `comments` (`comment_id`)
 );
-
 
 CREATE TABLE `comments_users`
 (
@@ -273,24 +283,6 @@ CREATE TABLE `workers_cars`
     CONSTRAINT `fk_workers_cars_cars` FOREIGN KEY (`car_id`) REFERENCES `cars` (`car_id`),
     CONSTRAINT `fk_workers_cars_workers` FOREIGN KEY (`worker_id`) REFERENCES `workers` (`worker_id`)
 );
-
-CREATE TABLE `user_drivers`
-(
-    `driver_id`     bigint        NOT NULL,
-    `price_per_day` decimal(8, 2) NOT NULL,
-    `client_id`     bigint DEFAULT NULL,
-    `seller_id`     bigint DEFAULT NULL,
-    `driver_status` bigint        NOT NULL,
-    PRIMARY KEY (`driver_id`),
-    KEY `fk_users_users_drivers` (`driver_id`),
-    KEY `fk_users_users_users_s` (`client_id`),
-    KEY `fk_user_drivers` (`driver_status`),
-    CONSTRAINT `fk_user_drivers` FOREIGN KEY (`driver_status`) REFERENCES `driver_status` (`id`),
-    CONSTRAINT `fk_users_users_users_c` FOREIGN KEY (`client_id`) REFERENCES `users` (`user_id`),
-    CONSTRAINT `fk_users_users_users_d` FOREIGN KEY (`driver_id`) REFERENCES `users` (`user_id`),
-    CONSTRAINT `fk_users_users_users_s` FOREIGN KEY (`client_id`) REFERENCES `users` (`user_id`)
-);
-
 
 CREATE TABLE `user_site_managers_cars`
 (
