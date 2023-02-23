@@ -144,6 +144,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Collection<Order> getUserOrders(Long id) {
+       return orderRepository.findAllByUser(id);
+    }
+
+    @Override
     public Collection<Order> getAllOrders() {
         return orderRepository.findAll();
     }

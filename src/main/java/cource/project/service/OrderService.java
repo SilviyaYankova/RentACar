@@ -35,4 +35,5 @@ public interface OrderService {
 
     void finishOrders() throws NoneExistingEntityException;
 
+    Collection<Order> getUserOrders(Long id);
 }

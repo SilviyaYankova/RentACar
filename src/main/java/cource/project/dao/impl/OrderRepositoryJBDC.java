@@ -28,6 +28,8 @@ public class OrderRepositoryJBDC implements OrderRepository {
     @SuppressWarnings("SqlResolve")
     public static final String FIND_ALL_ORDERS = "select * from `orders`;";
     @SuppressWarnings("SqlResolve")
+    public static final String FIND_ALL_ORDERS_BY_USER = "select * from `orders` where user_id=?;";
+    @SuppressWarnings("SqlResolve")
     public static final String FIND_ORDER_BY_ID = "select * from `orders` where order_id=?;";
     @SuppressWarnings("SqlResolve")
     public static final String INSERT_NEW_ORDER_WITH_DRIVER = "insert into `orders` (`user_id`, `driver_id`, `hire_driver`, " +
@@ -647,6 +649,18 @@ public class OrderRepositoryJBDC implements OrderRepository {
                 log.error("Error creating connection to DB", ex);
                 throw new EntityPersistenceException("Error executing SQL query: " + INSERT_DROP_OFF_DATES_WITHOUT_DRIVER, ex);
             }
+        }
+    }
+
+    @Override
+    public Collection<Order> findAllByUser(Long id) {
+        try (var stmt = connection.prepareStatement(FIND_ALL_ORDERS_BY_USER)) {
+            stmt.setLong(1, id);
+            var rs = stmt.executeQuery();
+            return toOrders(rs);
+        } catch (SQLException | NoneExistingEntityException ex) {
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + FIND_ALL_ORDERS_BY_USER, ex);
         }
     }
 
