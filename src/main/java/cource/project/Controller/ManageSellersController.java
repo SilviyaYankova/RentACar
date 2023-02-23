@@ -51,13 +51,13 @@ public class ManageSellersController {
 
                 }),
                 new Option("Edit seller", () -> {
-                    EditSellerDialog editSellerDialog2 = new EditSellerDialog(userService, LOGGED_IN_USER);
-                    editSellerDialog2.input(LOGGED_IN_USER);
+                    EditSellerDialog editSellerDialog = new EditSellerDialog(userService, LOGGED_IN_USER);
+                    editSellerDialog.input(LOGGED_IN_USER);
                     return "";
                 }),
                 new Option("Delete seller", () -> {
-                    DeleteUserDialog deleteUserDialog = new DeleteUserDialog(userService);
-                    deleteUserDialog.input(LOGGED_IN_USER);
+                    DeleteSellerDialog deleteSellerDialog = new DeleteSellerDialog(userService);
+                    deleteSellerDialog.input(LOGGED_IN_USER);
                     return "";
                 })
         ));

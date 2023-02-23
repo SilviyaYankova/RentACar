@@ -18,14 +18,16 @@ public class LoginDialog   {
 
         while (user.getUsername() == null) {
             System.out.println("Username:");
-            String username = scanner.nextLine();
-            user.setUsername(username);
+//            String username = scanner.nextLine();
+//            user.setUsername(username);
+            user.setUsername("silviya");
         }
 
         while (user.getPassword() == null) {
             System.out.println("Password:");
-            String password = scanner.nextLine();
-            user.setPassword(password);
+//            String password = scanner.nextLine();
+//            user.setPassword(password);
+            user.setPassword("0123456789Ja*");
         }
         String username = user.getUsername();
         String password = user.getPassword();

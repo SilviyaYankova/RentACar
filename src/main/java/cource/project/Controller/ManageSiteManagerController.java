@@ -7,6 +7,7 @@ import cource.project.model.enums.Role;
 import cource.project.model.user.User;
 import cource.project.service.UserService;
 import cource.project.view.*;
+import cource.project.view.Menu.EditSiteManagerDialog;
 import cource.project.view.Menu.Menu;
 import cource.project.view.Menu.Option;
 
@@ -51,13 +52,13 @@ public class ManageSiteManagerController {
 
                 }),
                 new Option("Edit Site Manager", () -> {
-                    EditUserDialog editUserDialog = new EditUserDialog(userService, LOGGED_IN_USER);
-                    editUserDialog.input(LOGGED_IN_USER);
+                    EditSiteManagerDialog editSiteManagerDialog = new EditSiteManagerDialog(userService, LOGGED_IN_USER);
+                    editSiteManagerDialog.input(LOGGED_IN_USER);
                     return "";
                 }),
                 new Option("Delete Site Manager", () -> {
-                    DeleteUserDialog deleteUserDialog = new DeleteUserDialog(userService);
-                    deleteUserDialog.input(LOGGED_IN_USER);
+                    DeleteSiteManagerDialog deleteSiteManagerDialog = new DeleteSiteManagerDialog(userService);
+                    deleteSiteManagerDialog.input(LOGGED_IN_USER);
                     return "";
                 })
         ));
