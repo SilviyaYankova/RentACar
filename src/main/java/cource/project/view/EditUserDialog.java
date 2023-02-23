@@ -22,78 +22,6 @@ public class EditUserDialog {
 
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-        if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
-            System.out.println("Your profile:");
-            System.out.println(LOGGED_IN_USER);
-            System.out.println();
-
-            System.out.println("Choose fields to edit: ");
-            System.out.println("1. First name");
-            System.out.println("2. Last name");
-            System.out.println("3. Phone Number");
-            System.out.println("4. Password");
-
-            String input = scanner.nextLine();
-            int choice = 0;
-            choice = checkValidInput(choice, input);
-            boolean incorrectInput = true;
-
-            while (choice == 1 || choice == 2 || choice == 3 || choice == 4) {
-                if (choice == 1) {
-                    LOGGED_IN_USER.setFirstName(null);
-                    while (LOGGED_IN_USER.getFirstName() == null) {
-                        System.out.println("Please enter first name.");
-                        input = scanner.nextLine();
-                        LOGGED_IN_USER.setFirstName(input);
-                    }
-
-                    choice = confirmEditing(LOGGED_IN_USER, choice);
-                }
-                if (choice == 2) {
-                    LOGGED_IN_USER.setLastName(null);
-                    while (LOGGED_IN_USER.getLastName() == null) {
-                        System.out.println("Please enter last name.");
-                        input = scanner.nextLine();
-                        LOGGED_IN_USER.setLastName(input);
-                    }
-
-                    choice = confirmEditing(LOGGED_IN_USER, choice);
-                }
-                if (choice == 3) {
-                    LOGGED_IN_USER.setPhoneNumber(null);
-                    while (LOGGED_IN_USER.getPhoneNumber() == null) {
-                        System.out.println("Please enter phone number.");
-                        input = scanner.nextLine();
-                        LOGGED_IN_USER.setPhoneNumber(input);
-                    }
-
-                    choice = confirmEditing(LOGGED_IN_USER, choice);
-                }
-                if (choice == 4) {
-                    LOGGED_IN_USER.setPassword(null);
-                    LOGGED_IN_USER.setRepeatPassword(null);
-                    while (LOGGED_IN_USER.getPassword() == null && LOGGED_IN_USER.getRepeatPassword() == null) {
-                        System.out.println("Please enter new password.");
-                        System.out.println("Password length must be more than 2 and less then 15 characters long,");
-                        System.out.println(
-                                "contain at least one digit, one capital letter, and one sign different than letter or digit.");
-                        input = scanner.nextLine();
-                        LOGGED_IN_USER.setPassword(input);
-                        System.out.println("Please repeat password.");
-                        input = scanner.nextLine();
-                        LOGGED_IN_USER.setRepeatPassword(input);
-                        if (!LOGGED_IN_USER.getPassword().equals(LOGGED_IN_USER.getRepeatPassword())) {
-                            System.out.println("Passwords does not match. Please try again.");
-                            LOGGED_IN_USER.setPassword(null);
-                            LOGGED_IN_USER.setRepeatPassword(null);
-                        }
-                    }
-
-                    choice = confirmEditing(LOGGED_IN_USER, choice);
-                }
-            }
-        }
-
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
             System.out.println("Users you can edit:");
             Collection<User> all = userService.getAllUsers();
@@ -163,17 +91,81 @@ public class EditUserDialog {
 
                             choice = confirmEditing(userToEdit, choice);
                         }
-
                     }
-
                 }
-
             } else {
                 System.out.println("There is no users in the system.");
             }
             System.out.println();
-        }
+        } else {
+            System.out.println("Your profile:");
+            System.out.println(LOGGED_IN_USER);
+            System.out.println();
+            System.out.println("Choose fields to edit: ");
+            System.out.println("1. First name");
+            System.out.println("2. Last name");
+            System.out.println("3. Phone Number");
+            System.out.println("4. Password");
 
+            String input = scanner.nextLine();
+            int choice = 0;
+            choice = checkValidInput(choice, input);
+            boolean incorrectInput = true;
+
+            while (choice == 1 || choice == 2 || choice == 3 || choice == 4) {
+                if (choice == 1) {
+                    LOGGED_IN_USER.setFirstName(null);
+                    while (LOGGED_IN_USER.getFirstName() == null) {
+                        System.out.println("Please enter first name.");
+                        input = scanner.nextLine();
+                        LOGGED_IN_USER.setFirstName(input);
+                    }
+
+                    choice = confirmEditing(LOGGED_IN_USER, choice);
+                }
+                if (choice == 2) {
+                    LOGGED_IN_USER.setLastName(null);
+                    while (LOGGED_IN_USER.getLastName() == null) {
+                        System.out.println("Please enter last name.");
+                        input = scanner.nextLine();
+                        LOGGED_IN_USER.setLastName(input);
+                    }
+
+                    choice = confirmEditing(LOGGED_IN_USER, choice);
+                }
+                if (choice == 3) {
+                    LOGGED_IN_USER.setPhoneNumber(null);
+                    while (LOGGED_IN_USER.getPhoneNumber() == null) {
+                        System.out.println("Please enter phone number.");
+                        input = scanner.nextLine();
+                        LOGGED_IN_USER.setPhoneNumber(input);
+                    }
+
+                    choice = confirmEditing(LOGGED_IN_USER, choice);
+                }
+                if (choice == 4) {
+                    LOGGED_IN_USER.setPassword(null);
+                    LOGGED_IN_USER.setRepeatPassword(null);
+                    while (LOGGED_IN_USER.getPassword() == null && LOGGED_IN_USER.getRepeatPassword() == null) {
+                        System.out.println("Please enter new password.");
+                        System.out.println("Password length must be more than 2 and less then 15 characters long,");
+                        System.out.println(
+                                "contain at least one digit, one capital letter, and one sign different than letter or digit.");
+                        input = scanner.nextLine();
+                        LOGGED_IN_USER.setPassword(input);
+                        System.out.println("Please repeat password.");
+                        input = scanner.nextLine();
+                        LOGGED_IN_USER.setRepeatPassword(input);
+                        if (!LOGGED_IN_USER.getPassword().equals(LOGGED_IN_USER.getRepeatPassword())) {
+                            System.out.println("Passwords does not match. Please try again.");
+                            LOGGED_IN_USER.setPassword(null);
+                            LOGGED_IN_USER.setRepeatPassword(null);
+                        }
+                    }
+                    choice = confirmEditing(LOGGED_IN_USER, choice);
+                }
+            }
+        }
     }
 
 
@@ -190,7 +182,6 @@ public class EditUserDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
@@ -254,7 +245,6 @@ public class EditUserDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

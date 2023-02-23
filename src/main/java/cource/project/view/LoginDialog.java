@@ -20,7 +20,8 @@ public class LoginDialog   {
             System.out.println("Username:");
 //            String username = scanner.nextLine();
 //            user.setUsername(username);
-            user.setUsername("silviya");
+//            user.setUsername("silviya");
+            user.setUsername("martin");
         }
 
         while (user.getPassword() == null) {

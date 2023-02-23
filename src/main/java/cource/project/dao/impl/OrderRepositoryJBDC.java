@@ -1,6 +1,5 @@
 package cource.project.dao.impl;
 
-
 import cource.project.dao.CarRepository;
 import cource.project.dao.OrderRepository;
 import cource.project.dao.UserRepository;
@@ -16,10 +15,7 @@ import cource.project.model.user.Seller;
 import cource.project.model.user.User;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

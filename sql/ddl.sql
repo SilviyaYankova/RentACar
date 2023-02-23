@@ -1,10 +1,10 @@
-# CREATE SCHEMA `rent-a-car` DEFAULT CHARACTER SET utf8;
+CREATE SCHEMA `rent-a-car` DEFAULT CHARACTER SET utf8;
 
 USE `rent-a-car`;
 
 CREATE TABLE `rent-a-car`.`car_status`
 (
-    `id`         bigint         NOT NULL AUTO_INCREMENT,
+    `id`         bigint      NOT NULL AUTO_INCREMENT,
     `car_status` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`)
 );
@@ -145,7 +145,7 @@ CREATE TABLE `user_drivers`
 CREATE TABLE `drop_off_dates`
 (
     `id`            bigint   NOT NULL AUTO_INCREMENT,
-    `drop_off_date` datetime NOT NULL,
+    `drop_off_date` varchar(255) NOT NULL,
     `car_id`        bigint   NOT NULL,
     `driver_id`     bigint DEFAULT NULL,
     PRIMARY KEY (`id`),
@@ -158,7 +158,7 @@ CREATE TABLE `drop_off_dates`
 CREATE TABLE `pick_up_dates`
 (
     `id`           bigint   NOT NULL AUTO_INCREMENT,
-    `pick_up_date` datetime NOT NULL,
+    `pick_up_date` varchar(255) NOT NULL,
     `car_id`       bigint   NOT NULL,
     `driver_id`    bigint DEFAULT NULL,
     PRIMARY KEY (`id`),
@@ -201,20 +201,21 @@ CREATE TABLE `orders`
 (
     `order_id`             bigint        NOT NULL AUTO_INCREMENT,
     `user_id`              bigint        NOT NULL,
-    `driver_id`            bigint   DEFAULT NULL,
+    `driver_id`            bigint        DEFAULT NULL,
     `hire_driver`          tinyint       NOT NULL,
-    `seller_id`            bigint        NOT NULL,
+    `seller_id`            bigint        DEFAULT NULL,
     `car_id`               bigint        NOT NULL,
     `order_status_id`      bigint        NOT NULL,
-    `created_on`           datetime      NOT NULL,
-    `modiefied_on`         datetime DEFAULT NULL,
+    `created_on`           varchar(255)  NOT NULL,
+    `modified_on`          varchar(255)  DEFAULT NULL,
     `pick_up_location_id`  bigint        NOT NULL,
     `drop_off_location_id` bigint        NOT NULL,
-    `pick_up_date`         datetime      NOT NULL,
-    `drop_off_date`        datetime      NOT NULL,
+    `pick_up_date`         varchar(255)  NOT NULL,
+    `drop_off_date`        varchar(255)  NOT NULL,
     `days`                 int           NOT NULL,
     `car_price_per_day`    decimal(8, 2) NOT NULL,
     `deposit`              decimal(8, 2) NOT NULL,
+    `driver_price`         decimal(8, 2) DEFAULT NULL,
     `final_price`          decimal(8, 2) NOT NULL,
     PRIMARY KEY (`order_id`),
     KEY `orders_users` (`user_id`),

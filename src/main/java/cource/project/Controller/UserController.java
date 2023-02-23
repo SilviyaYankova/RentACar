@@ -62,7 +62,9 @@ public class UserController {
                     new Option("Book Car", () -> {
                         Collection<Car> allCars = carService.getAllCarsWithStatus(CarStatus.AVAILABLE);
                         if (allCars.size() > 0) {
-                            AddOrderDialog AddOrderDialog = new AddOrderDialog(userService, carService, orderService, userRepository, workerService, commentService);
+                            AddOrderDialog AddOrderDialog = new AddOrderDialog(userService, carService, orderService,
+                                                                               userRepository, workerService,
+                                                                               commentService);
                             AddOrderDialog.input(LOGGED_IN_USER);
                         } else {
                             System.out.println("Sorry there is no available cars for booking.");
@@ -74,12 +76,15 @@ public class UserController {
                     }),
                     new Option("Orders", () -> {
 
-                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
+                        OrderController orderController = new OrderController(userService, carService, orderService,
+                                                                              userRepository, workerService,
+                                                                              commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "orders\n";
                     }),
                     new Option("Comments", () -> {
-                        CommentController commentController = new CommentController(commentService, userService, carService);
+                        CommentController commentController = new CommentController(commentService, userService,
+                                                                                    carService);
                         commentController.init(LOGGED_IN_USER);
                         return "Comments\n";
                     }),
@@ -104,7 +109,9 @@ public class UserController {
                         return "";
                     }),
                     new Option("Manage orders", () -> {
-                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
+                        OrderController orderController = new OrderController(userService, carService, orderService,
+                                                                              userRepository, workerService,
+                                                                              commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "";
                     }),
@@ -115,7 +122,8 @@ public class UserController {
                         return "";
                     }),
                     new Option("Manage comments", () -> {
-                        CommentController commentController = new CommentController(commentService, userService, carService);
+                        CommentController commentController = new CommentController(commentService, userService,
+                                                                                    carService);
                         commentController.init(LOGGED_IN_USER);
 
 
@@ -129,7 +137,8 @@ public class UserController {
                     }),
                     new Option("Site Manager", () -> {
 
-                        ManageSiteManagerController manageSiteManagerController = new ManageSiteManagerController(userService);
+                        ManageSiteManagerController manageSiteManagerController = new ManageSiteManagerController(
+                                userService);
                         manageSiteManagerController.init(LOGGED_IN_USER);
                         return "";
                     }),
@@ -141,7 +150,9 @@ public class UserController {
                     }),
 
                     new Option("Statistics", () -> {
-                        StatisticController statisticController = new StatisticController(userService, carService, orderService, workerService, commentService);
+                        StatisticController statisticController = new StatisticController(userService, carService,
+                                                                                          orderService, workerService,
+                                                                                          commentService);
                         statisticController.init(LOGGED_IN_USER);
 
                         return "Comments\n";
@@ -150,19 +161,22 @@ public class UserController {
                         System.out.println(LOGGED_IN_USER);
                         System.out.println();
                         return "";
-                    }),
-                    new Option("Edit profile", () -> {
-                        EditUserDialog editUserDialog = new EditUserDialog(userService, LOGGED_IN_USER);
-                        editUserDialog.input(LOGGED_IN_USER);
-                        return "";
                     })
+//                    ,
+//                    new Option("Edit profile", () -> {
+//                        EditUserDialog editUserDialog = new EditUserDialog(userService, LOGGED_IN_USER);
+//                        editUserDialog.input(LOGGED_IN_USER);
+//                        return "";
+//                    })
             ));
         }
         if (LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
 
             menu = new Menu("Seller Menu", List.of(
                     new Option("All Orders", () -> {
-                        OrderController orderController = new OrderController(userService, carService, orderService, userRepository, workerService, commentService);
+                        OrderController orderController = new OrderController(userService, carService, orderService,
+                                                                              userRepository, workerService,
+                                                                              commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "";
                     }),
@@ -176,16 +190,6 @@ public class UserController {
                         }
                         return "All available car are successfully shown.\n";
                     }),
-                    new Option("See profile", () -> {
-                        System.out.println(LOGGED_IN_USER);
-                        System.out.println();
-                        return "";
-                    }),
-                    new Option("Edit profile", () -> {
-                        EditUserDialog editUserDialog = new EditUserDialog(userService, LOGGED_IN_USER);
-                        editUserDialog.input(LOGGED_IN_USER);
-                        return "";
-                    }),
                     new Option("Sells Statistic", () -> {
                         Collection<Order> allOrders = orderService.getAllOrders();
                         int count = 0;
@@ -195,6 +199,16 @@ public class UserController {
                             }
                         }
 
+                        return "";
+                    }),
+                    new Option("See profile", () -> {
+                        System.out.println(LOGGED_IN_USER);
+                        System.out.println();
+                        return "";
+                    }),
+                    new Option("Edit profile", () -> {
+                        EditUserDialog editUserDialog = new EditUserDialog(userService, LOGGED_IN_USER);
+                        editUserDialog.input(LOGGED_IN_USER);
                         return "";
                     })
             ));
@@ -275,7 +289,8 @@ public class UserController {
                         List<Car> allCarsWithStatus = carService.getAllCarsWithStatus(CarStatus.WAITING_FOR_CLEANING);
 
                         if (allCarsWithStatus.size() > 0) {
-                            AssignWorkersDialog cleaningDialog = new AssignWorkersDialog(carService, workerService, userService);
+                            AssignWorkersDialog cleaningDialog = new AssignWorkersDialog(carService, workerService,
+                                                                                         userService);
                             cleaningDialog.input(LOGGED_IN_USER);
                         } else {
                             System.out.println("There is no cars waiting for cleaning.");
@@ -314,7 +329,8 @@ public class UserController {
                     new Option("Return car to shop", () -> {
                         List<Car> allCarsWithStatus = carService.getAllCarsWithStatus(CarStatus.FINISH_CLEANING);
                         if (allCarsWithStatus.size() > 0) {
-                            ReturnCarToTheShopDialog returnCarToTheShopDialog = new ReturnCarToTheShopDialog(carService);
+                            ReturnCarToTheShopDialog returnCarToTheShopDialog = new ReturnCarToTheShopDialog(
+                                    carService);
                             returnCarToTheShopDialog.input(LOGGED_IN_USER);
                         } else {
                             System.out.println("There is no cars to return to the shop.");
@@ -322,7 +338,8 @@ public class UserController {
                         return "";
                     }),
                     new Option("Manage Workers", () -> {
-                        ManageWorkerController manageWorkerController = new ManageWorkerController(workerService, userService);
+                        ManageWorkerController manageWorkerController = new ManageWorkerController(workerService,
+                                                                                                   userService);
                         manageWorkerController.init(LOGGED_IN_USER);
                         return "";
                     }),

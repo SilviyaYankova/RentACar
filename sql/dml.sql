@@ -15,6 +15,17 @@ VALUES ('6', 'START_CLEANING');
 INSERT INTO `rent-a-car`.`car_status` (`id`, `car_status`)
 VALUES ('7', 'FINISH_CLEANING');
 
+
+
+INSERT INTO `rent-a-car`.`order_status` (`id`, `order_status`)
+VALUES ('1', 'PENDING');
+INSERT INTO `rent-a-car`.`order_status` (`id`, `order_status`)
+VALUES ('2', 'START');
+INSERT INTO `rent-a-car`.`order_status` (`id`, `order_status`)
+VALUES ('3', 'FINISH');
+INSERT INTO `rent-a-car`.`order_status` (`id`, `order_status`)
+VALUES ('4', 'DELETED');
+
 INSERT INTO `rent-a-car`.`car_type` (`id`, `car_type`)
 VALUES ('1', 'HATCHBACK');
 INSERT INTO `rent-a-car`.`car_type` (`id`, `car_type`)
