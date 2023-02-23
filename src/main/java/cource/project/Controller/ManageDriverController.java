@@ -56,13 +56,13 @@ public class ManageDriverController {
                     return "";
                 }),
                 new Option("Edit drivers", () -> {
-                    EditUserDialog editUserDialog = new EditUserDialog(userService, LOGGED_IN_USER);
-                    editUserDialog.input(LOGGED_IN_USER);
+                    EditDriverDialog editDriverDialog = new EditDriverDialog(userService, LOGGED_IN_USER);
+                    editDriverDialog.input(LOGGED_IN_USER);
                     return "";
                 }),
                 new Option("Delete drivers", () -> {
-                    DeleteUserDialog deleteUserDialog = new DeleteUserDialog(userService);
-                    deleteUserDialog.input(LOGGED_IN_USER);
+                    DeleteDriverDialog deleteDriverDialog = new DeleteDriverDialog(userService);
+                    deleteDriverDialog.input(LOGGED_IN_USER);
                     return "";
                 })
         ));
