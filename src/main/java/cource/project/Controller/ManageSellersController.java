@@ -26,7 +26,7 @@ public class ManageSellersController {
         Menu menu = new Menu("Manage sellers", List.of(
                 new Option("See all sellers", () -> {
 
-                    Collection<User> allUsers = userService.getUserByRole(Role.SELLER);
+                    Collection<User> allUsers = userService.getUsersByRole(Role.SELLER);
                     if (allUsers.size() > 0) {
                         int count = 0;
                         for (User user : allUsers) {
@@ -51,13 +51,13 @@ public class ManageSellersController {
 
                 }),
                 new Option("Edit seller", () -> {
-                    EditUserDialog editUserDialog = new EditUserDialog(userService, LOGGED_IN_USER);
-                    editUserDialog.input(LOGGED_IN_USER);
+                    EditSellerDialog editSellerDialog2 = new EditSellerDialog(userService, LOGGED_IN_USER);
+                    editSellerDialog2.input(LOGGED_IN_USER);
                     return "";
                 }),
                 new Option("Delete seller", () -> {
-                    DeleteProfileDialog deleteProfileDialog = new DeleteProfileDialog(userService);
-                    deleteProfileDialog.input(LOGGED_IN_USER);
+                    DeleteUserDialog deleteUserDialog = new DeleteUserDialog(userService);
+                    deleteUserDialog.input(LOGGED_IN_USER);
                     return "";
                 })
         ));

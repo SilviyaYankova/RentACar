@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Collection<User> getUserByRole(Role role) {
+    public Collection<User> getUsersByRole(Role role) {
         return userRepository
                 .findAll()
                 .stream()
@@ -184,5 +184,10 @@ public class UserServiceImpl implements UserService {
         driver.setDropOffDates(foundDriver.getDropOffDates());
 
         return driver;
+    }
+
+    @Override
+    public Collection<User> getAllSellers() {
+        return userRepository.findAllSellers();
     }
 }

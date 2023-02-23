@@ -9,11 +9,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
-public class DeleteProfileDialog {
+public class DeleteUserDialog {
     Scanner scanner = new Scanner(System.in);
     private final UserService userService;
 
-    public DeleteProfileDialog(UserService userService) {
+    public DeleteUserDialog(UserService userService) {
         this.userService = userService;
     }
 

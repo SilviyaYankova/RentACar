@@ -26,7 +26,7 @@ public class ManageSiteManagerController {
         Menu menu = new Menu("Manage Site Manager", List.of(
                 new Option("See Site Manager", () -> {
 
-                    Collection<User> allUsers = userService.getUserByRole(Role.SITE_MANAGER);
+                    Collection<User> allUsers = userService.getUsersByRole(Role.SITE_MANAGER);
                     if (allUsers.size() > 0) {
                         int count = 0;
                         for (User user : allUsers) {
@@ -56,8 +56,8 @@ public class ManageSiteManagerController {
                     return "";
                 }),
                 new Option("Delete Site Manager", () -> {
-                    DeleteProfileDialog deleteProfileDialog = new DeleteProfileDialog(userService);
-                    deleteProfileDialog.input(LOGGED_IN_USER);
+                    DeleteUserDialog deleteUserDialog = new DeleteUserDialog(userService);
+                    deleteUserDialog.input(LOGGED_IN_USER);
                     return "";
                 })
         ));

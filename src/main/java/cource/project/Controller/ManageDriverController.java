@@ -3,7 +3,6 @@ package cource.project.Controller;
 import cource.project.exeption.InvalidEntityDataException;
 import cource.project.exeption.NoneAvailableEntityException;
 import cource.project.exeption.NoneExistingEntityException;
-import cource.project.model.Order;
 import cource.project.model.enums.Role;
 import cource.project.model.user.Driver;
 import cource.project.model.user.User;
@@ -28,7 +27,7 @@ public class ManageDriverController {
 
         Menu menu = new Menu("Manage drivers", List.of(
                 new Option("See drivers", () -> {
-                    Collection<User> all = userService.getUserByRole(Role.DRIVER);
+                    Collection<User> all = userService.getUsersByRole(Role.DRIVER);
                     List<Driver> drivers = new ArrayList<>();
                     for (User user : all) {
                         Driver driver = userService.fromUserToDriver(user);
@@ -62,8 +61,8 @@ public class ManageDriverController {
                     return "";
                 }),
                 new Option("Delete drivers", () -> {
-                    DeleteProfileDialog deleteProfileDialog = new DeleteProfileDialog(userService);
-                    deleteProfileDialog.input(LOGGED_IN_USER);
+                    DeleteUserDialog deleteUserDialog = new DeleteUserDialog(userService);
+                    deleteUserDialog.input(LOGGED_IN_USER);
                     return "";
                 })
         ));

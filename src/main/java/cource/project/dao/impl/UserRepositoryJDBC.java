@@ -4,9 +4,7 @@ import cource.project.dao.UserRepository;
 import cource.project.exeption.EntityPersistenceException;
 import cource.project.exeption.NoneAvailableEntityException;
 import cource.project.exeption.NoneExistingEntityException;
-import cource.project.model.Car;
 import cource.project.model.Order;
-import cource.project.model.Worker;
 import cource.project.model.enums.DriverStatus;
 import cource.project.model.enums.Role;
 import cource.project.model.user.Driver;
@@ -49,6 +47,8 @@ public class UserRepositoryJDBC implements UserRepository {
     public static final String SELECT_DRIVER_DROP_OFF_DATES = "select drop_off_date from drop_off_dates where driver_id=?";
     @SuppressWarnings("SqlResolve")
     public static final String INSERT_USERS_ORDERS = "insert into `users_orders` (`user_id`, `order_id`) values (?, ?);";
+    @SuppressWarnings("SqlResolve")
+    public static final String FIND_ALL_SELLERS = "select * from `users` where role_id=2;";
 
     private Connection connection;
 
@@ -412,4 +412,14 @@ public class UserRepositoryJDBC implements UserRepository {
         }
     }
 
+    @Override
+    public List<User> findAllSellers() {
+        try (var stmt = connection.prepareStatement(FIND_ALL_SELLERS)) {
+            var rs = stmt.executeQuery();
+            return toUsers(rs);
+        } catch (SQLException ex) {
+            log.error("Error creating connection to DB", ex);
+            throw new EntityPersistenceException("Error executing SQL query: " + FIND_ALL_SELLERS, ex);
+        }
+    }
 }

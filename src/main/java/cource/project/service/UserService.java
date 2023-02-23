@@ -27,7 +27,7 @@ public interface UserService {
 
     void deleteUser(Long id) throws NoneExistingEntityException;
 
-    Collection<User> getUserByRole(Role role);
+    Collection<User> getUsersByRole(Role role);
 
     String getProfit();
 
@@ -40,4 +40,6 @@ public interface UserService {
     Driver findDriver(Long id);
 
     Driver fromUserToDriver(User user);
+
+    Collection<User> getAllSellers();
 }

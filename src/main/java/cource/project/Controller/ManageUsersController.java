@@ -3,7 +3,6 @@ package cource.project.Controller;
 import cource.project.exeption.InvalidEntityDataException;
 import cource.project.exeption.NoneAvailableEntityException;
 import cource.project.exeption.NoneExistingEntityException;
-import cource.project.model.enums.Role;
 import cource.project.model.user.User;
 import cource.project.service.UserService;
 import cource.project.view.*;
@@ -56,8 +55,8 @@ public class ManageUsersController {
                     return "";
                 }),
                 new Option("Delete user", () -> {
-                    DeleteProfileDialog deleteProfileDialog = new DeleteProfileDialog(userService);
-                    deleteProfileDialog.input(LOGGED_IN_USER);
+                    DeleteUserDialog deleteUserDialog = new DeleteUserDialog(userService);
+                    deleteUserDialog.input(LOGGED_IN_USER);
                     return "";
                 })
         ));
