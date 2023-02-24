@@ -1,6 +1,7 @@
 Console Java MVC application.
 
-1.	Short project description 
+1.	Short project description
+
 The rent a car system allows clients to rent a car (with or without Driver). Regular clients get a discount based on frequency and money they have spend.
 Seller finalize the order.
 Administrator can manage everything, puts cars for rent, manage some of the user data and see statistics.
