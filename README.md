@@ -24,10 +24,12 @@ Changes car’s cleaning status to start/finish
 • Administrator – can manage (create, edit data and delete) cars,
 change users role, approve renting and see statistics.
 
-2.	Main Use Cases 
+2.	Main Use Cases
+3.	 
 -	Browse information - All user can see available cars and information about them.
 -	Register - Anonymous User can register in the system 
-2.3.	Change User Data - Users can view and edit their personal User Data
+
+4.3.	Change User Data - Users can view and edit their personal User Data
 Administrator can view add new User, delete User and edit User Data of all Users (except for their username, password and email) and assign them Roles: User, Driver, Seller, Site manager, Admin
 2.5.	Make order - User place an order and edit or cancel it two days before the order take place.
 2.6.	Add/Edit Comment - User adds a comment about a car. 
