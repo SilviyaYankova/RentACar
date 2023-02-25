@@ -19,8 +19,6 @@ public class DeleteDriverDialog {
     }
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
-
         System.out.println("Drivers you can delete:");
         Collection<User> all = userService.getUsersByRole(Role.DRIVER);
         if (all.size() > 0) {
@@ -29,15 +27,12 @@ public class DeleteDriverDialog {
                 count++;
                 System.out.println(count + ".\t " + user);
             }
-
             System.out.println("Choose a driver to delete from the list above.");
             String input = scanner.nextLine();
             int choice = 0;
             List<User> allUsers = new ArrayList<>(all);
             choice = checkValidInput(allUsers, choice, input);
-
             User userToDelete = allUsers.get(choice - 1);
-
             confirmEditing(userToDelete, choice);
         }
     }
@@ -46,7 +41,6 @@ public class DeleteDriverDialog {
         System.out.println();
         System.out.println("To confirm deleting user press 'YES'.");
         System.out.println("For exit press 'E'.");
-
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
@@ -84,7 +78,6 @@ public class DeleteDriverDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

@@ -28,8 +28,6 @@ public class CommentController {
     }
 
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
-
-
         if (LOGGED_IN_USER.getRole().equals(Role.USER)){
             Menu menu = new Menu("Comment Menu", List.of(
                     new Option("Add comment", () -> {
@@ -38,21 +36,17 @@ public class CommentController {
                         return "";
                     }),
                     new Option("Edit comment", () -> {
-
                         EditCommentDialog editCommentDialog = new EditCommentDialog(userService, carService, commentService);
                         editCommentDialog.input(LOGGED_IN_USER);
                         return "";
                     }),
                     new Option("Delete comment", () -> {
-
                         DeleteCommentDialog deleteCommentDialog = new DeleteCommentDialog(userService, carService, commentService);
                         deleteCommentDialog.input(LOGGED_IN_USER);
                         return "";
                     }),
                     new Option("Comment history", () -> {
-
                         List<Comment> allComments = LOGGED_IN_USER.getComments();
-
                         if (allComments.size() > 0) {
                             int count = 0;
                             for (Comment comment : allComments) {
@@ -64,15 +58,12 @@ public class CommentController {
                         }
                         return "";
                     })
-
             ));
             menu.show();
         }
-
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)){
             Menu menu = new Menu("Comment Menu", List.of(
                     new Option("All comments", () -> {
-
                         Collection<Comment> allComments = commentService.getAllComments();
                         if (allComments.size() > 0) {
                             System.out.println("All comments:");
@@ -88,17 +79,12 @@ public class CommentController {
                         return "";
                     }),
                     new Option("Delete comment", () -> {
-
                         DeleteCommentDialog deleteCommentDialog = new DeleteCommentDialog(userService, carService, commentService);
                         deleteCommentDialog.input(LOGGED_IN_USER);
                         return "";
                     })
-
-
             ));
             menu.show();
         }
-
     }
-
 }

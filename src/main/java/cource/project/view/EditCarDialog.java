@@ -26,13 +26,11 @@ public class EditCarDialog {
         while (continueEditing) {
             if (allCars.size() > 0) {
                 System.out.println("Cars:");
-
                 int count = 0;
                 for (Car car : allCars) {
                     count++;
                     System.out.println(count + ". \t" + car);
                 }
-
                 System.out.println("Choose a car from the list above to edit .");
                 String input = scanner.nextLine();
                 int choice = 0;
@@ -48,7 +46,6 @@ public class EditCarDialog {
                         }
                     }
                 }
-
                 if (!canBeEdited) {
                     System.out.println("Sorry car can not be edited because it has orders.");
                 } else {
@@ -113,17 +110,13 @@ public class EditCarDialog {
                                     car.setModel(model);
                                 }
                             }
-
                             choice = confirmEditing(choice, car);
                         }
-
-
                         if (choice == 3) {
                             car.setYear(null);
                             while (car.getYear() == null) {
                                 System.out.println("Year:");
                                 input = scanner.nextLine();
-
                                 choice = 0;
                                 choice = checkValidInput(choice, input);
 
@@ -137,7 +130,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 4) {
                             car.setPictureURL(null);
                             while (car.getPictureURL() == null) {
@@ -147,7 +139,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 5) {
                             car.setColor(null);
                             while (car.getColor() == null) {
@@ -173,7 +164,6 @@ public class EditCarDialog {
                                     count++;
                                     System.out.println(count + ".\t" + value);
                                 }
-
                                 System.out.println("Choose Car type from the list above.");
                                 input = scanner.nextLine();
                                 choice = 0;
@@ -183,7 +173,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 7) {
                             car.setDoors(0);
                             while (car.getDoors() == 0) {
@@ -199,7 +188,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 8) {
                             car.setSeats(0);
                             while (car.getSeats() == 0) {
@@ -215,7 +203,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 9) {
                             car.setConveniences(null);
                             while (car.getConveniences() == null) {
@@ -225,7 +212,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 10) {
                             car.setEntertainments(null);
                             while (car.getEntertainments() == null) {
@@ -235,7 +221,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 11) {
                             car.setDrivetrain(null);
                             while (car.getDrivetrain() == null) {
@@ -257,7 +242,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 12) {
                             car.setTransmission(null);
                             while (car.getTransmission() == null) {
@@ -279,7 +263,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 13) {
                             car.setHorsePowers(0);
                             while (car.getHorsePowers() == 0) {
@@ -295,7 +278,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 14) {
                             car.setFuelType(null);
                             while (car.getFuelType() == null) {
@@ -307,7 +289,6 @@ public class EditCarDialog {
                                     count++;
                                     System.out.println(count + ".\t" + value);
                                 }
-
                                 System.out.println("Choose Fuel type from the list above.");
                                 input = scanner.nextLine();
                                 choice = 0;
@@ -317,7 +298,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 15) {
                             car.setTankVolume(0);
                             while (car.getTankVolume() == 0) {
@@ -333,7 +313,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 16) {
                             car.setFuelConsumption(0);
                             while (car.getFuelConsumption() == 0) {
@@ -349,7 +328,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 17) {
                             car.setDeposit(0);
                             while (car.getDeposit() == 0) {
@@ -365,7 +343,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 18) {
                             car.setPricePerDay(0);
                             while (car.getPricePerDay() == 0) {
@@ -381,7 +358,6 @@ public class EditCarDialog {
                             }
                             choice = confirmEditing(choice, car);
                         }
-
                         if (choice == 19) {
                             car.setCarStatus(null);
                             while (car.getCarStatus() == null) {
@@ -404,7 +380,6 @@ public class EditCarDialog {
                             choice = confirmEditing(choice, car);
                         }
                     }
-
                     if (choice != 0) {
                         choice = confirmEditing(choice, car);
                     }
@@ -414,10 +389,7 @@ public class EditCarDialog {
                 System.out.println("There is no cars in the system.");
                 continueEditing = false;
             }
-
-
         }
-
     }
 
 
@@ -425,7 +397,6 @@ public class EditCarDialog {
         System.out.println();
         System.out.println("For continue editing cars press 'C'?");
         System.out.println("For cancel press 'E'.");
-
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
@@ -449,7 +420,6 @@ public class EditCarDialog {
         System.out.println("To save edited car press 'YES'.");
         System.out.println("To continue editing car press 'C'.");
         System.out.println("For exit press 'E'.");
-
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
@@ -512,7 +482,6 @@ public class EditCarDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
@@ -526,7 +495,6 @@ public class EditCarDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

@@ -17,7 +17,6 @@ public class EditWorkerDialog {
         this.workerService = workerService;
     }
 
-
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
 
         Collection<Worker> all = workerService.getAllWorkers();
@@ -32,14 +31,11 @@ public class EditWorkerDialog {
                     count++;
                     System.out.println(count + ". \t" + worker);
                 }
-
                 System.out.println("Choose a worker to edit from the list above .");
                 String input = scanner.nextLine();
                 int choice = 0;
                 choice = checkValidInput(allWorkers, choice, input);
-
                 Worker worker = allWorkers.get(choice - 1);
-
                 worker.setFirstName(null);
                 while (worker.getFirstName() == null) {
                     System.out.println("First Name:");
@@ -51,7 +47,6 @@ public class EditWorkerDialog {
                         worker.setFirstName(firstName);
                     }
                 }
-
                 worker.setLastName(null);
                 while (worker.getLastName() == null) {
                     System.out.println("Last Name:");
@@ -73,26 +68,20 @@ public class EditWorkerDialog {
                         count++;
                         System.out.println(count + "\t" + value);
                     }
-
                     System.out.println("Choose Status from the list above.");
                     input = scanner.nextLine();
                     choice = 0;
                     choice = checkValidInput(values, choice, input);
                     WorkerStatus workerStatus = values.get(choice - 1);
                     worker.setWorkerStatus(workerStatus);
-
                 }
-
                 choice = confirmEditing(LOGGED_IN_USER, choice, worker);
-
                 continueCommenting = confirmContinue(true, allWorkers);
             } else {
                 System.out.println("You have no comments.");
                 break;
             }
         }
-
-
     }
 
     private boolean confirmContinue(boolean continueCommenting, List<Worker> allWorkers) {
@@ -160,7 +149,6 @@ public class EditWorkerDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
@@ -178,7 +166,6 @@ public class EditWorkerDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderValidator implements Validator<Order> {
-
     List<ConstraintViolation> violations = new ArrayList<>();
 
     @Override

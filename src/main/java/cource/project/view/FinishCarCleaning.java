@@ -21,11 +21,7 @@ public class FinishCarCleaning {
     }
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
-
         List<Car> cleaningCars = carService.getAllCarsWithStatus(CarStatus.CLEANING);
-
-
         boolean continueCleaning = true;
         while (continueCleaning) {
             if (cleaningCars.size() > 0) {
@@ -48,13 +44,10 @@ public class FinishCarCleaning {
                 System.out.println("Car with ID= '" + car.getId() + "' is cleaned.");
 
                 continueCleaning = confirmEditing(true, cleaningCars);
-
-
             }else {
                 System.out.println("There is no cars being cleaned at the moment.");
                 continueCleaning = false;
             }
-
         }
     }
 
@@ -95,7 +88,6 @@ public class FinishCarCleaning {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

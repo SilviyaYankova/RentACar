@@ -28,9 +28,7 @@ public class AssignWorkersDialog {
     }
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
         List<Car> carsForCleaning = carService.getAllCarsWithStatus(CarStatus.WAITING_FOR_CLEANING);
-
         boolean continueCleaning = true;
         while (continueCleaning) {
             if (carsForCleaning.size() > 0) {
@@ -39,7 +37,6 @@ public class AssignWorkersDialog {
                     count++;
                     System.out.println(count + ". \t" + car);
                 }
-
                 System.out.println("Choose car for cleaning from the list above.");
                 String input = scanner.nextLine();
                 int choice = 0;
@@ -118,7 +115,6 @@ public class AssignWorkersDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

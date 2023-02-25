@@ -92,7 +92,6 @@ public class Comment extends BaseEntity {
             sb.append("editedOn = '" + editedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) + "' ");
 
         }
-
         return sb.toString();
     }
 }

@@ -38,7 +38,6 @@ public class OrderController {
         orderService.finishOrders();
 
         Menu menu = new Menu();
-
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
             menu = new Menu("Orders Menu", List.of(
                     new Option("Order History", () -> {
@@ -68,9 +67,7 @@ public class OrderController {
                     })
             ));
         }
-
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR) || LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
-
             menu = new Menu("Orders", List.of(
                     new Option("All Orders", () -> {
                         Collection<Order> orders = orderService.getAllOrders();
@@ -108,21 +105,17 @@ public class OrderController {
                     new Option("Edit order", () -> {
                         EditOrderDialog editOrderDialog = new EditOrderDialog(userService, carService, orderService, userRepository, workerService, commentService);
                         editOrderDialog.input(LOGGED_IN_USER);
-
                         System.out.println();
                         return "";
                     }),
                     new Option("Delete order", () -> {
-
                         DeleteOrderDialog deleteOrderDialog = new DeleteOrderDialog(userService, carService, orderService, userRepository, workerService, commentService);
                         deleteOrderDialog.input(LOGGED_IN_USER);
-
                         System.out.println();
                         return "";
                     })
             ));
         }
-
         menu.show();
     }
 }

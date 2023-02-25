@@ -22,7 +22,6 @@ public class Seller extends User {
         this.clientsHistory = new ArrayList<>();
     }
 
-
     public List<User> getClientsHistory() {
         return clientsHistory;
     }
@@ -47,5 +46,4 @@ public class Seller extends User {
                 .append("clientsHistory = " + clientsHistory.size() + "' ")
                 .toString();
     }
-
 }

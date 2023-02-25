@@ -5,7 +5,6 @@ import cource.project.exeption.InvalidEntityDataException;
 import cource.project.exeption.NoneAvailableEntityException;
 import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Car;
-import cource.project.model.enums.CarStatus;
 import cource.project.model.user.User;
 import cource.project.service.*;
 import cource.project.view.*;
@@ -17,7 +16,6 @@ import java.util.List;
 
 public class HomeController {
     private static User LOGGED_IN_USER = null;
-
     private final UserService userService;
     private final CarService carService;
     private final OrderService orderService;
@@ -52,7 +50,6 @@ public class HomeController {
                     return "";
                 }),
                 new Option("Login", () -> {
-
                     User user = new LoginDialog(userService).input();
                     while (user.getUsername() == null && user.getPassword() == null) {
                         System.out.println("Bad credentials. Try again.");
@@ -60,18 +57,13 @@ public class HomeController {
                         user = new LoginDialog(userService).input();
                     }
                     LOGGED_IN_USER = user;
-
-
 //                    User userById = userService.getUserById(3L);
 //                    Collection<User> allUsers = userService.getAllUsers();
 //                    LOGGED_IN_USER = userById;
-
                     System.out.println(LOGGED_IN_USER.getUsername() + " logged in successfully.");
                     System.out.println();
-
                     UserController userController = new UserController(userService, carService, orderService, userRepository, workerService, commentService);
                     userController.init(LOGGED_IN_USER);
-
                     System.out.println(LOGGED_IN_USER.getUsername() + "registered successfully.");
                     return "";
                 }),

@@ -31,7 +31,6 @@ public class CarRepositoryJDBC implements CarRepository {
             "`color`, `car_type_id`, `doors`, `seats`, `conveniences`, `entertainments`, `drivetrain_id`, " +
             "`transmission_id`, `horse_powers`, `fuel_type_id`, `tank_volume`, `fuel_consumption`, `rating`, " +
             "`deposit`, `price_per_day`, `car_status_id`, `worker_id`) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-
     @SuppressWarnings("SqlResolve")
     public static final String UPDATE_All_CAR = "update `cars` " +
             "set `brand`=?, `model`=?, `year`=?, `picture_url`=?, " +
@@ -49,12 +48,10 @@ public class CarRepositoryJDBC implements CarRepository {
     public static final String SELECT_CARS_DROP_OFF_DATES = "select drop_off_date from drop_off_dates where car_id=?";
     @SuppressWarnings("SqlResolve")
     public static final String INSERT_CARS_ORDERS = "insert into `cars_orders` (`car_id`, `order_id`) values (?, ?);";
-
     @SuppressWarnings("SqlResolve")
     public static final String UPDATE_CAR_STATUS = "update `cars` " +
             "set `car_status_id`=? " +
             "where car_id=?;";
-
     private Connection connection;
     private WorkerRepository workerRepository;
 
@@ -70,7 +67,6 @@ public class CarRepositoryJDBC implements CarRepository {
                 // set order status 1 = finish
                 stmt.setLong(1, 3);
                 stmt.setLong(2, car.getId());
-
 
                 connection.setAutoCommit(false);
                 var affectedRows = stmt.executeUpdate();
@@ -97,7 +93,6 @@ public class CarRepositoryJDBC implements CarRepository {
                 stmt.setLong(1, 5);
                 stmt.setLong(2, car.getId());
 
-
                 connection.setAutoCommit(false);
                 var affectedRows = stmt.executeUpdate();
                 connection.commit();
@@ -122,7 +117,6 @@ public class CarRepositoryJDBC implements CarRepository {
                 // set order status 1 = finish
                 stmt.setLong(1, 7);
                 stmt.setLong(2, car.getId());
-
 
                 connection.setAutoCommit(false);
                 var affectedRows = stmt.executeUpdate();
@@ -149,7 +143,6 @@ public class CarRepositoryJDBC implements CarRepository {
                 stmt.setLong(1, 1);
                 stmt.setLong(2, car.getId());
 
-
                 connection.setAutoCommit(false);
                 var affectedRows = stmt.executeUpdate();
                 connection.commit();
@@ -169,7 +162,6 @@ public class CarRepositoryJDBC implements CarRepository {
             }
         }
     }
-
 
     @Override
     public Car create(Car car) {
@@ -246,8 +238,6 @@ public class CarRepositoryJDBC implements CarRepository {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + FIND_CAR_BY_ID, ex);
         }
-
-
         return car;
     }
 
@@ -262,10 +252,8 @@ public class CarRepositoryJDBC implements CarRepository {
         }
     }
 
-
     @Override
     public void update(Car car) throws NoneExistingEntityException {
-
         try (var stmt = connection.prepareStatement(UPDATE_All_CAR)) {
             stmt.setString(1, car.getBrand());
             stmt.setString(2, car.getModel());
@@ -318,7 +306,6 @@ public class CarRepositoryJDBC implements CarRepository {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_All_CAR, ex);
         }
-
     }
 
     @Override
@@ -333,7 +320,6 @@ public class CarRepositoryJDBC implements CarRepository {
             if (affectedRows == 0) {
                 throw new EntityPersistenceException("Deleting car failed, no rows affected.");
             }
-
         } catch (SQLException ex) {
             try {
                 connection.rollback();
@@ -362,7 +348,6 @@ public class CarRepositoryJDBC implements CarRepository {
         } else if (carStatus.equals(CarStatus.FINISH_CLEANING)) {
             id = 7;
         }
-
         return id;
     }
 
@@ -383,7 +368,6 @@ public class CarRepositoryJDBC implements CarRepository {
         } else if (fuelType.equals(FuelType.HYDROGEN)) {
             id = 7;
         }
-
         return id;
     }
 
@@ -400,13 +384,11 @@ public class CarRepositoryJDBC implements CarRepository {
         } else if (transmission.equals(Transmission.DUAL_CLUTCH)) {
             id = 5;
         }
-
         return id;
     }
 
     private Long getDrivetrainId(Drivetrain drivetrain) {
         long id = 0;
-
         if (drivetrain.equals(Drivetrain.FRONT_WHEEL_DRIVE)) {
             id = 1;
         } else if (drivetrain.equals(Drivetrain.REAR_WHEEL_DRIVE)) {
@@ -438,7 +420,6 @@ public class CarRepositoryJDBC implements CarRepository {
         } else if (car.getCarType().equals(CarType.CONVERTIBLE)) {
             car_type_id = 8L;
         }
-
         return car_type_id;
     }
 
@@ -459,7 +440,6 @@ public class CarRepositoryJDBC implements CarRepository {
         } else if (car_status_id == 7) {
             carStatus = CarStatus.FINISH_CLEANING;
         }
-
         return carStatus;
     }
 
@@ -480,7 +460,6 @@ public class CarRepositoryJDBC implements CarRepository {
         } else if (fuel_type_id == 7) {
             fuelType = FuelType.HYDROGEN;
         }
-
         return fuelType;
     }
 
@@ -512,7 +491,6 @@ public class CarRepositoryJDBC implements CarRepository {
         } else if (drivetrain_id == 4) {
             drivetrain = Drivetrain.ALL_WHEEL_DRIVE;
         }
-
         return drivetrain;
     }
 
@@ -582,7 +560,6 @@ public class CarRepositoryJDBC implements CarRepository {
             Worker worker = workerRepository.findById(worker_id);
             car.setWorker(worker);
         }
-
         List<Long> ordersIds = new ArrayList<>();
         try (var stmt = connection.prepareStatement(SELECT_CARS_ORDERS)) {
             stmt.setLong(1, rs.getLong("car_id"));
@@ -629,9 +606,7 @@ public class CarRepositoryJDBC implements CarRepository {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + SELECT_CARS_DROP_OFF_DATES, ex);
         }
-
         car.setDropOffDates(dropOffDates);
-
     }
 
     private List<Car> toCars(ResultSet rs) throws SQLException, NoneExistingEntityException {
@@ -654,11 +629,8 @@ public class CarRepositoryJDBC implements CarRepository {
             CarStatus carStatus = getCarStatusName(car_status_id);
 
             Car car = new Car();
-
             setCar(car, rs);
-
             results.add(car);
-
         }
         return results;
     }
@@ -687,6 +659,4 @@ public class CarRepositoryJDBC implements CarRepository {
             throw new EntityPersistenceException("Error executing SQL query: " + INSERT_CARS_ORDERS, ex);
         }
     }
-
-
 }

@@ -54,9 +54,7 @@ public class ConstraintViolation {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ConstraintViolation)) return false;
-
         ConstraintViolation that = (ConstraintViolation) o;
-
         if (getType() != null ? !getType().equals(that.getType()) : that.getType() != null) return false;
         if (getField() != null ? !getField().equals(that.getField()) : that.getField() != null) return false;
         if (getInvalidValue() != null ? !getInvalidValue().equals(that.getInvalidValue()) : that.getInvalidValue() != null)

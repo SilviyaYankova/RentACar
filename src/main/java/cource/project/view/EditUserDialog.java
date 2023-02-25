@@ -20,7 +20,6 @@ public class EditUserDialog {
         this.LOGGED_IN_USER = LOGGED_IN_USER;
     }
 
-
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
             System.out.println("Users you can edit:");
@@ -31,7 +30,6 @@ public class EditUserDialog {
                     count++;
                     System.out.println(count + ".\t " + user);
                 }
-
                 System.out.println("Choose an user to edit from the list above .");
                 String input = scanner.nextLine();
                 int choice = 0;

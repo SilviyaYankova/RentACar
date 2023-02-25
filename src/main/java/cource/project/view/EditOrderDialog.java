@@ -40,26 +40,19 @@ public class EditOrderDialog {
         this.commentService = commentService;
     }
 
-
     public void input(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
-
-
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
             List<Order> orders = userService.getAllUserOrders(LOGGED_IN_USER);
             editOrder(LOGGED_IN_USER, orders);
         }
-
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR) || LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
             Collection<Order> allOrders = orderService.getAllOrders();
             List<Order> orders = new ArrayList<>(allOrders);
             editOrder(LOGGED_IN_USER, orders);
         }
-
-
     }
 
     private void editOrder(User LOGGED_IN_USER, Collection<Order> userOrders) throws NoneExistingEntityException, NoneAvailableEntityException, InvalidEntityDataException {
-
         List<Order> orders = new ArrayList<>();
         for (Order order : userOrders) {
             if (!order.getOrderStatus().equals(OrderStatus.FINISH)) {
@@ -82,8 +75,6 @@ public class EditOrderDialog {
             }
 
         }
-
-
         if (orders.size() > 0) {
             System.out.println("You can edit orders only two days before the pick up date.");
             System.out.println("Orders you can edit:");
@@ -359,13 +350,10 @@ public class EditOrderDialog {
                 order.getDays(),
                 order.getCarPricePerDays(),
                 car.getDeposit());
-
-
         if (order.getDriver() != null) {
             System.out.printf("driver price per day: %.2f%ndriver total price: %.2f%n",
                     order.getDriver().getPricePerDay(), driverPricePerDays);
         }
-
         System.out.printf("total price: %.2f", order.getFinalPrice());
         System.out.println();
     }
@@ -402,7 +390,6 @@ public class EditOrderDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
@@ -420,7 +407,6 @@ public class EditOrderDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

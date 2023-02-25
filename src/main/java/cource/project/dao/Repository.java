@@ -1,7 +1,6 @@
 package cource.project.dao;
 
 import cource.project.exeption.NoneExistingEntityException;
-import cource.project.model.user.User;
 
 import java.util.Collection;
 

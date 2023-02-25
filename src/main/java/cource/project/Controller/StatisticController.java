@@ -34,12 +34,9 @@ public class StatisticController {
         this.commentService = commentService;
     }
 
-
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
-
         Menu menu = new Menu("Statistics Menu", List.of(
                 new Option("Users", () -> {
-
                     Collection<User> all = userService.getAllUsers();
                     List<User> allUsers = new ArrayList<>(all);
                     if (allUsers.size() > 0) {
@@ -108,28 +105,24 @@ public class StatisticController {
                 }),
                 new Option("Total profit for period", () -> {
                     System.out.println("Total profit for period includes only the profit from finished orders.");
-
                     System.out.println("Enter start period: (ex. 31.03.2022 10:00)");
                     String input = scanner.nextLine();
                     LocalDateTime from = from(input);
                     System.out.println("Enter end period: (ex. 31.03.2022 10:00)");
                     input = scanner.nextLine();
                     LocalDateTime to = from(input);
-
                     String profitForPeriod = userService.getProfitForPeriod(from, to);
                     System.out.println();
                     System.out.println(profitForPeriod);
                     return "";
                 })
         ));
-
         menu.show();
     }
 
     public LocalDateTime from(String input) {
         LocalDateTime localDateTime = null;
         while (localDateTime == null) {
-
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
                 LocalDateTime dateTime = LocalDateTime.parse(input, formatter);
@@ -137,13 +130,10 @@ public class StatisticController {
                     System.out.println("Date can not be from the future. Please try again.");
                     input = scanner.nextLine();
                 }
-
                 localDateTime = LocalDateTime.parse(input, formatter);
-
             } catch (Exception e) {
                 System.out.println("Error: Incorrect date. Please try again.");
                 input = scanner.nextLine();
-
             }
         }
         return localDateTime;

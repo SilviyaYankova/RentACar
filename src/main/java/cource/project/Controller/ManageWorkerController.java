@@ -45,7 +45,6 @@ public class ManageWorkerController {
                     AddWorkerDialog addWorkerDialog = new AddWorkerDialog(workerService, userService);
                     addWorkerDialog.input(LOGGED_IN_USER);
                     return "";
-
                 }),
                 new Option("Edit worker", () -> {
                     EditWorkerDialog editWorkerDialog = new EditWorkerDialog(workerService);
@@ -58,7 +57,6 @@ public class ManageWorkerController {
                     return "";
                 })
         ));
-
         menu.show();
     }
 }

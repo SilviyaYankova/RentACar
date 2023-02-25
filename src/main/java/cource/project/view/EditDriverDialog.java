@@ -20,7 +20,6 @@ public class EditDriverDialog {
         this.LOGGED_IN_USER = LOGGED_IN_USER;
     }
 
-
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         System.out.println("Drivers you can edit:");
         Collection<User> all = userService.getUsersByRole(Role.DRIVER);
@@ -54,7 +53,6 @@ public class EditDriverDialog {
                         input = scanner.nextLine();
                         sellerToEdit.setFirstName(input);
                     }
-
                     choice = confirmEditing(sellerToEdit, choice);
                 }
                 if (choice == 2) {
@@ -64,10 +62,8 @@ public class EditDriverDialog {
                         input = scanner.nextLine();
                         sellerToEdit.setLastName(input);
                     }
-
                     choice = confirmEditing(sellerToEdit, choice);
                 }
-
                 if (choice == 3) {
                     sellerToEdit.setRole(null);
                     while (sellerToEdit.getRole() == null) {
@@ -90,11 +86,8 @@ public class EditDriverDialog {
 
                         choice = confirmEditing(sellerToEdit, choice);
                     }
-
                 }
-
             }
-
         } else {
             System.out.println("There is no users in the system.");
         }
@@ -114,7 +107,6 @@ public class EditDriverDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
@@ -178,7 +170,6 @@ public class EditDriverDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

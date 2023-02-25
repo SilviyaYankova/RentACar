@@ -36,20 +36,14 @@ public class DeleteOrderDialog {
     }
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
-
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
             List<Order> orders = userService.getAllUserOrders(LOGGED_IN_USER);
             deleteOrder(LOGGED_IN_USER, orders);
-
         }
-
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR) || LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
             Collection<Order> allOrders = orderService.getAllOrders();
             deleteOrder(LOGGED_IN_USER, allOrders);
         }
-
-
     }
 
     private void deleteOrder(User LOGGED_IN_USER, Collection<Order> userOrders) throws NoneExistingEntityException {
@@ -72,7 +66,6 @@ public class DeleteOrderDialog {
                     orders.add(order);
                 }
             }
-
         }
 
         if (orders.size() > 0) {
@@ -104,7 +97,6 @@ public class DeleteOrderDialog {
 
             userService.editUser(user);
             orderService.deleteOrder(order.getId());
-
         } else {
             System.out.println("Sorry there is no orders you can delete.");
         }
@@ -123,7 +115,6 @@ public class DeleteOrderDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

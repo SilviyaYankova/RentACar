@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class OrderServiceImpl implements OrderService {
-
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final CarService carService;
@@ -37,13 +36,11 @@ public class OrderServiceImpl implements OrderService {
         this.orderValidator = new OrderValidator();
     }
 
-
     @Override
     public void addOrder(Order pendingOrder, Car car) throws NoneExistingEntityException, InvalidEntityDataException {
         User user = pendingOrder.getUser();
         Order order = new Order();
         order.setUser(user);
-
         Driver availableDriver = null;
         if (pendingOrder.isHireDriver()) {
             availableDriver = pendingOrder.getDriver();
@@ -51,16 +48,13 @@ public class OrderServiceImpl implements OrderService {
                 order.setDriver(availableDriver);
             }
         }
-
         order.setCreatedOn(LocalDateTime.now());
         order.setPickUpLocation(pendingOrder.getPickUpLocation());
         order.setDropOfLocation(pendingOrder.getDropOfLocation());
         order.setPickUpDate(pendingOrder.getPickUpDate());
         order.setDropOffDate(pendingOrder.getDropOffDate());
-
         long days = DAYS.between(pendingOrder.getPickUpDate(), pendingOrder.getDropOffDate());
         order.setDays(days);
-
         double driverPricePerDays = 0;
         if (pendingOrder.getDriver() != null) {
             driverPricePerDays = days * pendingOrder.getDriver().getPricePerDay();
@@ -73,24 +67,18 @@ public class OrderServiceImpl implements OrderService {
         order.setDeposit(car.getDeposit());
         order.setFinalPrice(totalPrice);
 
-
         try {
             orderValidator.validate(order);
         } catch (ConstraintViolationException ex) {
             throw new InvalidEntityDataException("Error creating order", ex);
         }
         order.setCar(car);
-
         orderRepository.create(order);
-
         if (availableDriver != null) {
             userRepository.insertUsersOrders(availableDriver, order);
         }
-
         userRepository.insertUsersOrders(user, order);
-
         car.getOrders().add(order.getId());
-
         carService.insertCarsOrders(car, order);
 
         // dates, car, driver
@@ -101,7 +89,6 @@ public class OrderServiceImpl implements OrderService {
 
     public double calculateCarPrice(long days, double pricePerDay) {
         double total = 0;
-
         switch ((int) days) {
             case 1, 2 -> total = days * pricePerDay;
             case 3 -> total = days * pricePerDay * 0.7653;
@@ -116,7 +103,6 @@ public class OrderServiceImpl implements OrderService {
             case 19 -> total = days * pricePerDay * 0.6074;
             case 20 -> total = days * pricePerDay * 0.6050;
         }
-
         if (days > 20 && days <= 50) {
             total = days * 28.22 * 0.6919;
         } else if (days > 50 && days <= 100) {
@@ -124,7 +110,6 @@ public class OrderServiceImpl implements OrderService {
         } else if (days > 100) {
             total = days * 28.22 * 0.7778;
         }
-
         return total;
     }
 
@@ -138,7 +123,6 @@ public class OrderServiceImpl implements OrderService {
                 order.setOrderStatus(OrderStatus.FINISH);
                 orderRepository.update(order);
                 carService.editCar(car);
-
             }
         }
     }
@@ -221,35 +205,26 @@ public class OrderServiceImpl implements OrderService {
     public void approveOrder(Order pendingOrder, User user) throws NoneExistingEntityException {
         if (user.getRole().equals(Role.SELLER) || user.getRole().equals(Role.ADMINISTRATOR)) {
             pendingOrder.setOrderStatus(OrderStatus.START);
-
             if (user.getRole().equals(Role.SELLER)) {
                 Seller seller = (Seller) user;
-
                 seller.getClientsHistory().add(pendingOrder.getUser());
                 seller.getOrders().add(pendingOrder);
-
                 pendingOrder.setSeller(seller);
-
                 if (pendingOrder.getDriver() != null) {
                     pendingOrder.getDriver().getSellers().add(seller);
                     userRepository.update(pendingOrder.getDriver());
-
                 }
                 userRepository.update(seller);
             } else if (user.getRole().equals(Role.ADMINISTRATOR)) {
                 Administrator administrator = (Administrator) user;
-
                 administrator.getClientHistory().add(pendingOrder.getUser());
                 administrator.getOrders().add(pendingOrder);
-
                 pendingOrder.setSeller(administrator);
                 if (pendingOrder.getDriver() != null) {
                     pendingOrder.getDriver().getSellers().add(administrator);
                     userRepository.update(pendingOrder.getDriver());
-
                 }
                 userRepository.update(administrator);
-
             }
         }
         orderRepository.update(pendingOrder);

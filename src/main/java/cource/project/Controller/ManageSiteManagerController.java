@@ -22,11 +22,8 @@ public class ManageSiteManagerController {
     }
 
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
-
-
         Menu menu = new Menu("Manage Site Manager", List.of(
                 new Option("See Site Manager", () -> {
-
                     Collection<User> allUsers = userService.getUsersByRole(Role.SITE_MANAGER);
                     if (allUsers.size() > 0) {
                         int count = 0;
@@ -49,7 +46,6 @@ public class ManageSiteManagerController {
                     }
                     return String.format("User ID:%s: '%s' added successfully.%n",
                             created.getId(), created.getUsername());
-
                 }),
                 new Option("Edit Site Manager", () -> {
                     EditSiteManagerDialog editSiteManagerDialog = new EditSiteManagerDialog(userService, LOGGED_IN_USER);
@@ -62,7 +58,6 @@ public class ManageSiteManagerController {
                     return "";
                 })
         ));
-
         menu.show();
     }
 }

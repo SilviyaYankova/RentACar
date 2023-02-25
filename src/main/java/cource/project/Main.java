@@ -25,30 +25,20 @@ public class Main {
         String dbConfigPath = Main.class.getClassLoader().getResource("jdbc.properties").getPath();
         props.load(new FileInputStream(dbConfigPath));
         log.info("jdbc.properties: {}", props);
-
         Connection connection = createDbConnection(props);
-
         DaoFactory daoFactory = new DaoFactoryImp();
-
         UserRepository userRepository = daoFactory.createUserRepository(connection);
         WorkerRepository workerRepository = daoFactory.createWorkerRepository(connection);
         CarRepository carRepository = daoFactory.createCarRepository(connection, workerRepository);
         WorkerService workerService = new WorkerServiceImpl(workerRepository, carRepository);
-
         OrderRepository orderRepository = daoFactory.createOrderRepository(connection, userRepository, carRepository);
-
         CarService carService = new CarServiceImpl(carRepository, workerService, userRepository, orderRepository);
         OrderService orderService = new OrderServiceImpl(orderRepository, userRepository, carService);
-
         CommentRepository commentRepository = daoFactory.createCommentRepository(connection);
         CommentService commentService = new CommentServiceImpl(commentRepository, carService, userRepository);
         UserService userService = new UserServiceImpl(userRepository, workerService, orderService, carService, commentService);
-
-
         HomeController homeController = new HomeController(userService, carService, orderService, userRepository, workerService, commentService);
         homeController.init();
-
-
         closeConnection(connection);
     }
 }

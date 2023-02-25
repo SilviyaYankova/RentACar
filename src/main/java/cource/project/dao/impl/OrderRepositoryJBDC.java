@@ -41,12 +41,10 @@ public class OrderRepositoryJBDC implements OrderRepository {
             "`car_id`, `order_status_id`, `created_on`, `pick_up_location_id`, `drop_off_location_id`, " +
             "`pick_up_date`, `drop_off_date`, `days`, `car_price_per_day`, `deposit`, `final_price`) " +
             "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-
     @SuppressWarnings("SqlResolve")
     public static final String INSERT_PICK_UP_DATES_WITH_DRIVER = "insert into `pick_up_dates` (`pick_up_date`, `car_id`, `driver_id`) values (?, ?, ?);";
     @SuppressWarnings("SqlResolve")
     public static final String INSERT_PICK_UP_DATES_WITHOUT_DRIVER = "insert into `pick_up_dates` (`pick_up_date`, `car_id`) values (?, ?);";
-
     @SuppressWarnings("SqlResolve")
     public static final String INSERT_DROP_OFF_DATES_WITH_DRIVER = "insert into `drop_off_dates` (`drop_off_date`, `car_id`, `driver_id`) values (?, ?, ?);";
     @SuppressWarnings("SqlResolve")
@@ -63,10 +61,8 @@ public class OrderRepositoryJBDC implements OrderRepository {
     public static final String DELETE_ORDER = "delete from `orders` where order_id=?;";
     @SuppressWarnings("SqlResolve")
     public static final String UPDATE_ORDER_STATUS = "update `orders` " +
-            "set `order_status_id`=? " +
+            "set `order_status_id`=?, seller_id=? " +
             "where order_id=?;";
-
-
     private final Connection connection;
     private final UserRepository userRepository;
     private final CarRepository carRepository;
@@ -80,7 +76,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
     @Override
     public Order create(Order order) {
         Driver driver = order.getDriver();
-
         if (driver != null) {
             try (var stmt = connection.prepareStatement(INSERT_NEW_ORDER_WITH_DRIVER, Statement.RETURN_GENERATED_KEYS)) {
                 stmt.setLong(1, order.getUser().getId());
@@ -92,7 +87,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
                 } else {
                     stmt.setBoolean(3, false);
                 }
-
 
                 stmt.setLong(4, order.getCar().getId());
 
@@ -153,7 +147,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
                     stmt.setBoolean(2, false);
                 }
 
-
                 stmt.setLong(3, order.getCar().getId());
 
                 Long orderStatusId = getOrderStatusId(order.getOrderStatus());
@@ -204,7 +197,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
                 throw new EntityPersistenceException("Error executing SQL query: " + INSERT_NEW_ORDER_WITHOUT_DRIVER, ex);
             }
         }
-
     }
 
     @Override
@@ -239,9 +231,9 @@ public class OrderRepositoryJBDC implements OrderRepository {
         if (order.getOrderStatus().equals(OrderStatus.PENDING)){
             try (var stmt = connection.prepareStatement(UPDATE_ORDER_STATUS)) {
                 // set order status 1 = START
-                stmt.setLong(1, 1);
-                stmt.setLong(2, order.getId());
-
+                stmt.setLong(1, OrderStatus.START.ordinal());
+                stmt.setLong(2, order.getSeller().getId());
+                stmt.setLong(3, order.getId());
 
                 connection.setAutoCommit(false);
                 var affectedRows = stmt.executeUpdate();
@@ -265,9 +257,9 @@ public class OrderRepositoryJBDC implements OrderRepository {
         if (order.getOrderStatus().equals(OrderStatus.FINISH)){
             try (var stmt = connection.prepareStatement(UPDATE_ORDER_STATUS)) {
                 // set order status 1 = finish
-                stmt.setLong(1, 3);
-                stmt.setLong(2, order.getId());
-
+                stmt.setLong(1, OrderStatus.FINISH.ordinal());
+                stmt.setLong(2, order.getSeller().getId());
+                stmt.setLong(3, order.getId());
 
                 connection.setAutoCommit(false);
                 var affectedRows = stmt.executeUpdate();
@@ -287,7 +279,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
                 throw new EntityPersistenceException("Error executing SQL query: " + UPDATE_ORDER_STATUS, ex);
             }
         }
-
     }
 
     @Override
@@ -309,7 +300,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
             if (affectedRows == 0) {
                 throw new EntityPersistenceException("Deleting pickupdate failed, no rows affected.");
             }
-
         } catch (SQLException ex) {
             try {
                 connection.rollback();
@@ -333,7 +323,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
             if (affectedRows == 0) {
                 throw new EntityPersistenceException("Deleting DELETE_DROP_OFF_DATE failed, no rows affected.");
             }
-
         } catch (SQLException ex) {
             try {
                 connection.rollback();
@@ -396,7 +385,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
             if (affectedRows == 0) {
                 throw new EntityPersistenceException("Deleting DELETE_ORDER failed, no rows affected.");
             }
-
         } catch (SQLException ex) {
             try {
                 connection.rollback();
@@ -412,9 +400,7 @@ public class OrderRepositoryJBDC implements OrderRepository {
         List<Order> orders = new ArrayList<>();
         while (rs.next()) {
             Order order = new Order();
-
             setOrder(rs, order);
-
             orders.add(order);
         }
         return orders;
@@ -448,7 +434,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
 
             order.setDriver(driver);
         }
-
         long seller_id = rs.getLong("seller_id");
         User userSeller = userRepository.findById(seller_id);
 
@@ -503,12 +488,10 @@ public class OrderRepositoryJBDC implements OrderRepository {
         order.setCarPricePerDays(rs.getDouble("car_price_per_day"));
         order.setDeposit(rs.getDouble("deposit"));
         order.setFinalPrice(rs.getDouble("final_price"));
-
     }
 
     public Location getLocationName(long pick_up_location_id) {
         Location location = null;
-
         if (pick_up_location_id == 1) {
             location = Location.SOFIA;
         } else if (pick_up_location_id == 2) {
@@ -530,7 +513,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
         } else if (pick_up_location_id == 10) {
             location = Location.SHUMEN;
         }
-
         return location;
     }
 
@@ -545,14 +527,11 @@ public class OrderRepositoryJBDC implements OrderRepository {
         } else if (order_status_id == 4) {
             orderStatus = OrderStatus.DELETED;
         }
-
-
         return orderStatus;
     }
 
     @Override
     public void insertPickUpDate(LocalDateTime pickUpDate, Long carId, User driver) {
-
         if (driver != null) {
             try (var stmt = connection.prepareStatement(INSERT_PICK_UP_DATES_WITH_DRIVER)) {
                 stmt.setString(1, pickUpDate.format(formatter));
@@ -599,7 +578,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
                 throw new EntityPersistenceException("Error executing SQL query: " + INSERT_PICK_UP_DATES_WITHOUT_DRIVER, ex);
             }
         }
-
     }
 
     @Override
@@ -687,10 +665,7 @@ public class OrderRepositoryJBDC implements OrderRepository {
         } else if (pickUpLocation.equals(Location.SHUMEN)) {
             id = 10;
         }
-
-
         return id;
-
     }
 
     private Long getOrderStatusId(OrderStatus orderStatus) {
@@ -707,7 +682,6 @@ public class OrderRepositoryJBDC implements OrderRepository {
         if (orderStatus.equals(OrderStatus.DELETED)) {
             order_status_id = 4;
         }
-
         return order_status_id;
     }
 }

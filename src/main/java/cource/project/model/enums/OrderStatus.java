@@ -1,8 +1,8 @@
 package cource.project.model.enums;
 
 public enum OrderStatus {
-    START,
     PENDING,
+    START,
     FINISH,
     DELETED
 }

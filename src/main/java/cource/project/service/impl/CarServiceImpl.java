@@ -9,19 +9,16 @@ import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Car;
 import cource.project.model.Order;
 import cource.project.model.enums.CarStatus;
-import cource.project.model.user.User;
 import cource.project.service.CarService;
 import cource.project.service.WorkerService;
 import cource.project.util.validator.CarValidator;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CarServiceImpl implements CarService {
-
     private final CarRepository carRepository;
     private final WorkerService workerService;
     private final UserRepository userRepository;
@@ -60,7 +57,6 @@ public class CarServiceImpl implements CarService {
         if (car == null) {
             throw new NoneExistingEntityException("Car with ID " + id + " does not exist.");
         }
-
         return carRepository.findById(id);
     }
 
@@ -93,8 +89,6 @@ public class CarServiceImpl implements CarService {
                 if (!car.getPickUpDates().contains(order.getPickUpDate())) {
                     availableCarsForDates.add(car);
                 }
-
-
         }
         return availableCarsForDates;
     }

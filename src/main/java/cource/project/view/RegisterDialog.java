@@ -25,7 +25,6 @@ public class RegisterDialog {
 
     public User input(User LOGGED_IN_USER) throws InvalidEntityDataException {
         User user = new User();
-
         while (user.getFirstName() == null) {
             System.out.println("First Name:");
             String firstName = scanner.nextLine();
@@ -36,7 +35,6 @@ public class RegisterDialog {
                 user.setFirstName(firstName);
             }
         }
-
         while (user.getLastName() == null) {
             System.out.println("Last Name:");
             String lastName = scanner.nextLine();
@@ -47,7 +45,6 @@ public class RegisterDialog {
                 user.setLastName(lastName);
             }
         }
-
         while (user.getEmail() == null) {
             System.out.println("Email:");
             String email = scanner.nextLine();
@@ -63,7 +60,6 @@ public class RegisterDialog {
                 user.setEmail(email);
             }
         }
-
         while (user.getPhoneNumber() == null) {
             System.out.println("Phone Number:");
             String phoneNumber = scanner.nextLine();
@@ -74,7 +70,6 @@ public class RegisterDialog {
                 user.setPhoneNumber(phoneNumber);
             }
         }
-
         while (user.getUsername() == null) {
             System.out.println("Username:");
             String username = scanner.nextLine();
@@ -88,8 +83,6 @@ public class RegisterDialog {
                 user.setUsername(username);
             }
         }
-
-
         while (user.getPassword() == null) {
             System.out.println("Password:");
             System.out.println("Password length must be more than 2 and less then 15 characters long,");
@@ -106,7 +99,6 @@ public class RegisterDialog {
                 user.setPassword(password);
             }
         }
-
         while (user.getRepeatPassword() == null) {
             System.out.println("Repeat password:");
             String repeatPassword = scanner.nextLine();
@@ -133,7 +125,6 @@ public class RegisterDialog {
             Role r = roles.get(choice - 1);
             user.setRole(r);
         }
-
         return user;
     }
 
@@ -146,7 +137,6 @@ public class RegisterDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

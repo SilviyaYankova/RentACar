@@ -3,11 +3,9 @@ package cource.project.model.user;
 import java.io.Serializable;
 
 public abstract class BaseEntity  {
-
     private Long id;
 
     public BaseEntity() {
-
     }
 
     public BaseEntity(Long id) {
@@ -26,9 +24,7 @@ public abstract class BaseEntity  {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BaseEntity)) return false;
-
         BaseEntity that = (BaseEntity) o;
-
         return getId() != null ? getId().equals(that.getId()) : that.getId() == null;
     }
 

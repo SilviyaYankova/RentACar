@@ -2,9 +2,6 @@ package cource.project.model.user;
 
 import cource.project.model.enums.Role;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 

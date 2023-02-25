@@ -24,7 +24,6 @@ public class AddWorkerDialog {
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         Worker worker = new Worker();
-
         while (worker.getFirstName() == null) {
             System.out.println("First Name:");
             String firstName = scanner.nextLine();
@@ -47,7 +46,6 @@ public class AddWorkerDialog {
             }
         }
 
-
         while (worker.getCode() == null){
             System.out.println("Code:");
             String code = scanner.nextLine();
@@ -57,11 +55,9 @@ public class AddWorkerDialog {
                 worker.setCode(code);
             }
         }
-
         SiteManager siteManager = (SiteManager) LOGGED_IN_USER;
         siteManager.getWorkers().add(worker);
         userService.editUser(siteManager);
-
         worker.setCarHistory(new ArrayList<>());
         worker.setWorkerStatus(WorkerStatus.AVAILABLE);
         workerService.addWorker(worker);

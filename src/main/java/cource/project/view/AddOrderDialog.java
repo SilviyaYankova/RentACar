@@ -39,28 +39,18 @@ public class AddOrderDialog {
     }
 
     public void input(User LOGGED_IN_USER) throws InvalidEntityDataException, NoneExistingEntityException, NoneAvailableEntityException {
-
         Order order = new Order();
         order.setUser(LOGGED_IN_USER);
-
         int count = 0;
         int choice = 0;
         boolean incorrectInput = true;
-
         Location[] locations = getLocations();
-
         choice = choosePickUpLocation(order, choice, locations);
-
         choice = chooseDropOffLocation(order, choice, locations);
-
         choosePickUpdate(order);
-
         chooseDropOffDate(order);
-
         chooseToHireADriverOrNot(LOGGED_IN_USER, order, incorrectInput);
-
         chooseCar(LOGGED_IN_USER, order);
-
     }
 
     public void chooseCar(User LOGGED_IN_USER, Order order) throws NoneExistingEntityException, InvalidEntityDataException {
@@ -70,14 +60,11 @@ public class AddOrderDialog {
         String input = "";
         count = 0;
         List<Car> availableCarsForDates = carService.getAvailableCars(order);
-
         Collection<Order> allOrders = orderService.getAllOrders();
         if (availableCarsForDates.size() == 0) {
-
             System.out.println("Sorry there is no available cars for this dates.");
             System.out.println("Choose 'YES' to change dates or 'NO' to cancel order.");
             input = scanner.nextLine();
-
             if (input.equals("YES")) {
                 incorrectInput = false;
                 while (availableCarsForDates.size() == 0) {
@@ -88,15 +75,12 @@ public class AddOrderDialog {
                     chooseDropOffDate(order);
                     availableCarsForDates = carService.getAvailableCars(order);
                 }
-
             } else if (input.equals("NO")) {
                 System.out.println("You canceled your order.");
-
             } else {
                 System.out.println("Please make a valid choice.");
                 input = scanner.nextLine();
             }
-
         }
 
         Car car = null;
@@ -106,21 +90,16 @@ public class AddOrderDialog {
                 count++;
                 System.out.println(count + ".\t"+ c);
             }
-
             System.out.println();
             System.out.println("Choose Car number to book from the list above. (from 1 to " + availableCarsForDates.size() + ")");
             input = scanner.nextLine();
             choice = 0;
             choice = validInputNumber(choice, input, availableCarsForDates);
-
             car = availableCarsForDates.get(choice - 1);
-
             long days = DAYS.between(order.getPickUpDate(), order.getDropOffDate());
             order.setDays(days);
-
             double pricePerDays = orderService.calculateCarPrice(days, car.getPricePerDay());
             order.setCarPricePerDays(pricePerDays);
-
             double driverPricePerDays = 0;
             if (order.getDriver() != null) {
                 driverPricePerDays = days * order.getDriver().getPricePerDay();
@@ -128,9 +107,7 @@ public class AddOrderDialog {
             double perDay = 0;
             perDay += orderService.calculateCarPrice(days, car.getPricePerDay());
             double totalPrice = perDay + car.getDeposit() + driverPricePerDays;
-
             order.setFinalPrice(totalPrice);
-
             // todo confirm orders
             System.out.println("Please confirm your order: (Type 'YES' or 'NO')");
             System.out.printf("brand: %s%nmodel: %s%npick up location: %s%ndrop off location: %s%npick up date: %s%ndrop off date %s%ndays: %d%ncar price per days: %.2f%ncar deposit: %.2f%n",
@@ -143,16 +120,12 @@ public class AddOrderDialog {
                     order.getDays(),
                     order.getCarPricePerDays(),
                     car.getDeposit());
-
-
             if (order.getDriver() != null) {
                 System.out.printf("driver price per day: %.2f%ndriver total price: %.2f%n",
                         order.getDriver().getPricePerDay(), driverPricePerDays);
             }
-
             System.out.printf("total price: %.2f", order.getFinalPrice());
             System.out.println();
-
             incorrectInput = true;
             input = scanner.nextLine();
             while (incorrectInput) {
@@ -188,7 +161,6 @@ public class AddOrderDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
@@ -208,13 +180,11 @@ public class AddOrderDialog {
                     order.setPickUpLocation(location);
                     System.out.println("You choose Pick Up Location: " + location.name());
                 }
-
             } catch (NumberFormatException ex) {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
         }
-
         return choice;
     }
 
@@ -298,7 +268,6 @@ public class AddOrderDialog {
             } catch (Exception e) {
                 System.out.println("Error: Incorrect Drop Off Date input. Please try again.");
                 input = scanner.nextLine();
-
             }
         }
     }
@@ -316,11 +285,9 @@ public class AddOrderDialog {
                     input = scanner.nextLine();
                 }
                 order.setPickUpDate(dateTime);
-
             } catch (Exception e) {
                 System.out.println("Error: Incorrect Pick Up Date input. Please try again.");
                 input = scanner.nextLine();
-
             }
         }
     }

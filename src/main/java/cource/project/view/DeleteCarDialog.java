@@ -19,29 +19,23 @@ public class DeleteCarDialog {
         this.carService = carService;
     }
 
-
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
-
         Collection<Car> all = carService.getAllCars();
         List<Car> allCars = new ArrayList<>(all);
         boolean continueEditing = true;
         while (continueEditing) {
             if (allCars.size() > 0) {
                 System.out.println("Cars you can delete:");
-
                 int count = 0;
                 for (Car car : allCars) {
                     count++;
                     System.out.println(count + ". \t" + car);
                 }
-
                 System.out.println("Choose a car from the list above to delete.");
                 String input = scanner.nextLine();
                 int choice = 0;
                 choice = checkValidInput(allCars, choice, input);
                 Car car = allCars.get(choice - 1);
-
                 boolean canBeEdited = true;
                 if (car.getDropOffDates() != null){
                     for (LocalDateTime dropOffDate : car.getDropOffDates()) {
@@ -51,23 +45,16 @@ public class DeleteCarDialog {
                         }
                     }
                 }
-
                 if (!canBeEdited) {
                     System.out.println("Sorry car can not be deleted because it has orders.");
                 } else {
                     choice = confirmEditing(choice, car);
-
                 }
-
-
                 continueEditing = confirmContinue(true, allCars);
-
             } else {
                 System.out.println("There is no cars in the system.");
                 continueEditing = false;
             }
-
-
         }
     }
 
@@ -75,7 +62,6 @@ public class DeleteCarDialog {
         System.out.println();
         System.out.println("For continue deleting cars press 'C'?");
         System.out.println("For cancel press 'E'.");
-
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
@@ -99,7 +85,6 @@ public class DeleteCarDialog {
         System.out.println();
         System.out.println("To confirm deleting car press 'YES'.");
         System.out.println("For exit press 'E'.");
-
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
@@ -136,7 +121,6 @@ public class DeleteCarDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

@@ -8,7 +8,7 @@ public interface DaoFactory {
 
     UserRepository createUserRepository(Connection connection);
 
-    CarRepository createCarRepository (Connection connection, WorkerRepository workerRepository);
+    CarRepository createCarRepository(Connection connection, WorkerRepository workerRepository);
 
     OrderRepository createOrderRepository(Connection connection, UserRepository userRepository, CarRepository carRepository);
 

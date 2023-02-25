@@ -64,7 +64,6 @@ public class ApproveOrdersDialog {
         }
     }
 
-
     public int checkValidInput(int choice, String input) {
         while (choice == 0) {
             try {
@@ -78,7 +77,6 @@ public class ApproveOrdersDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
@@ -108,7 +106,6 @@ public class ApproveOrdersDialog {
                 input = scanner.nextLine();
             }
         }
-
         return choice;
     }
 
@@ -125,7 +122,6 @@ public class ApproveOrdersDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

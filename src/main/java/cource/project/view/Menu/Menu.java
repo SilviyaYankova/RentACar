@@ -45,9 +45,7 @@ public class Menu {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Menu)) return false;
-
         Menu menu = (Menu) o;
-
         if (getTitle() != null ? !getTitle().equals(menu.getTitle()) : menu.getTitle() != null) return false;
         return getOptions() != null ? getOptions().equals(menu.getOptions()) : menu.getOptions() == null;
     }
@@ -73,7 +71,6 @@ public class Menu {
             for (int i = 0; i < options.size(); i++) {
                 System.out.printf("%2d. %s%n", i + 1, options.get(i).getText());
             }
-
             int choice = -1;
             do {
                 System.out.printf("Enter your choice(1 - %s)%n", options.size());
@@ -84,7 +81,6 @@ public class Menu {
                     System.out.println("Error: Invalid choice. Please enter valid number between 1 and " + options.size());
                 }
             } while (choice < 1 || choice > options.size());
-
             options.get(choice - 1).getCommand().execute() ;
             if (choice == options.size()) {
                 System.out.println("You exited program.");

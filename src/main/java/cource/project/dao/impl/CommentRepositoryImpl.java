@@ -8,10 +8,10 @@ import java.sql.Connection;
 import java.util.Collection;
 
 public class CommentRepositoryImpl implements CommentRepository {
-
     protected final Connection connection;
+
     protected CommentRepositoryImpl(Connection connection) {
-       this.connection = connection;
+        this.connection = connection;
     }
 
     @Override
@@ -31,11 +31,9 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public void update(Comment entity) throws NoneExistingEntityException {
-
     }
 
     @Override
     public void deleteById(Long id) throws NoneExistingEntityException {
-
     }
 }

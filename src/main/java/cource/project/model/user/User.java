@@ -4,8 +4,6 @@ import cource.project.model.Comment;
 import cource.project.model.Order;
 import cource.project.model.enums.Role;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,7 +145,6 @@ public class User extends BaseEntity {
                 .append("role = '" + role.name() + "' ")
                 .append("ordersCount = '" + ordersIds.size() + "' ")
                 .append("commentsCount = '" + comments.size() + "' ");
-
         return sb.toString();
     }
 }

@@ -20,7 +20,6 @@ public class EditSellerDialog {
         this.LOGGED_IN_USER = LOGGED_IN_USER;
     }
 
-
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         System.out.println("Sellers you can edit:");
         Collection<User> all = userService.getUsersByRole(Role.SELLER);
@@ -90,11 +89,8 @@ public class EditSellerDialog {
 
                         choice = confirmEditing(sellerToEdit, choice);
                     }
-
                 }
-
             }
-
         } else {
             System.out.println("There is no users in the system.");
         }
@@ -114,7 +110,6 @@ public class EditSellerDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
@@ -178,7 +173,6 @@ public class EditSellerDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

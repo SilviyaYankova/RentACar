@@ -37,9 +37,7 @@ public class UserController {
         this.commentService = commentService;
     }
 
-
     public void init(User LOGGED_IN_USER) throws NoneAvailableEntityException, InvalidEntityDataException, NoneExistingEntityException {
-
         Menu menu = new Menu();
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
             menu = new Menu("User Menu", List.of(
@@ -103,7 +101,6 @@ public class UserController {
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
             menu = new Menu("Admin Menu", List.of(
                     new Option("Manage users", () -> {
-
                         ManageUsersController manageUsersController = new ManageUsersController(userService);
                         manageUsersController.init(LOGGED_IN_USER);
                         return "";
@@ -116,7 +113,6 @@ public class UserController {
                         return "";
                     }),
                     new Option("Manage cars", () -> {
-
                         CarController carController = new CarController(userService, carService, orderService);
                         carController.init(LOGGED_IN_USER);
                         return "";
@@ -125,36 +121,29 @@ public class UserController {
                         CommentController commentController = new CommentController(commentService, userService,
                                                                                     carService);
                         commentController.init(LOGGED_IN_USER);
-
-
                         return "Comments\n";
                     }),
                     new Option("Sellers", () -> {
-
                         ManageSellersController manageSellersController = new ManageSellersController(userService);
                         manageSellersController.init(LOGGED_IN_USER);
                         return "";
                     }),
                     new Option("Site Manager", () -> {
-
                         ManageSiteManagerController manageSiteManagerController = new ManageSiteManagerController(
                                 userService);
                         manageSiteManagerController.init(LOGGED_IN_USER);
                         return "";
                     }),
                     new Option("Drivers", () -> {
-
                         ManageDriverController manageDriverController = new ManageDriverController(userService);
                         manageDriverController.init(LOGGED_IN_USER);
                         return "";
                     }),
-
                     new Option("Statistics", () -> {
                         StatisticController statisticController = new StatisticController(userService, carService,
                                                                                           orderService, workerService,
                                                                                           commentService);
                         statisticController.init(LOGGED_IN_USER);
-
                         return "Comments\n";
                     }),
                     new Option("See profile", () -> {
@@ -171,16 +160,15 @@ public class UserController {
             ));
         }
         if (LOGGED_IN_USER.getRole().equals(Role.SELLER)) {
-
             menu = new Menu("Seller Menu", List.of(
-                    new Option("All Orders", () -> {
+                    new Option("Orders", () -> {
                         OrderController orderController = new OrderController(userService, carService, orderService,
                                                                               userRepository, workerService,
                                                                               commentService);
                         orderController.init(LOGGED_IN_USER);
                         return "";
                     }),
-                    new Option("All Cars", () -> {
+                    new Option("Cars", () -> {
                         // todo ask about cars status or do a car dialog
                         Collection<Car> allCars = carService.getAllCars();
                         int cont = 0;
@@ -198,7 +186,6 @@ public class UserController {
                                 System.out.println(count + ".\t" + order);
                             }
                         }
-
                         return "";
                     }),
                     new Option("See profile", () -> {
@@ -227,8 +214,6 @@ public class UserController {
                         } else {
                             System.out.println("You have no orders");
                         }
-
-
                         return "";
                     }),
                     new Option("Cars", () -> {
@@ -239,7 +224,6 @@ public class UserController {
                             for (Order order : orders) {
                                 cars.add(order.getCar());
                             }
-
                             int count = 0;
                             for (Car car : cars) {
                                 count++;
@@ -266,7 +250,6 @@ public class UserController {
             menu = new Menu("Site Manager Menu", List.of(
                     new Option("See all cars for cleaning", () -> {
                         List<Car> allCarsWithStatus = carService.getAllCarsWithStatus(CarStatus.WAITING_FOR_CLEANING);
-
                         if (allCarsWithStatus.size() > 0) {
                             int count = 0;
                             for (Car car : allCarsWithStatus) {
@@ -276,13 +259,11 @@ public class UserController {
                         } else {
                             System.out.println("There is no cars waiting for cleaning.");
                         }
-
                         return "";
                     }),
                     new Option("See all workers", () -> {
                         Collection<Worker> allWorkers = workerService.getAllWorkers();
                         allWorkers.forEach(System.out::println);
-
                         return "";
                     }),
                     new Option("Assign Workers to clean cars", () -> {
@@ -296,7 +277,6 @@ public class UserController {
                             System.out.println("There is no cars waiting for cleaning.");
                             System.out.println();
                         }
-
                         return "";
                     }),
                     new Option("See all cars currently cleaning", () -> {
@@ -311,7 +291,6 @@ public class UserController {
                         } else {
                             System.out.println("There is no cars waiting for cleaning.");
                         }
-
                         return "";
                     }),
                     new Option("Finish car cleaning", () -> {
@@ -323,7 +302,6 @@ public class UserController {
                         } else {
                             System.out.println("There is no cars being cleaned at the moment.");
                         }
-
                         return "";
                     }),
                     new Option("Return car to shop", () -> {
@@ -365,7 +343,6 @@ public class UserController {
                     })
             ));
         }
-
         menu.show();
     }
 }

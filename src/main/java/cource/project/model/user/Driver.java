@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Driver extends User {
-
     private DriverStatus driverStatus;
     private double pricePerDay;
     private List<User> users;
@@ -35,7 +34,6 @@ public class Driver extends User {
         this.pickUpDates = new ArrayList<>();
         this.dropOffDates = new ArrayList<>();
     }
-
 
     public List<LocalDateTime> getPickUpDates() {
         return pickUpDates;
@@ -103,12 +101,9 @@ public class Driver extends User {
                 .append("users = " + users.size() + "' ")
                 .append("sellers = " + sellers.size() + "' ")
                 .append(System.lineSeparator());
-
-
         if (pickUpDates.size() != 0) {
             sb.append("\t\tpickUpDate = '" + pickUpDates.size() + "' ");
         }
-
         if (dropOffDates.size() != 0) {
             sb.append("dropOffDate = '" + dropOffDates.size() + "' ");
         }

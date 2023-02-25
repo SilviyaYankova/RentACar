@@ -10,24 +10,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Order extends BaseEntity {
-
     private User user;
     private Driver driver;
     private boolean hireDriver;
     private User seller;
     private Car car;
-
     private OrderStatus orderStatus;
-
     private LocalDateTime createdOn;
     private LocalDateTime modifiedOn;
-
     private Location pickUpLocation;
     private Location dropOfLocation;
-
     private LocalDateTime pickUpDate;
     private LocalDateTime dropOffDate;
-
     private Long days;
     private double carPricePerDays;
     private double deposit;
@@ -213,7 +207,6 @@ public class Order extends BaseEntity {
             sb.append("\t\tuserId = '" + user.getId() + "' ")
                     .append(System.lineSeparator());
         }
-
         if (driver != null) {
             sb.append("\t\tdriver = '" + driver.getUsername() + "' ")
                     .append(System.lineSeparator());
@@ -221,13 +214,10 @@ public class Order extends BaseEntity {
             sb.append("\t\tdriver = 'NO' ")
                     .append(System.lineSeparator());
         }
-
         if (seller != null) {
             sb.append("\t\tseller = '" + seller.getUsername() + "' ")
                     .append(System.lineSeparator());
         }
-
-
         sb.append("\t\tcreatedOn = '" + createdOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + "' ");
         if (modifiedOn != null) {
             sb.append("modifiedOn = '" + modifiedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + "'");
@@ -250,7 +240,6 @@ public class Order extends BaseEntity {
             sb.append("driverPrice = '" + driver.getPricePerDay() + "' ");
         }
         sb.append(String.format("finalPrice = '%.2f' ", finalPrice));
-
         return sb.toString();
     }
 }

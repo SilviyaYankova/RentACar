@@ -2,10 +2,8 @@ package cource.project.service;
 
 import cource.project.exeption.InvalidEntityDataException;
 import cource.project.exeption.NoneExistingEntityException;
-import cource.project.model.Car;
 import cource.project.model.Comment;
 
-import java.io.FileNotFoundException;
 import java.util.Collection;
 
 public interface CommentService {

@@ -25,13 +25,9 @@ public class DeleteCommentDialog {
         this.commentService = commentService;
     }
 
-
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
-
         if (LOGGED_IN_USER.getRole().equals(Role.USER)) {
             List<Comment> allComments = LOGGED_IN_USER.getComments();
-
             boolean continueCommenting = true;
             while (continueCommenting) {
                 if (allComments.size() > 0) {
@@ -41,31 +37,22 @@ public class DeleteCommentDialog {
                         count++;
                         System.out.println(count + ". \t" + comment);
                     }
-
                     System.out.println("Choose a comment to delete from the list above .");
                     String input = scanner.nextLine();
                     int choice = 0;
                     choice = checkValidInput(allComments, choice, input);
-
                     Comment comment = allComments.get(choice - 1);
-
                     choice = confirmEditing(LOGGED_IN_USER, choice, comment);
-
                     continueCommenting = confirmContinue(true, allComments);
-
-
                 } else {
                     System.out.println("You have no comments you can delete.");
                     break;
                 }
-
-
             }
         }
         if (LOGGED_IN_USER.getRole().equals(Role.ADMINISTRATOR)) {
             Collection<Comment> all = commentService.getAllComments();
             List<Comment> allComments = new ArrayList<>(all);
-
             boolean continueCommenting = true;
             while (continueCommenting) {
                 if (allComments.size() > 0) {
@@ -80,30 +67,21 @@ public class DeleteCommentDialog {
                     String input = scanner.nextLine();
                     int choice = 0;
                     choice = checkValidInput(allComments, choice, input);
-
                     Comment comment = allComments.get(choice - 1);
-
                     choice = confirmEditing(LOGGED_IN_USER, choice, comment);
-
                     continueCommenting = confirmContinue(true, allComments);
-
-
                 } else {
                     System.out.println("You have no comments you can delete.");
                     break;
                 }
-
-
             }
         }
-
     }
 
     private boolean confirmContinue(boolean continueCommenting, List<Comment> allComments) {
         System.out.println();
         System.out.println("For continue deleting comments press 'C'?");
         System.out.println("For cancel press 'E'.");
-
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
@@ -127,7 +105,6 @@ public class DeleteCommentDialog {
         System.out.println();
         System.out.println("To confirm deleting comment press 'YES'.");
         System.out.println("For exit press 'E'.");
-
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
@@ -164,7 +141,6 @@ public class DeleteCommentDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

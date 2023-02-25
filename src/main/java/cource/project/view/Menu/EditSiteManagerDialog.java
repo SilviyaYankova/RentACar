@@ -20,7 +20,6 @@ public class EditSiteManagerDialog {
         this.LOGGED_IN_USER = LOGGED_IN_USER;
     }
 
-
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
         System.out.println("Site managers you can edit:");
         Collection<User> all = userService.getUsersByRole(Role.SITE_MANAGER);
@@ -30,15 +29,12 @@ public class EditSiteManagerDialog {
                 count++;
                 System.out.println(count + ".\t " + user);
             }
-
             System.out.println("Choose a site manager to edit from the list above .");
             String input = scanner.nextLine();
             int choice = 0;
             List<User> allSellers = new ArrayList<>(all);
             choice = checkValidInput(allSellers, choice, input);
-
             User sellerToEdit = allSellers.get(choice - 1);
-
             System.out.println("Choose fields to edit: ");
             System.out.println("1. First name");
             System.out.println("2. Last name");
@@ -54,7 +50,6 @@ public class EditSiteManagerDialog {
                         input = scanner.nextLine();
                         sellerToEdit.setFirstName(input);
                     }
-
                     choice = confirmEditing(sellerToEdit, choice);
                 }
                 if (choice == 2) {
@@ -64,7 +59,6 @@ public class EditSiteManagerDialog {
                         input = scanner.nextLine();
                         sellerToEdit.setLastName(input);
                     }
-
                     choice = confirmEditing(sellerToEdit, choice);
                 }
 
@@ -72,13 +66,11 @@ public class EditSiteManagerDialog {
                     sellerToEdit.setRole(null);
                     while (sellerToEdit.getRole() == null) {
                         Role[] rolesArr = Role.values();
-
                         count = 0;
                         for (Role r : rolesArr) {
                             count++;
                             System.out.println(count + ".\t " + r);
                         }
-
                         System.out.println("Please choose role from the list above.");
                         List<Role> roles = List.of(rolesArr);
                         input = scanner.nextLine();
@@ -90,11 +82,8 @@ public class EditSiteManagerDialog {
 
                         choice = confirmEditing(sellerToEdit, choice);
                     }
-
                 }
-
             }
-
         } else {
             System.out.println("There is no users in the system.");
         }
@@ -114,7 +103,6 @@ public class EditSiteManagerDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
@@ -124,7 +112,6 @@ public class EditSiteManagerDialog {
         System.out.println("Save field change or continue editing?");
         System.out.println("For saving profile press 'YES' for continue editing press 'C'?");
         System.out.println("For exit press 'E'.");
-
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
@@ -178,7 +165,6 @@ public class EditSiteManagerDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

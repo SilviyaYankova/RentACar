@@ -15,13 +15,13 @@ public class LoginDialog   {
 
     public User input() {
         User user = new User();
-
         while (user.getUsername() == null) {
             System.out.println("Username:");
-//            String username = scanner.nextLine();
-//            user.setUsername(username);
+            String username = scanner.nextLine();
+            user.setUsername(username);
 //            user.setUsername("silviya");
-            user.setUsername("martin");
+//            user.setUsername("kalina");
+//            user.setUsername("martin");
         }
 
         while (user.getPassword() == null) {
@@ -32,7 +32,6 @@ public class LoginDialog   {
         }
         String username = user.getUsername();
         String password = user.getPassword();
-
         return userService.getUserByUsernameAndPassword(username, password);
     }
 }

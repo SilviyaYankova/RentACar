@@ -25,7 +25,6 @@ public class ManageSellersController {
 
         Menu menu = new Menu("Manage sellers", List.of(
                 new Option("See all sellers", () -> {
-
                     Collection<User> allUsers = userService.getUsersByRole(Role.SELLER);
                     if (allUsers.size() > 0) {
                         int count = 0;
@@ -61,7 +60,6 @@ public class ManageSellersController {
                     return "";
                 })
         ));
-
         menu.show();
     }
 }

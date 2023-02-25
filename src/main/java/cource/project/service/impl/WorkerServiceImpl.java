@@ -7,16 +7,13 @@ import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Car;
 import cource.project.model.Worker;
 import cource.project.model.enums.CarStatus;
-import cource.project.model.enums.Role;
 import cource.project.model.enums.WorkerStatus;
-import cource.project.model.user.User;
 import cource.project.service.WorkerService;
 
 import java.util.Collection;
 import java.util.List;
 
 public class WorkerServiceImpl implements WorkerService {
-
     private final WorkerRepository workerRepository;
     private final CarRepository carRepository;
 
@@ -41,7 +38,6 @@ public class WorkerServiceImpl implements WorkerService {
         if (id == null) {
             throw new NoneExistingEntityException("Worker with ID " + id + " does not exist.");
         }
-
         return workerRepository.findById(id);
     }
 
@@ -67,18 +63,15 @@ public class WorkerServiceImpl implements WorkerService {
     public Worker getAllAvailableWorker() throws NoneAvailableEntityException {
         Collection<Worker> all = workerRepository.findAll();
         Worker availableWorker = null;
-
         for (Worker worker : all) {
             if (worker.getWorkerStatus().equals(WorkerStatus.AVAILABLE)) {
                 availableWorker = worker;
                 break;
             }
         }
-
         if (availableWorker == null) {
             throw new NoneAvailableEntityException("Sorry there is no available Workers. Check again again later.");
         }
-
         return availableWorker;
     }
 
@@ -98,7 +91,6 @@ public class WorkerServiceImpl implements WorkerService {
                 } catch (NoneExistingEntityException e) {
                     e.printStackTrace();
                 }
-
                 try {
                     carRepository.update(car);
                 } catch (NoneExistingEntityException e) {
@@ -115,10 +107,8 @@ public class WorkerServiceImpl implements WorkerService {
 //        Worker worker = car.getWorker();
 //        worker.setWorkerStatus(WorkerStatus.AVAILABLE);
 //        worker.setCurrentCar(null);
-
         car.setCarStatus(CarStatus.FINISH_CLEANING);
 //        workerRepository.update(worker);
         carRepository.update(car);
     }
-
 }

@@ -22,11 +22,7 @@ public class DeleteWorkerDialog {
         this.workerService = workerService;
     }
 
-
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
-
-
         Collection<Worker> all = workerService.getAllWorkers();
         List<Worker> allWorkers = new ArrayList<>(all);
 
@@ -50,17 +46,11 @@ public class DeleteWorkerDialog {
                 choice = confirmEditing(LOGGED_IN_USER, choice, worker);
 
                 continueCommenting = confirmContinue(true, allWorkers);
-
-
             } else {
                 System.out.println("You have no comments you can delete.");
                 break;
             }
-
-
         }
-
-
     }
 
     private boolean confirmContinue(boolean continueCommenting, List<Worker> allWorkers) {
@@ -131,7 +121,6 @@ public class DeleteWorkerDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

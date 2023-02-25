@@ -88,10 +88,8 @@ public class Worker extends BaseEntity {
         if (currentCar != null) {
             sb.append("currentCarId = '" + currentCar.getId() + "' ");
         }
-
         if (carHistory.size() > 0) {
             sb.append("carHistory = " + carHistory.size() + "' ");
-
         }
         return sb.toString();
     }

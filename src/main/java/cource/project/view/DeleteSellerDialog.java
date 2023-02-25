@@ -19,8 +19,6 @@ public class DeleteSellerDialog {
     }
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
-
         System.out.println("Sellers you can delete:");
         Collection<User> all = userService.getUsersByRole(Role.SELLER);
         if (all.size() > 0) {
@@ -84,7 +82,6 @@ public class DeleteSellerDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

@@ -56,7 +56,5 @@ public class FinishedOrdersDialog {
 //                input = scanner.nextLine();
 //            }
 //        }
-
-
     }
 }

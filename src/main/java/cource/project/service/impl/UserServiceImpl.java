@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,10 +50,8 @@ public class UserServiceImpl implements UserService {
                     ex
             );
         }
-
         User newUser = userRepository.create(user);
         return newUser;
-
     }
 
     @Override
@@ -68,7 +65,6 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new NoneExistingEntityException("User with ID " + id + " does not exist.");
         }
-
         return user;
     }
 
@@ -105,7 +101,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getProfit() {
         Collection<Order> allOrders = orderService.getAllOrdersWithStatus(OrderStatus.FINISH);
-
         double totalProfit = 0;
         for (Order order : allOrders) {
             totalProfit += order.getFinalPrice() - order.getDeposit();
@@ -121,7 +116,6 @@ public class UserServiceImpl implements UserService {
             ChronoLocalDate orderDate = LocalDate.of(order.getPickUpDate().getYear(), order.getPickUpDate().getMonth(), order.getPickUpDate().getDayOfMonth());
             ChronoLocalDate fromData = LocalDate.of(from.getYear(), from.getMonth(), from.getDayOfMonth());
             ChronoLocalDate toDate = LocalDate.of(to.getYear(), to.getMonth(), to.getDayOfMonth());
-
             if (orderDate.equals(fromData)) {
                 totalProfit += order.getCarPricePerDays();
             }
@@ -169,14 +163,12 @@ public class UserServiceImpl implements UserService {
         driver.setPassword(user.getPassword());
         driver.setRepeatPassword(user.getRepeatPassword());
         driver.setRole(Role.DRIVER);
-
         Driver foundDriver = findDriver(driver.getId());
         driver.setPricePerDay(foundDriver.getPricePerDay());
         driver.setDriverStatus(foundDriver.getDriverStatus());
         driver.setOrdersIds(user.getOrdersIds());
         driver.setPickUpDates(foundDriver.getPickUpDates());
         driver.setDropOffDates(foundDriver.getDropOffDates());
-
         return driver;
     }
 

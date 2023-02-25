@@ -1,11 +1,10 @@
 package cource.project.dao.impl;
+
 import cource.project.dao.*;
 
 import java.sql.Connection;
 
 public class DaoFactoryImp implements DaoFactory {
-
-
     @Override
     public UserRepository createUserRepository(Connection connection) {
         return new UserRepositoryJDBC(connection);

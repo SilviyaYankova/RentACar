@@ -118,5 +118,4 @@ public class CarValidator implements Validator<Car> {
             throw new ConstraintViolationException("Invalid user field", violations);
         }
     }
-
 }

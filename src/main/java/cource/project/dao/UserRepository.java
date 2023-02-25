@@ -21,5 +21,4 @@ public interface UserRepository extends Repository<Long, User> {
     void insertUsersOrders(User user, Order order);
 
     List<User> findAllSellers();
-
 }

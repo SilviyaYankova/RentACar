@@ -25,7 +25,6 @@ public class ManageUsersController {
 
         Menu menu = new Menu("Manage Users", List.of(
                 new Option("See all users", () -> {
-
                     Collection<User> all = userService.getAllUsers();
                     List<User> allUsers = new ArrayList<>(all);
                     if (allUsers.size() > 0) {
@@ -47,7 +46,6 @@ public class ManageUsersController {
                         return "Username already exist.";
                     }
                     return "";
-
                 }),
                 new Option("Edit user", () -> {
                     EditUserDialog editUserDialog = new EditUserDialog(userService, LOGGED_IN_USER);
@@ -60,7 +58,6 @@ public class ManageUsersController {
                     return "";
                 })
         ));
-
         menu.show();
     }
 }

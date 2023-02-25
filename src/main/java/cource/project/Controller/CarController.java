@@ -4,9 +4,7 @@ import cource.project.exeption.InvalidEntityDataException;
 import cource.project.exeption.NoneAvailableEntityException;
 import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Car;
-import cource.project.model.Order;
 import cource.project.model.enums.CarStatus;
-import cource.project.model.enums.OrderStatus;
 import cource.project.model.user.User;
 import cource.project.service.CarService;
 import cource.project.service.OrderService;
@@ -32,8 +30,6 @@ public class CarController {
     }
 
     public void init(User LOGGED_IN_USER) throws InvalidEntityDataException, NoneAvailableEntityException, NoneExistingEntityException {
-
-
         Menu menu = new Menu("Car Menu", List.of(
                 new Option("See all cars", () -> {
                     Collection<Car> allCars = carService.getAllCars();
@@ -42,13 +38,10 @@ public class CarController {
                         cont++;
                         System.out.println(cont + ". \t" + car);
                     }
-
                     return "";
                 }),
                 new Option("Send cars for cleaning", () -> {
-
                     List<Car> finishedCars = carService.getAllCarsWithStatus(CarStatus.WAITING);
-
                     System.out.println("Cars for cleaning:");
                     int count = 0;
                     for (Car car : finishedCars) {
@@ -77,13 +70,8 @@ public class CarController {
                             input = scanner.nextLine();
                         }
                     }
-
-
-
                     return "";
                 }),
-
-
                 new Option("Add car", () -> {
                     AddCarDialog addCarDialog = new AddCarDialog(carService);
                     addCarDialog.input(LOGGED_IN_USER);

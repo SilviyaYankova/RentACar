@@ -1,6 +1,7 @@
 package cource.project.exeption;
 
-public class EntityPersistenceException extends RuntimeException{
+public class EntityPersistenceException extends RuntimeException {
+
     public EntityPersistenceException() {
     }
 

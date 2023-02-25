@@ -18,8 +18,6 @@ public class DeleteUserDialog {
     }
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
-
         System.out.println("Users you can delete:");
         Collection<User> all = userService.getAllUsers();
         if (all.size() > 0) {
@@ -28,7 +26,6 @@ public class DeleteUserDialog {
                 count++;
                 System.out.println(count + ".\t " + user);
             }
-
             System.out.println("Choose an user to delete from the list above.");
             String input = scanner.nextLine();
             int choice = 0;
@@ -45,7 +42,6 @@ public class DeleteUserDialog {
         System.out.println();
         System.out.println("To confirm deleting user press 'YES'.");
         System.out.println("For exit press 'E'.");
-
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
@@ -69,7 +65,6 @@ public class DeleteUserDialog {
         return choice;
     }
 
-
     public <T> int checkValidInput(List<T> t, int choice, String input) {
         while (choice == 0) {
             try {
@@ -83,7 +78,6 @@ public class DeleteUserDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

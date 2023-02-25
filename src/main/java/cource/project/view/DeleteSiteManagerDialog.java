@@ -19,8 +19,6 @@ public class DeleteSiteManagerDialog {
     }
 
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
-
         System.out.println("Site managers you can delete:");
         Collection<User> all = userService.getUsersByRole(Role.SITE_MANAGER);
         if (all.size() > 0) {
@@ -29,15 +27,12 @@ public class DeleteSiteManagerDialog {
                 count++;
                 System.out.println(count + ".\t " + user);
             }
-
             System.out.println("Choose a site manager to delete from the list above.");
             String input = scanner.nextLine();
             int choice = 0;
             List<User> allUsers = new ArrayList<>(all);
             choice = checkValidInput(allUsers, choice, input);
-
             User userToDelete = allUsers.get(choice - 1);
-
             confirmEditing(userToDelete, choice);
         }
     }
@@ -46,7 +41,6 @@ public class DeleteSiteManagerDialog {
         System.out.println();
         System.out.println("To confirm deleting user press 'YES'.");
         System.out.println("For exit press 'E'.");
-
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
@@ -70,7 +64,6 @@ public class DeleteSiteManagerDialog {
         return choice;
     }
 
-
     public <T> int checkValidInput(List<T> t, int choice, String input) {
         while (choice == 0) {
             try {
@@ -84,7 +77,6 @@ public class DeleteSiteManagerDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

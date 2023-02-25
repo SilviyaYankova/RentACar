@@ -1,6 +1,5 @@
 package cource.project.view;
 
-
 import cource.project.exeption.InvalidEntityDataException;
 import cource.project.model.Car;
 import cource.project.model.enums.*;
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.*;
 
-
 public class AddCarDialog {
     Scanner scanner = new Scanner(System.in);
     private final CarService carService;
@@ -24,8 +22,6 @@ public class AddCarDialog {
     }
 
     public void input(User LOGGED_IN_USER) throws InvalidEntityDataException {
-
-
         Car car = new Car();
         while (car.getBrand() == null) {
             System.out.println("Brand:");
@@ -41,7 +37,6 @@ public class AddCarDialog {
         while (car.getModel() == null) {
             System.out.println("Model:");
             String model = scanner.nextLine();
-
             int length = model.length();
             if (length < 2 || length > 15) {
                 System.out.println("Car model should be between 2 and 15 characters long.");
@@ -53,10 +48,8 @@ public class AddCarDialog {
         while (car.getYear() == null) {
             System.out.println("Year:");
             String input = scanner.nextLine();
-
             int choice = 0;
             choice = checkValidInput(choice, input);
-
             int length = input.length();
             int year = input.trim().length();
             if (length != 4 || choice > LocalDate.now().getYear()) {
@@ -91,7 +84,6 @@ public class AddCarDialog {
                 count++;
                 System.out.println(count + ".\t" + value);
             }
-
             System.out.println("Choose Car type from the list above.");
             String input = scanner.nextLine();
             int choice = 0;
@@ -129,7 +121,6 @@ public class AddCarDialog {
             String input = scanner.nextLine();
             car.setConveniences(List.of(input));
         }
-
         while (car.getEntertainments() == null) {
             System.out.println("Entertainments:");
             String input = scanner.nextLine();
@@ -144,7 +135,6 @@ public class AddCarDialog {
                 count++;
                 System.out.println(count + ".\t" + value);
             }
-
             System.out.println("Choose Drivetrain from the list above.");
             String input = scanner.nextLine();
             int choice = 0;
@@ -155,7 +145,6 @@ public class AddCarDialog {
 
         while (car.getTransmission() == null) {
             System.out.println("Transmission:");
-
             List<Transmission> values = Arrays.stream(Transmission.values()).collect(Collectors.toList());;
             int count = 0;
             for (Transmission value : values) {
@@ -170,7 +159,6 @@ public class AddCarDialog {
             Transmission transmission = values.get(choice - 1);
             car.setTransmission(transmission);
         }
-
         while (car.getHorsePowers() == 0) {
             System.out.println("Horse powers:");
             String input = scanner.nextLine();
@@ -266,7 +254,6 @@ public class AddCarDialog {
             CarStatus carStatus = values.get(choice - 1);
             car.setCarStatus(carStatus);
         }
-
         car.setPickUpDates(new ArrayList<>());
         car.setDropOffDates(new ArrayList<>());
         car.setConveniences(new ArrayList<>());
@@ -286,14 +273,11 @@ public class AddCarDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
 
-
     public int checkValidInput(int choice, String input) {
-
         while (choice == 0) {
             try {
                 choice = Integer.parseInt(input);
@@ -301,7 +285,6 @@ public class AddCarDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

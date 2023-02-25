@@ -33,7 +33,6 @@ public class ManageDriverController {
                         Driver driver = userService.fromUserToDriver(user);
                         drivers.add(driver);
                     }
-
                     if (drivers.size() > 0) {
                         int count = 0;
                         for (Driver driver : drivers) {

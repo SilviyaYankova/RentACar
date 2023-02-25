@@ -23,11 +23,8 @@ public class EditCommentDialog {
         this.commentService = commentService;
     }
 
-
     public void input(User LOGGED_IN_USER) throws NoneExistingEntityException {
-
         List<Comment> allComments = LOGGED_IN_USER.getComments();
-
         boolean continueCommenting = true;
         while (continueCommenting) {
             if (allComments.size() > 0) {
@@ -58,16 +55,13 @@ public class EditCommentDialog {
                         comment.setContent(content);
                     }
                 }
-
                 comment.setRating(0);
                 while (comment.getRating() == 0) {
                     System.out.println("Add new rating from 1 to 5:");
                     String rating = scanner.nextLine();
                     choice = 0;
                     choice = checkValidInput(choice, rating);
-
                     comment.setRating(choice);
-
                 }
 
                 comment.setEditedOn(LocalDateTime.now());
@@ -80,8 +74,6 @@ public class EditCommentDialog {
                 break;
             }
         }
-
-
     }
 
     private boolean confirmContinue(boolean continueCommenting, List<Comment> allComments) {
@@ -149,7 +141,6 @@ public class EditCommentDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
@@ -167,7 +158,6 @@ public class EditCommentDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

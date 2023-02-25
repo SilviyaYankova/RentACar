@@ -4,16 +4,12 @@ import cource.project.dao.WorkerRepository;
 import cource.project.exeption.EntityPersistenceException;
 import cource.project.exeption.NoneExistingEntityException;
 import cource.project.model.Worker;
-import cource.project.model.enums.Role;
 import cource.project.model.enums.WorkerStatus;
-import cource.project.model.user.User;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -52,7 +48,6 @@ public class WorkerRepositoryImpl implements WorkerRepository {
                 } else if (worker_status_id == 2) {
                     workerStatus = WorkerStatus.BUSY;
                 }
-
                 worker.setId(rs.getLong("worker_id"));
                 worker.setFirstName(rs.getString("first_name"));
                 worker.setLastName(rs.getString("last_name"));
@@ -64,7 +59,6 @@ public class WorkerRepositoryImpl implements WorkerRepository {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + FIND_WORKER_BY_ID, ex);
         }
-
         return worker;
     }
 
@@ -88,11 +82,10 @@ public class WorkerRepositoryImpl implements WorkerRepository {
     public void deleteById(Long id) throws NoneExistingEntityException {
 
     }
+
     public List<Worker> toWorkers(ResultSet rs) throws SQLException {
         List<Worker> results = new ArrayList<>();
-
         while (rs.next()) {
-
             Worker worker = new Worker();
             long worker_status_id = rs.getLong("worker_status_id");
             WorkerStatus workerStatus = null;
@@ -101,17 +94,14 @@ public class WorkerRepositoryImpl implements WorkerRepository {
             } else if (worker_status_id == 2) {
                 workerStatus = WorkerStatus.BUSY;
             }
-
             worker.setId(rs.getLong("worker_id"));
             worker.setFirstName(rs.getString("first_name"));
             worker.setLastName(rs.getString("last_name"));
             worker.setCode(rs.getString("code"));
             worker.setWorkerStatus(workerStatus);
             worker.setCarHistory(new ArrayList<>());
-
             results.add(worker);
         }
         return results;
     }
-
 }

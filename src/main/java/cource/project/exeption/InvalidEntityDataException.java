@@ -1,6 +1,7 @@
 package cource.project.exeption;
 
 public class InvalidEntityDataException extends Exception{
+
     public InvalidEntityDataException() {
     }
 

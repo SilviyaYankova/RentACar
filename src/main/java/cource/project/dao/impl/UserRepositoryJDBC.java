@@ -20,7 +20,6 @@ import java.util.List;
 
 @Slf4j
 public class UserRepositoryJDBC implements UserRepository {
-
     @SuppressWarnings("SqlResolve")
     public static final String FIND_ALL_USERS = "select * from `users`;";
     @SuppressWarnings("SqlResolve")
@@ -49,7 +48,6 @@ public class UserRepositoryJDBC implements UserRepository {
     public static final String INSERT_USERS_ORDERS = "insert into `users_orders` (`user_id`, `order_id`) values (?, ?);";
     @SuppressWarnings("SqlResolve")
     public static final String FIND_ALL_SELLERS = "select * from `users` where role_id=2;";
-
     private Connection connection;
 
     protected UserRepositoryJDBC(Connection connection) {
@@ -126,7 +124,6 @@ public class UserRepositoryJDBC implements UserRepository {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + FIND_USER_BY_ID, ex);
         }
-
         return user;
     }
 
@@ -226,11 +223,9 @@ public class UserRepositoryJDBC implements UserRepository {
                 }
             }
         }
-
         if (availableDriver == null) {
             throw new NoneAvailableEntityException("Sorry there is no available Drivers. Please change your order.");
         }
-
         return availableDriver;
     }
 
@@ -247,7 +242,6 @@ public class UserRepositoryJDBC implements UserRepository {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + FIND_USER_BY_USERNAME, ex);
         }
-
         return user;
     }
 
@@ -264,7 +258,6 @@ public class UserRepositoryJDBC implements UserRepository {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + FIND_USER_BY_EMAIL, ex);
         }
-
         return user;
     }
 
@@ -318,7 +311,6 @@ public class UserRepositoryJDBC implements UserRepository {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + SELECT_USERS_ORDERS, ex);
         }
-
         user.setOrdersIds(orderIds);
         return user;
     }
@@ -373,17 +365,12 @@ public class UserRepositoryJDBC implements UserRepository {
                     log.error("Error creating connection to DB", ex);
                     throw new EntityPersistenceException("Error executing SQL query: " + SELECT_DRIVER_DROP_OFF_DATES, ex);
                 }
-
                 driver.setDropOffDates(dropOffDates);
-
-
             }
         } catch (SQLException ex) {
             log.error("Error creating connection to DB", ex);
             throw new EntityPersistenceException("Error executing SQL query: " + SELECT_DRIVER, ex);
         }
-
-
         return driver;
     }
 

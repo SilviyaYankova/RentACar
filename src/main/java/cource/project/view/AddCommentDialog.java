@@ -44,13 +44,11 @@ public class AddCommentDialog {
                     count++;
                     System.out.println(count + ". \t" + car);
                 }
-
                 System.out.println("Choose a car from the list above to add a comment .");
                 String input = scanner.nextLine();
                 int choice = 0;
                 choice = checkValidInput(cars, choice, input);
                 Car car = cars.get(choice - 1);
-
                 Comment comment = new Comment();
                 while (comment.getContent() == null) {
                     System.out.println("Add content:");
@@ -71,26 +69,18 @@ public class AddCommentDialog {
                     choice = checkValidInput(choice, rating);
 
                     comment.setRating(choice);
-
                 }
-
                 comment.setUser(LOGGED_IN_USER);
                 comment.setCar(car);
                 comment.setPostedOn(LocalDateTime.now());
-
                 commentService.addCarComment(comment);
-
                 System.out.println("Successfully added comment:");
                 System.out.println(comment);
-
                 continueCommenting = confirmContinue(true, cars);
-
             } else {
                 System.out.println("You have not booked any cars and you can not add a comment.");
                 continueCommenting = false;
             }
-
-
         }
     }
 
@@ -98,7 +88,6 @@ public class AddCommentDialog {
         System.out.println();
         System.out.println("For continue commenting press 'C'?");
         System.out.println("For cancel press 'E'.");
-
         String input = scanner.nextLine();
         boolean incorrectInput = true;
         while (incorrectInput) {
@@ -131,7 +120,6 @@ public class AddCommentDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
@@ -150,7 +138,6 @@ public class AddCommentDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }

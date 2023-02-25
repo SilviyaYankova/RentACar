@@ -29,32 +29,22 @@ public class ReturnCarToTheShopDialog {
                     count++;
                     System.out.println(count + ". \t" + car);
                 }
-
                 System.out.println("Choose car to return to the shop from the list above.");
                 String input = scanner.nextLine();
                 int choice = 0;
                 choice = checkValidInput(carsForReturningToTheShop, choice, input);
                 Car car = carsForReturningToTheShop.get(choice - 1);
-
                 carService.returnCarToShop(car);
-
                 carsForReturningToTheShop.remove(car);
-
                 System.out.println("Car with ID= '" + car.getId() + "' is cleaned and available for booking.");
-
                 continueCleaning = confirmEditing(true, carsForReturningToTheShop);
             } else {
                 System.out.println("All cleaned cars are returned to the shop.");
                 continueCleaning = false;
             }
-
         }
-
-
-
-
-
     }
+
     private boolean confirmEditing(boolean continueCleaning, List<Car> carsForReturningToTheShop) {
         System.out.println();
         System.out.println("For continue returning cleaned cars to shop press 'C'?");
@@ -92,7 +82,6 @@ public class ReturnCarToTheShopDialog {
                 System.out.println("Error: Numbers only.");
                 input = scanner.nextLine();
             }
-
         }
         return choice;
     }
